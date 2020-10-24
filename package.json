@@ -1,0 +1,24 @@
+{
+  "name": "foodjocky-final-graphql",
+  "version": "1.0.0",
+  "description": "Food Jocky Full MVP",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "AND IT",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.18.2",
+    "apollo-server": "^2.18.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql-tools": "^6.2.4",
+    "graphql-tools-merge-typedefs": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.9"
+  }
+}
