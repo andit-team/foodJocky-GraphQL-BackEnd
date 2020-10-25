@@ -26,9 +26,11 @@ type CategoriesOutPut {
     data: [CategoryData]
 }
 
-  type CategoryData {
+  type RestaurantOwnerData {
     _id: ID
-    name: String
+    first_name: String
+    last_name: String
+    address
   }
 `
 module.exports = typeDefs
