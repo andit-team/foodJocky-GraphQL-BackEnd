@@ -1,15 +1,13 @@
+const { PubSub } = require('apollo-server');
+const pubsub = new PubSub();
 const OwnerController = require('../../controllers/owner/owner.controller')
 
+const OWNER_ADDED = "OWNER_ADDED"
 const resolvers = {
   Subscription: {
     ownerAdded: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(MESSAGE_ADDED),
-        (payload, variables) => {
-          return payload.reciverId === variables.reciverId;
-        }
-      )
-    },
+      subscribe: () => pubsub.asyncIterator(OWNER_ADDED),
+    }
   },
   Query: {
     async getAllOwners(root, args, context) {
@@ -20,6 +18,7 @@ const resolvers = {
   Mutation: {
     async addOwner(root, args, context) {
       let result = await OwnerController.addOwner(root, args, context)
+      pubsub.publish(OWNER_ADDED, { ownerAdded: result });
       return result
     },
     
