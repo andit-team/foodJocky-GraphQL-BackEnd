@@ -19,6 +19,10 @@ const RestaurantsSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
     },
+    plan: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plans',
+    },
     tags: [],
     info:{
         type: String
@@ -99,6 +103,30 @@ const RestaurantsSchema = new Schema({
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'agents',
     // }
+    shop_days:[{
+        day: {
+            type: Number
+        },
+        start_time: {
+            hour: {
+                type: Number
+            },
+            minute: {
+                type: Number
+            }
+        },
+        end_time: {
+            hour: {
+                type: Number
+            },
+            minute: {
+                type: Number
+            }
+        },
+        status: {
+            type: Boolean
+        }
+    }]
     
 });
 
