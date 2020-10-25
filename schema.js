@@ -3,18 +3,18 @@ const { mergeTypeDefs } = require('graphql-tools-merge-typedefs')
 const { mergeResolvers } = require('@graphql-tools/merge')
 const { makeExecutableSchema } = require('apollo-server-express')
 
-const userSchema = require('./schemas/user')
+const categorySchema = require('./schemas/admin/category.schema')
 
-const userResolvers = require('./resolvers/user')
+const categoryResolver = require('./resolvers/admin/category.resolver')
 
 const types = [
-	userSchema,
+	categorySchema,
 ]
 
 const typeDefs = mergeTypeDefs(types)
 
 const resolvers = [
-	userResolvers,
+	categoryResolver,
   ]
 
 const graphQlResolvers = mergeResolvers(resolvers)
