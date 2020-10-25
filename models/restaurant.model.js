@@ -15,6 +15,10 @@ const RestaurantsSchema = new Schema({
     restaurant_or_homemade: {
         type: String
     },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+    },
     tags: [],
     info:{
         type: String
