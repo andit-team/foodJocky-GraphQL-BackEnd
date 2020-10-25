@@ -15,12 +15,6 @@ const PlanSchema = new Schema({
     },
     feature: {
         type: Boolean,
-    },
-    discount_by_restaurant: {
-        type: Number
-    },
-    discount_by_foodjocky: {
-        type: Number
     }
 })
 
