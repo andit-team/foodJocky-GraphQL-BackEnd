@@ -32,6 +32,31 @@ const userSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurants',
   }],
+  voucher:[{
+    code: {
+      type: String,
+      unique: true
+    },  
+    discount: {
+      type: Number
+    },
+    minimum_order: {
+      type: Number
+    },
+    start_date:{
+      type: Date
+    },
+    end_date:{
+      type: Date
+    },
+    status:{
+      type: Boolean
+    },
+    restaurants: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurants',
+    }
+  }],
   // For Riders-----------------------------------------
   national_id: {
       type: String
