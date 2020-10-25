@@ -61,6 +61,9 @@ const userSchema = new Schema({
   national_id: {
       type: String
   },
+  rejection_msg:{
+    type: String
+  },
   area: {
       division: String,
       district: String,
