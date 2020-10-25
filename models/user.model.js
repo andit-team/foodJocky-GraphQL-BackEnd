@@ -16,6 +16,10 @@ const userSchema = new Schema({
   last_name:{
       type: String,
   },
+  type: {
+    type: String, // restaurant_owner, rider, customer, agent, admin
+    required: true
+  },
   location: {
     type: { type: String },
     coordinates: []
