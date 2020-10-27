@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   mobile:{
     type: String,
+    unique: true
   },
   email:{
       type: String,
@@ -17,7 +18,7 @@ const userSchema = new Schema({
       type: String,
   },
   type: {
-    type: String, // restaurant_owner, rider, customer, agent, admin
+    type: String, // owner, rider, customer, agent, admin
     required: true
   },
   location: {
@@ -32,14 +33,16 @@ const userSchema = new Schema({
 //       ref: 'Orders',
 //   }],
   // For Restaurant Owners ---------------------------
+  owner_address: {
+    type: String
+  },
   restaurants: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurants',
   }],
   voucher:[{
     code: {
-      type: String,
-      unique: true
+      type: String
     },  
     discount: {
       type: Number

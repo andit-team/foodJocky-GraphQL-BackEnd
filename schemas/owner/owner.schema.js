@@ -2,26 +2,28 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
 type Subscription {
-  ownerAdded: ownerData
+  ownerAdded: ownerAddOutPut
 }
 
 type Query {
-    getAllOwners: OwnersOutPut
+    getAllOwners(type: String): OwnersOutPut
+    getOneOwner(_id: ID): ownerAddOutPut
   }
 
   type Mutation {
-    addOwner(OwnerData): AddOutPut
-    updateOwner(OwnerData): AddOutPut
-    deleteOwner(_id: ID): DeleteOutPut
+    addOwner(ownerInput: OwnerInput): ownerAddOutPut
+    updateOwner(ownerInput: OwnerInput): OwnerEditDeleteOutPut
+    deleteOwner(_id: ID): OwnerEditDeleteOutPut
+    updateOwnerStatus(status: String, _id: ID): OwnerEditDeleteOutPut
   }
 
-  type AddOutPut {
+  type ownerAddOutPut {
       error: Boolean
       msg: String
       data: OwnerData
   }
 
-  type DeleteOutPut {
+  type OwnerEditDeleteOutPut {
     error: Boolean
     msg: String
 }
@@ -32,15 +34,24 @@ type OwnersOutPut {
     data: [OwnerData]
 }
 
+input OwnerInput {
+    _id: ID
+    first_name: String
+    last_name: String,
+    mobile: String,
+    email: String,
+    type: String,
+    owner_address: String
+}
+
   type OwnerData {
     _id: ID
     first_name: String
     last_name: String,
     mobile: String,
     email: String,
-    status: String,
     type: String,
-    address
+    owner_address: String
   }
 `
 module.exports = typeDefs
