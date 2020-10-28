@@ -272,6 +272,17 @@ exports.getOneOwner = async(root, args, context) => {
 
 
 exports.updateOwnerStatus = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
