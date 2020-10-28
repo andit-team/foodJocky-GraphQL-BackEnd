@@ -128,6 +128,9 @@ const RestaurantsSchema = new Schema({
         }
     }]
     
+},
+{
+    timestamps: true
 });
 
 RestaurantsSchema.index({ location: "2dsphere"});

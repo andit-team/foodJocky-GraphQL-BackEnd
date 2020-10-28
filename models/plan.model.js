@@ -16,6 +16,9 @@ const PlanSchema = new Schema({
     feature: {
         type: Boolean,
     }
+},
+{
+    timestamps: true
 })
 
 const Plan = mongoose.model('Plans', PlanSchema)

@@ -26,6 +26,9 @@ const CupponSchema = new Schema({
     status:{
       type: Boolean
     }
+},
+{
+    timestamps: true
 })
 
 const Cuppon = mongoose.model('Cuppons', CupponSchema)

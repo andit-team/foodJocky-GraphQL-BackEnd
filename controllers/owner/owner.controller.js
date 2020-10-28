@@ -50,21 +50,21 @@ exports.ownerLogin = async(root, args, context) => {
             type: 'owner'
         })
 
-        if(owner.status !== 'approved'){
-            let returnData = {
-                token: '',
-                error: true,
-                msg: "Owner Not Approved",
-                data: {}
-            }
-            return returnData
-        }
-
         if(!owner){
             let returnData = {
                 token: '',
                 error: true,
                 msg: "owner Not Found",
+                data: {}
+            }
+            return returnData
+        }
+
+        if(owner.status !== 'approved'){
+            let returnData = {
+                token: '',
+                error: true,
+                msg: "Owner Not Approved",
                 data: {}
             }
             return returnData
@@ -115,11 +115,22 @@ exports.ownerLogin = async(root, args, context) => {
 }
 
 exports.updateOwner = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'owner'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
         let updateArgs = {
-            _id: args.ownerInput._id
+            _id: context.user.user_id
         }
 
         let upOwner = {
@@ -128,6 +139,11 @@ exports.updateOwner = async(root, args, context) => {
             mobile: args.ownerInput.mobile,
             email: args.ownerInput.email,
             owner_address: args.ownerInput.owner_address,
+        }
+
+        if(args.ownerInput.password !== ''){
+            const hash = bcrypt.hashSync(args.ownerInput.password, 8);
+            upOwner.password = hash
         }
 
         let uOwner = await User.updateOne(updateArgs,upOwner)

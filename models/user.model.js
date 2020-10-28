@@ -100,6 +100,9 @@ const userSchema = new Schema({
   want_to_deliver_remote: {
       type: Boolean
   }
+},
+{
+    timestamps: true
 })
 
 userSchema.index({ location: "2dsphere"});
