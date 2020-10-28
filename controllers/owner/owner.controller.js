@@ -1,9 +1,12 @@
 const User = require('../../models/user.model')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 exports.addOwner = async(root, args, context) => {
     
     try{
 
+        const hash = bcrypt.hashSync(args.ownerInput.password, 8);
         let newOwner = new User({
             first_name: args.ownerInput.first_name,
             last_name: args.ownerInput.last_name,
@@ -11,6 +14,7 @@ exports.addOwner = async(root, args, context) => {
             email: args.ownerInput.email,
             type: args.ownerInput.type,
             owner_address: args.ownerInput.owner_address,
+            password: hash,
             status: "pending"
         })
 
@@ -28,6 +32,79 @@ exports.addOwner = async(root, args, context) => {
         let returnData = {
             error: true,
             msg: "Mobile Number Already Taken",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.ownerLogin = async(root, args, context) => {
+    
+    try{
+
+        let owner = await User.findOne({
+            mobile: args.mobile,
+            type: 'owner'
+        })
+
+        if(owner.status !== 'approved'){
+            let returnData = {
+                token: '',
+                error: true,
+                msg: "Owner Not Approved",
+                data: {}
+            }
+            return returnData
+        }
+
+        if(!owner){
+            let returnData = {
+                token: '',
+                error: true,
+                msg: "owner Not Found",
+                data: {}
+            }
+            return returnData
+        }
+
+        let passMatch = await bcrypt.compare(args.password, owner.password)
+
+        if(!passMatch){
+            let returnData = {
+                token: '',
+                error: true,
+                msg: "Password Not Matched",
+                data: {}
+            }
+            return returnData
+        }
+
+        const token = jwt.sign(
+            {
+                _id: owner._id,
+                type: owner.type
+            }
+            , process.env.SECRET, 
+            {
+            expiresIn: "8h"
+        })
+
+        let returnData = {
+            token: token,
+            error: false,
+            msg: "owner Login Successful",
+            data: owner
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "owner Login UnSuccessful",
             data: {}
         }
         return returnData

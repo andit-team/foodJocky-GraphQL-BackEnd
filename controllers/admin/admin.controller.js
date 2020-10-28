@@ -40,7 +40,8 @@ exports.adminLogin = async(root, args, context) => {
     try{
 
         let admin = await User.findOne({
-            mobile: args.mobile
+            mobile: args.mobile,
+            type: 'admin'
         })
 
         if(!admin){

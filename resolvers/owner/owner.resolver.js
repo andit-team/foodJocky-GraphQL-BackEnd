@@ -21,6 +21,12 @@ const resolvers = {
       let result = await OwnerController.getOneOwner(root, args, context)
       return result
    },
+
+   async ownerLogin(root, args, context) {
+    let result = await OwnerController.ownerLogin(root, args, context)
+    return result
+  },
+
   },
   Mutation: {
     async addOwner(root, args, context) {

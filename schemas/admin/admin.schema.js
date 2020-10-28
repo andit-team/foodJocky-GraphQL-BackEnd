@@ -18,7 +18,6 @@ const typeDefs = gql`
   type AdminData {
     _id: ID
     mobile: String
-    password: String
     type: String
   }
 `

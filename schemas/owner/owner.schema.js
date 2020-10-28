@@ -8,6 +8,7 @@ type Subscription {
 type Query {
     getAllOwners(type: String): OwnersOutPut
     getOneOwner(_id: ID): ownerAddOutPut
+    ownerLogin(mobile: String , password: String): ownerAddOutPut
   }
 
   type Mutation {
@@ -18,6 +19,7 @@ type Query {
   }
 
   type ownerAddOutPut {
+      token: String
       error: Boolean
       msg: String
       data: OwnerData
@@ -37,20 +39,21 @@ type OwnersOutPut {
 input OwnerInput {
     _id: ID
     first_name: String
-    last_name: String,
-    mobile: String,
-    email: String,
-    type: String,
+    last_name: String
+    mobile: String
+    password: String
+    email: String
+    type: String
     owner_address: String
 }
 
   type OwnerData {
     _id: ID
     first_name: String
-    last_name: String,
-    mobile: String,
-    email: String,
-    type: String,
+    last_name: String
+    mobile: String
+    email: String
+    type: String
     owner_address: String
   }
 `
