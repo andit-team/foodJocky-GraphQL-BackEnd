@@ -1,6 +1,17 @@
 const Plan = require('../../models/plan.model')
 
 exports.addPlan = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
@@ -35,6 +46,17 @@ exports.addPlan = async(root, args, context) => {
 }
 
 exports.deletePlan = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
@@ -76,6 +98,17 @@ exports.deletePlan = async(root, args, context) => {
 }
 
 exports.updatePlan = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 

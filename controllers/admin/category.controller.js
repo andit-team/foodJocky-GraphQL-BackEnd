@@ -1,6 +1,18 @@
 const Category = require('../../models/category.model')
 
 exports.addCategory = async(root, args, context) => {
+
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
@@ -31,6 +43,17 @@ exports.addCategory = async(root, args, context) => {
 }
 
 exports.deleteCategory = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
 
     try{
         let deleteArgs = {

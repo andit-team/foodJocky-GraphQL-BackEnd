@@ -24,7 +24,7 @@ const RestaurantsSchema = new Schema({
         ref: 'Plans',
     },
     tags: [],
-    info:{
+    description:{
         type: String
     },
     // offer:{
