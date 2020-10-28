@@ -2,6 +2,7 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   type Query {
     adminLogin(mobile: String , password: String): adminOutPut
+    verifyAdminToken(token: String): adminOutPut
   }
 
   type Mutation {

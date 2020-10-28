@@ -97,3 +97,49 @@ exports.adminLogin = async(root, args, context) => {
     
 
 }
+
+exports.verifyToken = async(root, args, context) => {
+    
+    try{
+
+        const decodedToken = jwt.verify(
+            args.token,
+            process.env.SECRET
+        )
+
+        if(decodedToken.type === 'admin'){
+
+            let admin = await User.findById(decodedToken._id)
+
+            let returnData = {
+                error: false,
+                msg: "Token Verified Successfully",
+                data: admin
+            }
+            return returnData
+
+        }else{
+
+            let returnData = {
+                error: true,
+                msg: "Token Not Verified",
+                data: {}
+            }
+            return returnData
+
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Token Not Verified",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}

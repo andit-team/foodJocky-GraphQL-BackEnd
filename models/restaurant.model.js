@@ -46,7 +46,13 @@ const RestaurantsSchema = new Schema({
         coordinates: []
     },
     address: {
-        type: Object
+        address: {
+            type: String
+        },
+        location: {
+            lat: String,
+            lng: String
+        }
     },
     ratings:[
         {
