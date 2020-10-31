@@ -88,6 +88,9 @@ const userSchema = new Schema({
   bag_type: {
       type: String
   },
+
+// Not for First Relesase ----------------------
+
 //   available_shifts: [
 //       {
 //           type: mongoose.Schema.Types.ObjectId,
