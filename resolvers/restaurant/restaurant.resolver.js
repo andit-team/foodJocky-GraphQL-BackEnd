@@ -13,24 +13,15 @@ const resolvers = {
   },
   Query: {
     async getAllRestaurantsByOwner(root, args, context) {
-       let results = await RestaurantController.getAllRestaurantsByOwner(root, args, context)
-       return {
-           results
-       }
+       // todo
     },
 
     async getAllRestaurantsByAdmin(root, args, context) {
-        let results = await RestaurantController.getAllRestaurantsByAdmin(root, args, context)
-        return {
-            result
-        }
+        // todo
      },
 
     async getOneRestaurant(root, args, context) {
-      let result = await RestaurantController.getOneRestaurant(root, args, context)
-      return {
-          result
-      }
+      // todo
    },
 
    async restaurantLogin(root, args, context) {

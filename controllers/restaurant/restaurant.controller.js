@@ -217,97 +217,16 @@ exports.deleteRestaurant = async(root, args, context) => {
 
 exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
-    try{
-
-        if(args.owner_id !== ''){
-
-          let Restaurants = await Restaurant.find(
-              {
-                  owner: args.owner_id
-              })
-
-          let returnData = {
-              error: false,
-              msg: "Restaurant Get Successfully",
-              data: Restaurants
-          }
-          return returnData
-      }else{
-        let Restaurants = await Restaurant.find()
-
-        let returnData = {
-            error: false,
-            msg: "Restaurant Get Successfully",
-            data: Restaurants
-        }
-        return returnData
-      }
-
-    }catch(error){
-
-        let returnData = {
-            error: true,
-            msg: "Restaurant Get UnSuccessful",
-            data: []
-        }
-        return returnData
-
-    }
-
+  // todo
 }
 
 exports.getAllRestaurantsByOwner = async(root, args, context) => {
-
-    try{
-
-        let Restaurants = await Restaurant.find(
-            {
-                type: args.type
-            })
-
-        let returnData = {
-            error: false,
-            msg: "Restaurant Get Successfully",
-            data: Restaurants
-        }
-        return returnData
-
-    }catch(error){
-
-        let returnData = {
-            error: true,
-            msg: "Restaurant Get UnSuccessful",
-            data: []
-        }
-        return returnData
-
-    }
-
+  // todo
 }
 
 exports.getOneRestaurant = async(root, args, context) => {
 
-    try{
-
-        let Restaurant = await User.findById(args._id);
-
-        let returnData = {
-            error: false,
-            msg: "Restaurant Get Successfully",
-            data: Restaurant
-        }
-        return returnData
-
-    }catch(error){
-
-        let returnData = {
-            error: true,
-            msg: "Restaurant Get UnSuccessful",
-            data: []
-        }
-        return returnData
-
-    }
+    // todo
 
 }
 
