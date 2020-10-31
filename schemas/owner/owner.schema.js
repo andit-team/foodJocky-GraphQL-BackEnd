@@ -45,6 +45,7 @@ input OwnerInput {
     email: String
     type: String
     owner_address: String
+    national_id: String
 }
 
   type OwnerData {
@@ -55,6 +56,8 @@ input OwnerInput {
     email: String
     type: String
     owner_address: String
+    national_id: String
+    status: String
   }
 `
 module.exports = typeDefs

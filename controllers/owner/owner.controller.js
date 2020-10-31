@@ -15,7 +15,8 @@ exports.addOwner = async(root, args, context) => {
             type: args.ownerInput.type,
             owner_address: args.ownerInput.owner_address,
             password: hash,
-            status: "pending"
+            status: "pending",
+            national_id: args.ownerInput.national_id
         })
 
         let nOwner = await newOwner.save();
@@ -139,6 +140,7 @@ exports.updateOwner = async(root, args, context) => {
             mobile: args.ownerInput.mobile,
             email: args.ownerInput.email,
             owner_address: args.ownerInput.owner_address,
+            national_id: args.ownerInput.national_id
         }
 
         if(args.ownerInput.password !== ''){
