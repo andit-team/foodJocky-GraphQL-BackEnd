@@ -289,7 +289,10 @@ exports.updateOwnerWithStatus = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: args.ownerInput._id,
+            _id: args.ownerInput._id  
+        }
+
+        let upOwner = {
             first_name: args.ownerInput.first_name,
             last_name: args.ownerInput.last_name,
             mobile: args.ownerInput.mobile,
@@ -299,8 +302,9 @@ exports.updateOwnerWithStatus = async(root, args, context) => {
             status: args.ownerInput.status
         }
 
-        let upOwner = {
-            status: args.status,
+        if(args.ownerInput.password !== ''){
+            const hash = bcrypt.hashSync(args.ownerInput.password, 8);
+            upOwner.password = hash
         }
 
         let uOwner = await User.updateOne(updateArgs,upOwner)
