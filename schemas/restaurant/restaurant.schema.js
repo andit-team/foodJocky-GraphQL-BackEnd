@@ -9,22 +9,22 @@ type Query {
     getAllRestaurantsByOwner: RestaurantsOutPut
     getAllRestaurantsByAdmin(owner_id: ID): RestaurantsOutPut
     getOneRestaurant(_id: ID): RestaurantData
-  }
+}
 
-  type Mutation {
+type Mutation {
     addRestaurant(restaurantInput: RestaurantInput): RestaurantAddOutPut
     updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
     deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
     updateRestaurantStatus(_id: ID): RestaurantEditDeleteOutPut
-  }
+}
 
-  type RestaurantAddOutPut {
+type RestaurantAddOutPut {
       error: Boolean
       msg: String
       data: RestaurantData
-  }
+}
 
-  type RestaurantEditDeleteOutPut {
+type RestaurantEditDeleteOutPut {
     error: Boolean
     msg: String
 }
@@ -48,13 +48,13 @@ input RestaurantInput {
     cover_img: String
     thumb_img: String
     address: Address
-    food_categories: [
-        {
-            _id: ID
-            name: String
-        }
-    ]
+    food_categories: [InputFoodCategories]
     price_type: String
+}
+
+input InputFoodCategories {
+  _id: ID
+  name: String
 }
 
   type RestaurantData {
@@ -69,31 +69,31 @@ input RestaurantInput {
     description: String
     cover_img: String
     thumb_img: String
-    address: Address
-    food_categories:[
-        {
-            _id: ID
-            name: String
-            foods: [
-                {
-                    _id: ID
-                    name: String
-                    description: String
-                    dish_img: String
-                    price: Float
-                    commission: Float
-                    pirce_and_size: [
-                        {
-                            size: String
-                            price: Float
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    address: AddressType
+    food_categories:[FoodCategory]
     price_type: String
   }
+
+  type FoodCategory {
+    _id: ID
+    name: String
+    foods: [Food]
+}
+
+type Food {
+  _id: ID
+  name: String
+  description: String
+  dish_img: String
+  price: Float
+  commission: Float
+  pirce_and_size: [PriceAndSize]
+}
+
+type PriceAndSize {
+  size: String
+  price: Float
+}
 
   type Owner {
     _id: ID
@@ -115,12 +115,25 @@ type Plan {
     feature: Boolean
   }
 
-  type Address {
+input Address {
       address: String
-      location: {
-        lat: String
-        lng: String
-      }
+      location: Location
   }
+
+input Location {
+  lat: String
+  lng: String
+}
+
+type AddressType {
+  address: String
+  location: LocationType
+}
+
+type LocationType {
+lat: String
+lng: String
+}
+
 `
 module.exports = typeDefs
