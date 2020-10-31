@@ -9,6 +9,7 @@ type Query {
     getAllRestaurantsByOwner: RestaurantsOutPut
     getAllRestaurantsByAdmin(owner_id: ID): RestaurantsOutPut
     getOneRestaurant(_id: ID): RestaurantData
+    restaurantLogin(user: String, password: String): RestaurantAddOutPut
 }
 
 type Mutation {
@@ -19,6 +20,7 @@ type Mutation {
 }
 
 type RestaurantAddOutPut {
+      token: String
       error: Boolean
       msg: String
       data: RestaurantData

@@ -1,7 +1,7 @@
 const { PubSub } = require('apollo-server');
 const pubsub = new PubSub();
 
-//const OwnerController = require('../../controllers/owner/owner.controller')
+const RestaurantController = require('../../controllers/restaurant/restaurant.controller')
 
 const RESTAURANT_ADDED = "RESTAURANT_ADDED"
 
@@ -13,30 +13,28 @@ const resolvers = {
   },
   Query: {
     async getAllRestaurantsByOwner(root, args, context) {
-       //let results = await OwnerController.getAllOwners(root, args, context)
-       return {
-           
-       }
+       // todo
     },
 
     async getAllRestaurantsByAdmin(root, args, context) {
-        //let results = await OwnerController.getAllOwners(root, args, context)
-        return {
-            
-        }
+        // todo
      },
 
     async getOneRestaurant(root, args, context) {
-      //let result = await OwnerController.getOneOwner(root, args, context)
-      return {
-          
-      }
+      // todo
    },
+
+   async restaurantLogin(root, args, context) {
+
+     return {
+       
+     }
+   }
 
   },
   Mutation: {
     async addRestaurant(root, args, context) {
-      //let result = await OwnerController.addOwner(root, args, context)
+      //let result = await RestaurantController.addOwner(root, args, context)
       //pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result });
       return {
           
@@ -44,21 +42,21 @@ const resolvers = {
     },
     
     async updateRestaurant(root, args, context) {
-      //let result = await OwnerController.updateOwner(root, args, context)
+      //let result = await RestaurantController.updateOwner(root, args, context)
       return {
           
       }
     },
 
     async deleteRestaurant(root, args, context) {
-        //let result = await OwnerController.deleteOwner(root, args, context)
+        //let result = await RestaurantController.deleteOwner(root, args, context)
         return {
             
         }
       },
 
       async updateRestaurantStatus(root, args, context) {
-        //let result = await OwnerController.deleteOwner(root, args, context)
+        //let result = await RestaurantController.deleteOwner(root, args, context)
         return {
             
         }

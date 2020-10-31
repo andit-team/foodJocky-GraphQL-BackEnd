@@ -41,7 +41,7 @@ exports.addRestaurant = async(root, args, context) => {
 
 }
 
-exports.RestaurantLogin = async(root, args, context) => {
+exports.restaurantLogin = async(root, args, context) => {
     
     try{
 
@@ -215,58 +215,18 @@ exports.deleteRestaurant = async(root, args, context) => {
 
 }
 
-exports.getAllRestaurants = async(root, args, context) => {
+exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
-    try{
+  // todo
+}
 
-        let Restaurants = await User.find(
-            {
-                type: args.type
-            })
-
-        let returnData = {
-            error: false,
-            msg: "Restaurant Get Successfully",
-            data: Restaurants
-        }
-        return returnData
-
-    }catch(error){
-
-        let returnData = {
-            error: true,
-            msg: "Restaurant Get UnSuccessful",
-            data: []
-        }
-        return returnData
-
-    }
-
+exports.getAllRestaurantsByOwner = async(root, args, context) => {
+  // todo
 }
 
 exports.getOneRestaurant = async(root, args, context) => {
 
-    try{
-
-        let Restaurant = await User.findById(args._id);
-
-        let returnData = {
-            error: false,
-            msg: "Restaurant Get Successfully",
-            data: Restaurant
-        }
-        return returnData
-
-    }catch(error){
-
-        let returnData = {
-            error: true,
-            msg: "Restaurant Get UnSuccessful",
-            data: []
-        }
-        return returnData
-
-    }
+    // todo
 
 }
 
