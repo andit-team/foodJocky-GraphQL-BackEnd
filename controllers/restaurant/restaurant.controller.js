@@ -41,7 +41,7 @@ exports.addRestaurant = async(root, args, context) => {
 
 }
 
-exports.RestaurantLogin = async(root, args, context) => {
+exports.restaurantLogin = async(root, args, context) => {
     
     try{
 

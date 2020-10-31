@@ -33,6 +33,13 @@ const resolvers = {
       }
    },
 
+   async restaurantLogin(root, args, context) {
+
+     return {
+       
+     }
+   }
+
   },
   Mutation: {
     async addRestaurant(root, args, context) {
