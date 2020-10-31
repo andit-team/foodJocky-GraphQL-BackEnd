@@ -15,7 +15,7 @@ type Query {
     addOwner(ownerInput: OwnerInput): ownerAddOutPut
     updateOwner(ownerInput: OwnerInput): OwnerEditDeleteOutPut
     deleteOwner(_id: ID): OwnerEditDeleteOutPut
-    updateOwnerStatus(status: String, _id: ID): OwnerEditDeleteOutPut
+    updateOwnerWithStatus(ownerInput: OwnerInput): OwnerEditDeleteOutPut
   }
 
   type ownerAddOutPut {
@@ -46,6 +46,7 @@ input OwnerInput {
     type: String
     owner_address: String
     national_id: String
+    status: String
 }
 
   type OwnerData {

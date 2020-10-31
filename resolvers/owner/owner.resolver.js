@@ -45,8 +45,8 @@ const resolvers = {
         return result
       },
 
-      async updateOwnerStatus(root, args, context) {
-        let result = await OwnerController.updateOwnerStatus(root, args, context)
+      async updateOwnerWithStatus(root, args, context) {
+        let result = await OwnerController.updateOwnerWithStatus(root, args, context)
         return result
       },
   },

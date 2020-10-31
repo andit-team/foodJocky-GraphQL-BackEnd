@@ -273,7 +273,7 @@ exports.getOneOwner = async(root, args, context) => {
 }
 
 
-exports.updateOwnerStatus = async(root, args, context) => {
+exports.updateOwnerWithStatus = async(root, args, context) => {
 
     if(context.user.error !== false && context.user.type !== 'admin'){
 
@@ -289,7 +289,14 @@ exports.updateOwnerStatus = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: args._id
+            _id: args.ownerInput._id,
+            first_name: args.ownerInput.first_name,
+            last_name: args.ownerInput.last_name,
+            mobile: args.ownerInput.mobile,
+            email: args.ownerInput.email,
+            owner_address: args.ownerInput.owner_address,
+            national_id: args.ownerInput.national_id,
+            status: args.ownerInput.status
         }
 
         let upOwner = {
