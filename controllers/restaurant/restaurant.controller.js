@@ -256,11 +256,11 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
 }
 
-exports.getAllRestaurants = async(root, args, context) => {
+exports.getAllRestaurantsByOwner = async(root, args, context) => {
 
     try{
 
-        let Restaurants = await User.find(
+        let Restaurants = await Restaurant.find(
             {
                 type: args.type
             })

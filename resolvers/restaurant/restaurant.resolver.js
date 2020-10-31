@@ -13,9 +13,9 @@ const resolvers = {
   },
   Query: {
     async getAllRestaurantsByOwner(root, args, context) {
-       //let results = await RestaurantController.getAllOwners(root, args, context)
+       let results = await RestaurantController.getAllRestaurantsByOwner(root, args, context)
        return {
-           
+           results
        }
     },
 
