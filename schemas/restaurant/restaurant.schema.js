@@ -6,11 +6,16 @@ type Subscription {
 }
 
 type Query {
-    getAllRestaurants: RestaurantsOutPut
+    getAllRestaurantsByOwner: RestaurantsOutPut
+    getAllRestaurantsByAdmin(owner_id: ID): RestaurantsOutPut
+    getOneRestaurant(_id: ID): RestaurantData
   }
 
   type Mutation {
     addRestaurant(restaurantInput: RestaurantInput): RestaurantAddOutPut
+    updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
+    deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
+    updateRestaurantStatus(_id: ID): RestaurantEditDeleteOutPut
   }
 
   type RestaurantAddOutPut {
@@ -31,6 +36,7 @@ type RestaurantsOutPut {
 }
 
 input RestaurantInput {
+    _id: ID
     user: String
     password: String
     name: String
