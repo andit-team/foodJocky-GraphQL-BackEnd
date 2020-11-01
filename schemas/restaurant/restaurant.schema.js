@@ -6,7 +6,7 @@ type Subscription {
 }
 
 type Query {
-    getAllRestaurantsByOwner: RestaurantsOutPut
+    getAllRestaurantsByOwner(status: String): RestaurantsOutPut
     getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
     getOneRestaurant(_id: ID): RestaurantAddOutPut
     restaurantLogin(user: String, password: String): RestaurantAddOutPut

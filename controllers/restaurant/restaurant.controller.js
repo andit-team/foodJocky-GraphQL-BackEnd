@@ -287,14 +287,25 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 exports.getAllRestaurantsByOwner = async(root, args, context) => {
   // todo
 
+  if(context.user.error !== false && context.user.type !== 'owner'){
+
+    let returnData = {
+        error: true,
+        msg: "Owner Login Required",
+        data: {}
+    }
+    return returnData
+
+}
+
   try{
 
-    let query = {}
-    if(context.user.type === 'owner' && context.user.user_id !== null){
+    let query = {
+        owner: context.user.user_id
+    }
 
-        query = {
-            owner: context.user.user_id
-        }
+    if(args.status !== ""){
+        query.status = args.status
     }
 
     let result = await Restaurant.find(query)
