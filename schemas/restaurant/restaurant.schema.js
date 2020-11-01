@@ -123,8 +123,8 @@ input Address {
   }
 
 input Location {
-  lat: String
-  lng: String
+  lat: Float
+  lng: Float
 }
 
 type AddressType {
