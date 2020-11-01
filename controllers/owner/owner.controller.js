@@ -219,12 +219,25 @@ exports.deleteOwner = async(root, args, context) => {
 
 exports.getAllOwners = async(root, args, context) => {
 
-    try{
+    if(context.user.error !== false && context.user.type !== 'admin'){
 
-        let owners = await User.find(
-            {
-                type: args.type
-            })
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {}
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let owners = await User.find(query)
 
         let returnData = {
             error: false,

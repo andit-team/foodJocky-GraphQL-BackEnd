@@ -6,7 +6,7 @@ type Subscription {
 }
 
 type Query {
-    getAllOwners(type: String): OwnersOutPut
+    getAllOwners(status: String): OwnersOutPut
     getOneOwner(_id: ID): ownerAddOutPut
     ownerLogin(mobile: String , password: String): ownerAddOutPut
   }
