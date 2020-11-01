@@ -40,9 +40,7 @@ const resolvers = {
     async addRestaurant(root, args, context) {
       let result = await RestaurantController.addRestaurant(root, args, context)
       pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result });
-      return {
-          result
-      }
+      return result
     },
     
     async updateRestaurant(root, args, context) {
