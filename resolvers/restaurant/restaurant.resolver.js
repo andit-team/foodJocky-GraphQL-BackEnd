@@ -34,10 +34,10 @@ const resolvers = {
   },
   Mutation: {
     async addRestaurant(root, args, context) {
-      //let result = await RestaurantController.addOwner(root, args, context)
-      //pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result });
+      let result = await RestaurantController.addRestaurant(root, args, context)
+      pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result });
       return {
-          
+          result
       }
     },
     

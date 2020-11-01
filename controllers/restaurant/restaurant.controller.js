@@ -4,17 +4,34 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 exports.addRestaurant = async(root, args, context) => {
-    
+   
+    if(context.user.error !== false && context.user.type !== 'owner'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
     try{
-        const hash = bcrypt.hashSync(args.RestaurantInput.password, 8);
-        let newRestaurant = new User({
-            first_name: args.RestaurantInput.first_name,
-            last_name: args.RestaurantInput.last_name,
-            mobile: args.RestaurantInput.mobile,
-            email: args.RestaurantInput.email,
-            type: args.RestaurantInput.type,
-            Restaurant_address: args.RestaurantInput.Restaurant_address,
+        const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
+        let newRestaurant = new Restaurant({
+            user: args.restaurantInput.user,
             password: hash,
+            name: args.restaurantInput.name,
+            restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
+            owner: context.user.user_id,
+            plan: args.restaurantInput.plan,
+            tags: args.restaurantInput.tags,
+            description: args.restaurantInput.description,
+            cover_img: args.restaurantInput.cover_img,
+            thumb_img: args.restaurantInput.thumb_img,
+            address: args.restaurantInput.address,
+            food_categories: args.restaurantInput.food_categories,
+            price_type: args.restaurantInput.price_type,
             status: "pending"
         })
 
@@ -114,13 +131,14 @@ exports.restaurantLogin = async(root, args, context) => {
 
 }
 
+// By Owner
 exports.updateRestaurant = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'Restaurant'){
+    if(context.user.error !== false && context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
-            msg: "Restaurant Login Required",
+            msg: "Owner Login Required",
             data: {}
         }
         return returnData
@@ -130,19 +148,25 @@ exports.updateRestaurant = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: context.user.user_id
+            _id: args.restaurantInput._id
         }
 
         let upRestaurant = {
-            first_name: args.RestaurantInput.first_name,
-            last_name: args.RestaurantInput.last_name,
-            mobile: args.RestaurantInput.mobile,
-            email: args.RestaurantInput.email,
-            Restaurant_address: args.RestaurantInput.Restaurant_address,
+            user: args.restaurantInput.user,
+            name: args.restaurantInput.name,
+            restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
+            plan: args.restaurantInput.plan,
+            tags: args.restaurantInput.tags,
+            description: args.restaurantInput.description,
+            cover_img: args.restaurantInput.cover_img,
+            thumb_img: args.restaurantInput.thumb_img,
+            address: args.restaurantInput.address,
+            food_categories: args.restaurantInput.food_categories,
+            price_type: args.restaurantInput.price_type,
         }
 
-        if(args.RestaurantInput.password !== ''){
-            const hash = bcrypt.hashSync(args.RestaurantInput.password, 8);
+        if(args.restaurantInput.password !== ''){
+            const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
             upRestaurant.password = hash
         }
 
@@ -159,7 +183,7 @@ exports.updateRestaurant = async(root, args, context) => {
         }else{
             let returnData = {
                 error: true,
-                msg: "Restaurant Update Unsuccessful"
+                msg: "Restaurant Update Failed!!!"
             }
             return returnData
         }
@@ -247,11 +271,27 @@ exports.updateRestaurantStatus = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: args._id
+            _id: args.restaurantInput._id
         }
 
         let upRestaurant = {
-            status: args.status,
+            user: args.restaurantInput.user,
+            name: args.restaurantInput.name,
+            restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
+            plan: args.restaurantInput.plan,
+            tags: args.restaurantInput.tags,
+            description: args.restaurantInput.description,
+            cover_img: args.restaurantInput.cover_img,
+            thumb_img: args.restaurantInput.thumb_img,
+            address: args.restaurantInput.address,
+            food_categories: args.restaurantInput.food_categories,
+            price_type: args.restaurantInput.price_type,
+            status: args.restaurantInput.status
+        }
+
+        if(args.restaurantInput.password !== ''){
+            const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
+            upRestaurant.password = hash
         }
 
         let uRestaurant = await User.updateOne(updateArgs,upRestaurant)
@@ -260,14 +300,14 @@ exports.updateRestaurantStatus = async(root, args, context) => {
 
             let returnData = {
                 error: false,
-                msg: "Restaurant Status Updated Successfully"
+                msg: "Restaurant Updated Successfully"
             }
             return returnData
 
         }else{
             let returnData = {
                 error: true,
-                msg: "Restaurant Status Update Unsuccessful"
+                msg: "Restaurant Update Failed!!!"
             }
             return returnData
         }
@@ -277,7 +317,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Restaurant Status Update Unsuccessful"
+            msg: "Restaurant Update Unsuccessful"
         }
         return returnData
 
