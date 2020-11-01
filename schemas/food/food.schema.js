@@ -2,33 +2,30 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
 type Query {
-    getAllOwners(status: String): OwnersOutPut
-    getOneOwner(_id: ID): ownerAddOutPut
-    ownerLogin(mobile: String , password: String): ownerAddOutPut
+    getAllFoods(restaurant_id: ID): FoodsOutPut
   }
 
   type Mutation {
-    addOwner(ownerInput: OwnerInput): ownerAddOutPut
-    updateOwner(ownerInput: OwnerInput): OwnerEditDeleteOutPut
-    deleteOwner(_id: ID): OwnerEditDeleteOutPut
-    updateOwnerWithStatus(ownerInput: OwnerInput): OwnerEditDeleteOutPut
+    addFood(foodInput: FoodInput): foodAddOutPut
+    updateFood(foodInput: FoodInput): FoodEditDeleteOutPut
+    deleteFood(_id: ID): FoodEditDeleteOutPut
   }
 
-  type ownerAddOutPut {
+  type foodAddOutPut {
       error: Boolean
       msg: String
       data: Food
   }
 
-  type OwnerEditDeleteOutPut {
+  type FoodEditDeleteOutPut {
     error: Boolean
     msg: String
 }
 
-type OwnersOutPut {
+type FoodsOutPut {
     error: Boolean
     msg: String
-    data: [OwnerData]
+    data: [FoodData]
 }
 
 input FoodInput {
