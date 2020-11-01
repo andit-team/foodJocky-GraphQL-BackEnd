@@ -45,12 +45,11 @@ exports.restaurantLogin = async(root, args, context) => {
     
     try{
 
-        let Restaurant = await User.findOne({
-            mobile: args.mobile,
-            type: 'Restaurant'
+        let restaurant = await Restaurant.findOne({
+            user: args.user
         })
 
-        if(!Restaurant){
+        if(!restaurant){
             let returnData = {
                 token: '',
                 error: true,
@@ -60,7 +59,7 @@ exports.restaurantLogin = async(root, args, context) => {
             return returnData
         }
 
-        if(Restaurant.status !== 'approved'){
+        if(restaurant.status !== 'approved'){
             let returnData = {
                 token: '',
                 error: true,
@@ -70,7 +69,7 @@ exports.restaurantLogin = async(root, args, context) => {
             return returnData
         }
 
-        let passMatch = await bcrypt.compare(args.password, Restaurant.password)
+        let passMatch = await bcrypt.compare(args.password, restaurant.password)
 
         if(!passMatch){
             let returnData = {
@@ -84,8 +83,7 @@ exports.restaurantLogin = async(root, args, context) => {
 
         const token = jwt.sign(
             {
-                _id: Restaurant._id,
-                type: Restaurant.type
+                _id: restaurant._id
             }
             , process.env.SECRET, 
             {
@@ -96,7 +94,7 @@ exports.restaurantLogin = async(root, args, context) => {
             token: token,
             error: false,
             msg: "Restaurant Login Successful",
-            data: Restaurant
+            data: restaurant
         }
         return returnData
 
@@ -218,15 +216,112 @@ exports.deleteRestaurant = async(root, args, context) => {
 exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
   // todo
+
+  if(context.user.error !== false && context.user.type !== 'admin'){
+
+    let returnData = {
+        error: true,
+        msg: "Admin Login Required",
+        data: {}
+    }
+    return returnData
+
+}
+
+  try{
+
+    let query = {}
+
+    if(args.owner_id !== ""){
+        query.owner = args.owner_id
+    }
+
+    if(args.status !== ""){
+        query.status = args.status
+    }
+
+    let result = await Restaurant.find(query)
+
+    let returnData = {
+        error: false,
+        msg: "Restaurant Get Successfully",
+        data: result
+    }
+    return returnData
+
+  }catch(error){
+
+    let returnData = {
+        error: true,
+        msg: "Restaurant Get Unsuccessful"
+    }
+    return returnData
+
+  }
 }
 
 exports.getAllRestaurantsByOwner = async(root, args, context) => {
   // todo
+
+  try{
+
+    let query = {}
+    if(context.user.type === 'owner' && context.user.user_id !== null){
+
+        query = {
+            owner: context.user.user_id
+        }
+    }
+
+    let result = await Restaurant.find(query)
+
+    let returnData = {
+        error: false,
+        msg: "Restaurant Get Successfully",
+        data: result
+    }
+    return returnData
+
+  }catch(error){
+
+    let returnData = {
+        error: true,
+        msg: "Restaurant Get Unsuccessful"
+    }
+    return returnData
+
+  }
+    
+
+
+
+
 }
 
 exports.getOneRestaurant = async(root, args, context) => {
 
     // todo
+
+    try{
+
+        let result = await Restaurant.findById(args._id)
+
+        let returnData = {
+            error: false,
+            msg: "Restaurant Get Successfully",
+            data: result
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Restaurant Get Unsuccessful"
+        }
+        return returnData
+
+    }
 
 }
 

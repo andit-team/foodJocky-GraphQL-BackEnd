@@ -7,8 +7,8 @@ type Subscription {
 
 type Query {
     getAllRestaurantsByOwner: RestaurantsOutPut
-    getAllRestaurantsByAdmin(owner_id: ID): RestaurantsOutPut
-    getOneRestaurant(_id: ID): RestaurantData
+    getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
+    getOneRestaurant(_id: ID): RestaurantAddOutPut
     restaurantLogin(user: String, password: String): RestaurantAddOutPut
 }
 
@@ -89,7 +89,7 @@ type Food {
   dish_img: String
   price: Float
   commission: Float
-  pirce_and_size: [PriceAndSize]
+  price_and_size: [PriceAndSize]
 }
 
 type PriceAndSize {
