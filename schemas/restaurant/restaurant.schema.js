@@ -133,8 +133,8 @@ type AddressType {
 }
 
 type LocationType {
-lat: Float
-lng: Float
+  lat: Float
+  lng: Float
 }
 
 `
