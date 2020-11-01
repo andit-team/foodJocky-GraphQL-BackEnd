@@ -231,7 +231,9 @@ exports.getAllOwners = async(root, args, context) => {
     }
 
     try{
-        let query = {}
+        let query = {
+            type: 'owner'
+        }
 
         if(args.status !== ""){
             query.status = args.status
