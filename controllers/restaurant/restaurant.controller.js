@@ -168,7 +168,7 @@ exports.updateRestaurant = async(root, args, context) => {
             upRestaurant.password = hash
         }
 
-        let uRestaurant = await User.updateOne(updateArgs,upRestaurant)
+        let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
 
         if(uRestaurant.n > 0){
 
@@ -400,7 +400,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
             upRestaurant.password = hash
         }
 
-        let uRestaurant = await User.updateOne(updateArgs,upRestaurant)
+        let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
 
         if(uRestaurant.n > 0){
 

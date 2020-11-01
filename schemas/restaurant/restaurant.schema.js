@@ -16,7 +16,7 @@ type Mutation {
     addRestaurant(restaurantInput: RestaurantInput): RestaurantAddOutPut
     updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
     deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
-    updateRestaurantStatus(_id: ID): RestaurantEditDeleteOutPut
+    updateRestaurantStatus(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
 }
 
 type RestaurantAddOutPut {
@@ -52,6 +52,7 @@ input RestaurantInput {
     address: Address
     food_categories: [InputFoodCategories]
     price_type: String
+    status: String
 }
 
 input InputFoodCategories {
@@ -74,6 +75,7 @@ input InputFoodCategories {
     address: AddressType
     food_categories:[FoodCategory]
     price_type: String
+    status: String
   }
 
   type FoodCategory {

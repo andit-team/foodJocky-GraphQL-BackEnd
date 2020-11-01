@@ -132,7 +132,10 @@ const RestaurantsSchema = new Schema({
         status: {
             type: Boolean
         }
-    }]
+    }],
+    status: {
+        type: String
+    }
     
 },
 {

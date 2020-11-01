@@ -29,10 +29,8 @@ const resolvers = {
    },
 
    async restaurantLogin(root, args, context) {
-
-     return {
-       
-     }
+     let result = await RestaurantController.restaurantLogin(root, args, context)
+     return 
    }
 
   },
@@ -44,10 +42,8 @@ const resolvers = {
     },
     
     async updateRestaurant(root, args, context) {
-      //let result = await RestaurantController.updateOwner(root, args, context)
-      return {
-          
-      }
+      let result = await RestaurantController.updateRestaurant(root, args, context)
+      return result
     },
 
     async deleteRestaurant(root, args, context) {
@@ -58,10 +54,8 @@ const resolvers = {
       },
 
       async updateRestaurantStatus(root, args, context) {
-        //let result = await RestaurantController.deleteOwner(root, args, context)
-        return {
-            
-        }
+        let result = await RestaurantController.updateRestaurantStatus(root, args, context)
+        return result
       },
   },
 };
