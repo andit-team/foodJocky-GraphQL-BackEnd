@@ -40,85 +40,86 @@ exports.addFood = async (root, args, context) => {
 }
 
 exports.updateFood = async (root, args, context) => {
-    // try{
-    //     const hash = bcrypt.hashSync(args.ownerInput.password, 8);
-    //     let newOwner = new User({
-    //         first_name: args.ownerInput.first_name,
-    //         last_name: args.ownerInput.last_name,
-    //         mobile: args.ownerInput.mobile,
-    //         email: args.ownerInput.email,
-    //         type: args.ownerInput.type,
-    //         owner_address: args.ownerInput.owner_address,
-    //         password: hash,
-    //         status: "pending",
-    //         national_id: args.ownerInput.national_id
-    //     })
-    //     let nOwner = await newOwner.save();
-    //     let returnData = {
-    //         error: false,
-    //         msg: "Owner Created Successfully",
-    //         data: nOwner
-    //     }
-    //     return returnData
-    // }catch(error){
-    //     let returnData = {
-    //         error: true,
-    //         msg: "Mobile Number Already Taken",
-    //         data: {}
-    //     }
-    //     return returnData
-    // }
-};
+    try{
+        let data = await Restaurant.findOneAndUpdate({_id: args.foodInput.restaurant_id}, {
+            $set: 
+            {
+                'food_categories.$[categoryid].foods.$[foodid].name':args.foodInput.name,
+                'food_categories.$[categoryid].foods.$[foodid].description':args.foodInput.description,
+                'food_categories.$[categoryid].foods.$[foodid].dish_img':args.foodInput.dish_img,
+                'food_categories.$[categoryid].foods.$[foodid].price':args.foodInput.price,
+                'food_categories.$[categoryid].foods.$[foodid].pirce_and_size':args.foodInput.pirce_and_size
+            },      
+        },
+        {
+            arrayFilters: [
+                {
+                    'categoryid._id': args.foodInput.food_categories_id
+                },
+                {
+                    'foodid._id': args.foodInput._id
+                }
+            ],
+            multi: true
+        }
+        )
+        let returnData = {
+            error: false,
+            msg: "Food Update Successfully",
+        }
+        return returnData
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Food Update Unsuccessful",
+        }
+        return returnData
+    }
+}
 
 exports.deleteFood = async (root, args, context) => {
-    // try{
-    //     const hash = bcrypt.hashSync(args.ownerInput.password, 8);
-    //     let newOwner = new User({
-    //         first_name: args.ownerInput.first_name,
-    //         last_name: args.ownerInput.last_name,
-    //         mobile: args.ownerInput.mobile,
-    //         email: args.ownerInput.email,
-    //         type: args.ownerInput.type,
-    //         owner_address: args.ownerInput.owner_address,
-    //         password: hash,
-    //         status: "pending",
-    //         national_id: args.ownerInput.national_id
-    //     })
-    //     let nOwner = await newOwner.save();
-    //     let returnData = {
-    //         error: false,
-    //         msg: "Owner Created Successfully",
-    //         data: nOwner
-    //     }
-    //     return returnData
-    // }catch(error){
-    //     let returnData = {
-    //         error: true,
-    //         msg: "Mobile Number Already Taken",
-    //         data: {}
-    //     }
-    //     return returnData
-    // }
+    try{
+        let data = await Restaurant.findOneAndUpdate({_id: args.foodInput.restaurant_id, 'food_categories._id': args.foodInput.food_categories_id}, {
+            $pull: {
+                'food_categories.$.foods': {
+                    _id: args.foodInput._id
+                }
+            }
+                
+        })
+        let returnData = {
+            error: false,
+            msg: "Owner Created Successfully",
+            data: nOwner
+        }
+        return returnData
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Mobile Number Already Taken",
+            data: {}
+        }
+        return returnData
+    }
 };
 
 exports.getAllFoods = async(root, args, context) => {
     
     try{
 
-        let foods = await Restaurant.find(
+        let foods = await Restaurant.findOne(
             {
                 _id: args.foodParams.restaurant_id,
                 'food_categories._id': args.foodParams.food_categories_id
             },
             {
-                'food_categories.$.foods.$': 1 
-            }
-            )
-
+                'food_categories.$.foods': 1 
+            })
+            
         let returnData = {
             error: false,
             msg: "Food Get Successfully",
-            data: foods
+            data: foods.food_categories[0].foods
         }
         return returnData
 
@@ -140,22 +141,52 @@ exports.getOneFood = async(root, args, context) => {
     
     try{
 
-        let foods = await Restaurant.find(
+        let foods = await Restaurant.findOne(
             {
                 _id: args.foodParams.restaurant_id,
-                'food_categories._id': args.foodParams.food_categories_id
+                food_categories: {
+                    $elemMatch: {
+                        _id: args.foodParams.food_categories_id,
+                        foods: {
+                            $elemMatch: {
+                                _id: args.foodParams._id
+                            }
+                        }
+                    }
+                },
             },
             {
-                'food_categories.$.foods.$': 1 
-            }
-            )
+                'food_categories.$.foods': 1 
+            })
+            if(foods !== null){
 
-        let returnData = {
-            error: false,
-            msg: "Food Get Successfully",
-            data: foods
-        }
-        return returnData
+                let foodsarr = foods.food_categories[0].foods;
+                let food = {}
+                foodsarr.map(result => {
+                    if(result._id == args.foodParams._id){
+                        food = result
+                    }
+                    
+                })
+
+                let returnData = {
+                    error: false,
+                    msg: "Food Get Successfully",
+                    data: food
+                }
+                return returnData
+
+            }else {
+
+                let returnData = {
+                    error: true,
+                    msg: "Food Get UnSuccessfully",
+                    data: {}
+                }
+                return returnData
+
+            }
+        
 
     }catch(error){
 
