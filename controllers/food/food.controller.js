@@ -1,5 +1,5 @@
-var ObjectId = require('mongodb').ObjectID;
-const Restaurant = require('../../models/restaurant.model');
+var ObjectId = require('mongodb').ObjectID
+const Restaurant = require('../../models/restaurant.model')
 
 exports.addFood = async (root, args, context) => {
     try {
@@ -10,42 +10,34 @@ exports.addFood = async (root, args, context) => {
             dish_img: args.foodInput.dish_img,
             price: args.foodInput.price,
             commission: args.foodInput.commission,
-            pirce_and_size: args.foodInput.pirce_and_size
-        };
+            price_and_size: args.foodInput.price_and_size
+        }
 
-        let data = Restaurant.findOneAndUpdate(
+        let data = await Restaurant.findOneAndUpdate(
             { _id: args.foodInput.restaurant_id, 'food_categories._id': args.foodInput.food_categories_id },
             {
                 $push: {
                     'food_categories.$.foods': foods
                 }
             }
-        );
-        console.log(data.n)
-        if (data.n > 0) {
-            let returnData = {
-                error: false,
-                msg: 'Successfully Added!!',
-                data: foods
-            };
-            return returnData;
-        }
+        )
 
         let returnData = {
-            error: true,
-            msg: 'Error Occured!!1',
-            data: {}
+            error: false,
+            msg: 'Successfully Added Food',
+            data: foods
         };
         return returnData;
+
     } catch (error) {
         let returnData = {
             error: true,
-            msg: 'Error Occured!!2',
+            msg: 'Problem in adding Food',
             data: {}
-        };
+        }
         return returnData;
     }
-};
+}
 
 exports.updateFood = async (root, args, context) => {
     // try{
