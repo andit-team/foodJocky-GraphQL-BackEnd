@@ -27,6 +27,11 @@ const resolvers = {
     return result
   },
 
+  async verifyOwnerToken(root, args, context) {
+    let result = await OwnerController.verifyOwnerToken(root, args, context)
+    return result
+  }
+
   },
   Mutation: {
     async addOwner(root, args, context) {
