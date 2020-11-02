@@ -4,8 +4,12 @@ const resolvers = {
 
   Query: {
     async getAllFoods(root, args, context) {
-      let results = await FoodController.getAllFoodsByOwner(root, args, context)
+      let results = await FoodController.getAllFoods(root, args, context)
       return results
+    },
+    async getOneFood(root, args, context) {
+      let result = await FoodController.getOneFood(root, args, context)
+      return result
     },
   },
   Mutation: {

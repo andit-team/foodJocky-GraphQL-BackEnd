@@ -3,6 +3,7 @@ const typeDefs = gql`
 
 type Query {
     getAllFoods(foodParams: FoodParams): FoodsOutPut
+    getOneFood(foodParams: FoodParams): foodAddOutPut
   }
 
   type Mutation {
