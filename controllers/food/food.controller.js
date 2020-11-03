@@ -121,6 +121,7 @@ exports.getAllFoods = async(root, args, context) => {
             owner: context.user.user_id
         },
         {
+            name: 1,
             food_categories: 1  
         })
             

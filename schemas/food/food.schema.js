@@ -31,6 +31,7 @@ type FoodCategoryOutPut {
 
 type FoodCategoryWithId {
   _id: ID
+  name: String
   food_categories: [FoodCategory]
 }
 
