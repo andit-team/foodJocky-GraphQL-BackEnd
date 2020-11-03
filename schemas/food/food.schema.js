@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
 type Query {
-    getAllFoods(foodParams: FoodParams): FoodsOutPut
+    getAllFoods: FoodCategoryOutPut
     getOneFood(foodParams: FoodParams): foodAddOutPut
   }
 
@@ -21,6 +21,17 @@ type Query {
   type FoodEditDeleteOutPut {
     error: Boolean
     msg: String
+}
+
+type FoodCategoryOutPut {
+  error: Boolean
+  msg: String
+  data: [FoodCategoryWithId]
+}
+
+type FoodCategoryWithId {
+  _id: ID
+  food_categories: [FoodCategory]
 }
 
 type FoodsOutPut {

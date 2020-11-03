@@ -104,22 +104,30 @@ exports.deleteFood = async (root, args, context) => {
 };
 
 exports.getAllFoods = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'owner'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
-
-        let foods = await Restaurant.findOne(
-            {
-                _id: args.foodParams.restaurant_id,
-                'food_categories._id': args.foodParams.food_categories_id
-            },
-            {
-                'food_categories.$.foods': 1 
-            })
+        let foodCategories = await Restaurant.find({
+            owner: context.user.user_id
+        },
+        {
+            food_categories: 1  
+        })
             
         let returnData = {
             error: false,
             msg: "Food Get Successfully",
-            data: foods.food_categories[0].foods
+            data: foodCategories
         }
         return returnData
 
