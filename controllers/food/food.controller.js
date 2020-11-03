@@ -80,25 +80,24 @@ exports.updateFood = async (root, args, context) => {
 
 exports.deleteFood = async (root, args, context) => {
     try{
-        let data = await Restaurant.findOneAndUpdate({_id: args.foodInput.restaurant_id, 'food_categories._id': args.foodInput.food_categories_id}, {
+        console.log(args.foodParams)
+        let data = await Restaurant.findOneAndUpdate({_id: args.foodParams.restaurant_id, 'food_categories._id': args.foodParams.food_categories_id}, {
             $pull: {
                 'food_categories.$.foods': {
-                    _id: args.foodInput._id
+                    _id: args.foodParams._id
                 }
             }
                 
         })
         let returnData = {
             error: false,
-            msg: "Owner Created Successfully",
-            data: nOwner
+            msg: "Food Delete Successfull"
         }
         return returnData
     }catch(error){
         let returnData = {
             error: true,
-            msg: "Mobile Number Already Taken",
-            data: {}
+            msg: "Problem in deleting food",
         }
         return returnData
     }
