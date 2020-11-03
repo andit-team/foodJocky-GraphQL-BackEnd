@@ -80,7 +80,6 @@ exports.updateFood = async (root, args, context) => {
 
 exports.deleteFood = async (root, args, context) => {
     try{
-        console.log(args.foodParams)
         let data = await Restaurant.findOneAndUpdate({_id: args.foodParams.restaurant_id, 'food_categories._id': args.foodParams.food_categories_id}, {
             $pull: {
                 'food_categories.$.foods': {
