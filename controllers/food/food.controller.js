@@ -48,7 +48,8 @@ exports.updateFood = async (root, args, context) => {
                 'food_categories.$[categoryid].foods.$[foodid].description':args.foodInput.description,
                 'food_categories.$[categoryid].foods.$[foodid].dish_img':args.foodInput.dish_img,
                 'food_categories.$[categoryid].foods.$[foodid].price':args.foodInput.price,
-                'food_categories.$[categoryid].foods.$[foodid].pirce_and_size':args.foodInput.pirce_and_size
+                'food_categories.$[categoryid].foods.$[foodid].commission':args.foodInput.commission,
+                'food_categories.$[categoryid].foods.$[foodid].price_and_size':args.foodInput.price_and_size
             },      
         },
         {
