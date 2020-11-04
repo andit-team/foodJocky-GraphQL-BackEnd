@@ -201,14 +201,14 @@ exports.updateRestaurant = async(root, args, context) => {
 
 }
 
-// Rest. Status Update
-exports.updateRestaurantActivity = async(root, args, context) => {
+// Rest. Status Update by owner
+exports.updateRestaurantActivityByOwner = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'owner' ||  context.user.type !== 'restaurant'){
+    if(context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
-            msg: "Owner / Restaurant Login Required",
+            msg: "Owner Login Required",
             data: {}
         }
         return returnData
@@ -218,11 +218,67 @@ exports.updateRestaurantActivity = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: args.restaurantInput._id
+            _id: args.rest_id
         }
 
         let upRestaurant = {
-            activity: args.restaurantInput.price_type,
+            active: args.status,
+        }
+
+        let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
+
+        
+        if(uRestaurant.n > 0){
+            let returnData = {
+                error: false,
+                msg: "Activity Status Updated Successfully"
+            }
+            return returnData
+
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Activity Update Failed!!!"
+            }
+            return returnData
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Activity Status Update Failed!!!"
+        }
+        return returnData
+
+    }
+    
+
+}
+
+// Rest. Status Self Update
+exports.updateRestaurantActivityBySelf = async(root, args, context) => {
+
+    if(context.user.type !== 'restaurant'){
+
+        let returnData = {
+            error: true,
+            msg: "Restaurant Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let updateArgs = {
+            _id: context.user.user_id
+        }
+
+        let upRestaurant = {
+            active: args.status,
         }
 
         let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)

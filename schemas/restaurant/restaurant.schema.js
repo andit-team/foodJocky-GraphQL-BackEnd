@@ -17,7 +17,9 @@ type Mutation {
     updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
     deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
     updateRestaurantStatus(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
-    updateRestaurantActivity(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
+
+    updateRestaurantActivityByOwner(status: Boolean, rest_id: ID ): RestaurantEditDeleteOutPut
+    updateRestaurantActivityBySelf(status: Boolean): RestaurantEditDeleteOutPut
 }
 
 type RestaurantAddOutPut {
