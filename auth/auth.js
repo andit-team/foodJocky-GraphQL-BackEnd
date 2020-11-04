@@ -33,8 +33,7 @@ module.exports = (req) => {
 
                     const authData = {
                         type: 'restaurant',
-                        user_id: decodedToken._id,
-                        error: false
+                        user_id: decodedToken._id
                     }
                     return authData;
 
