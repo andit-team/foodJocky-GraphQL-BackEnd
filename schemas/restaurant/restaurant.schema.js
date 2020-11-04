@@ -10,6 +10,9 @@ type Query {
     getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
     getOneRestaurant(_id: ID): RestaurantAddOutPut
     restaurantLogin(user: String, password: String): RestaurantAddOutPut
+
+    SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
+
 }
 
 type Mutation {

@@ -430,3 +430,70 @@ exports.updateRestaurantStatus = async(root, args, context) => {
     
 
 }
+
+exports.SearchRestaurants = async(root, args, context) => {
+  
+    try{
+  
+        let query = {};
+
+        if('' === args.name){
+    
+            query = {
+                location: {
+                 $near: {
+                  $maxDistance: 20000,
+                  $geometry: {
+                   type: "Point",
+                   coordinates: [args.longitude, args.latitude]
+                  }
+                 }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade
+               }
+    
+        }else{
+            query = {
+                location: {
+                 $near: {
+                  $maxDistance: 20000,
+                  $geometry: {
+                   type: "Point",
+                   coordinates: [args.longitude, args.latitude]
+                  }
+                 }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                $or: [
+                    {
+                        name: {$regex: args.name, $options: 'i'}
+                    },
+                    {
+                        'food_categories.name': {$regex: args.name, $options: 'i'}
+                    },
+                    {
+                        'food_categories.foods.name': {$regex: args.name, $options: 'i'}
+                    },
+                ]
+               }
+        }
+  
+      let result = await Restaurant.find(query)
+  
+      let returnData = {
+          error: false,
+          msg: "Restaurant Get Successfully",
+          data: result
+      }
+      return returnData
+  
+    }catch(error){
+  
+      let returnData = {
+          error: true,
+          msg: "Restaurant Get Unsuccessful"
+      }
+      return returnData
+  
+    }
+  }
