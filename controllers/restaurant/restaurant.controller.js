@@ -160,7 +160,6 @@ exports.updateRestaurant = async(root, args, context) => {
             cover_img: args.restaurantInput.cover_img,
             thumb_img: args.restaurantInput.thumb_img,
             address: args.restaurantInput.address,
-            food_categories: args.restaurantInput.food_categories,
             price_type: args.restaurantInput.price_type,
         }
 
@@ -377,7 +376,7 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
         query.status = args.status
     }
 
-    let result = await Restaurant.find(query)
+    let result = await Restaurant.find(query).populate('owner').populate('plan')
 
     let returnData = {
         error: false,
@@ -421,7 +420,7 @@ exports.getAllRestaurantsByOwner = async(root, args, context) => {
         query.status = args.status
     }
 
-    let result = await Restaurant.find(query)
+    let result = await Restaurant.find(query).populate('owner').populate('plan')
 
     let returnData = {
         error: false,
@@ -452,7 +451,7 @@ exports.getOneRestaurant = async(root, args, context) => {
 
     try{
 
-        let result = await Restaurant.findById(args._id)
+        let result = await Restaurant.findById(args._id).populate('owner').populate('plan')
 
         let returnData = {
             error: false,
@@ -543,3 +542,70 @@ exports.updateRestaurantStatus = async(root, args, context) => {
     
 
 }
+
+exports.SearchRestaurants = async(root, args, context) => {
+  
+    try{
+  
+        let query = {};
+
+        if('' === args.name){
+    
+            query = {
+                location: {
+                 $near: {
+                  $maxDistance: 20000,
+                  $geometry: {
+                   type: "Point",
+                   coordinates: [args.longitude, args.latitude]
+                  }
+                 }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade
+               }
+    
+        }else{
+            query = {
+                location: {
+                 $near: {
+                  $maxDistance: 20000,
+                  $geometry: {
+                   type: "Point",
+                   coordinates: [args.longitude, args.latitude]
+                  }
+                 }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                $or: [
+                    {
+                        name: {$regex: args.name, $options: 'i'}
+                    },
+                    {
+                        'food_categories.name': {$regex: args.name, $options: 'i'}
+                    },
+                    {
+                        'food_categories.foods.name': {$regex: args.name, $options: 'i'}
+                    },
+                ]
+               }
+        }
+  
+      let result = await Restaurant.find(query)
+  
+      let returnData = {
+          error: false,
+          msg: "Restaurant Get Successfully",
+          data: result
+      }
+      return returnData
+  
+    }catch(error){
+  
+      let returnData = {
+          error: true,
+          msg: "Restaurant Get Unsuccessful"
+      }
+      return returnData
+  
+    }
+  }

@@ -25,8 +25,14 @@ const userSchema = new Schema({
     type: { type: String },
     coordinates: []
   },
-  address: [{
-      type: Object
+  addresses: [{
+      address: {
+        type: String
+    },
+    location: {
+        lat: String,
+        lng: String
+    }
   }],
 //   orders: [{
 //       type: mongoose.Schema.Types.ObjectId,

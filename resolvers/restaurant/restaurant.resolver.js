@@ -22,6 +22,11 @@ const resolvers = {
         return results
      },
 
+     async SearchRestaurants(root, args, context) {
+      let results = await RestaurantController.SearchRestaurants(root, args, context)
+      return results
+   },
+
     async getOneRestaurant(root, args, context) {
       // todo
       let result = await RestaurantController.getOneRestaurant(root, args, context)

@@ -7,6 +7,10 @@ const resolvers = {
       let results = await FoodController.getAllFoods(root, args, context)
       return results
     },
+    async getAllFoodsByAdmin(root, args, context) {
+      let results = await FoodController.getAllFoodsByAdmin(root, args, context)
+      return results
+    },
     async getOneFood(root, args, context) {
       let result = await FoodController.getOneFood(root, args, context)
       return result
