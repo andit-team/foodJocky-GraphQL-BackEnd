@@ -117,7 +117,7 @@ exports.ownerLogin = async(root, args, context) => {
 
 exports.updateOwner = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'owner'){
+    if(context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
@@ -219,7 +219,7 @@ exports.deleteOwner = async(root, args, context) => {
 
 exports.getAllOwners = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,
@@ -290,7 +290,7 @@ exports.getOneOwner = async(root, args, context) => {
 
 exports.updateOwnerWithStatus = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,

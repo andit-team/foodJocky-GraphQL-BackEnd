@@ -152,7 +152,7 @@ exports.deleteFood = async (root, args, context) => {
 
 exports.getAllFoods = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'owner'){
+    if(context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
