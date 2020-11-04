@@ -76,6 +76,7 @@ const RestaurantsSchema = new Schema({
                     description: String,
                     dish_img: String,
                     price: Number,
+                    active: Boolean,
                     commission: Number,
                     price_and_size: [
                         {

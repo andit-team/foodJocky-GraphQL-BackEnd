@@ -30,7 +30,7 @@ const resolvers = {
 
    async restaurantLogin(root, args, context) {
      let result = await RestaurantController.restaurantLogin(root, args, context)
-     return 
+     return result
    }
 
   },

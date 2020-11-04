@@ -227,7 +227,7 @@ exports.updateRestaurantActivityByOwner = async(root, args, context) => {
 
         let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
 
-        
+        console.log(uRestaurant)
         if(uRestaurant.n > 0){
             let returnData = {
                 error: false,

@@ -11,7 +11,7 @@ type Query {
     updateFood(foodInput: FoodInput): FoodEditDeleteOutPut
     deleteFood(foodParams: FoodParams): FoodEditDeleteOutPut
 
-    updateFoodStatus(foodParams: FoodParams): FoodEditDeleteOutPut
+    updateFoodStatus(status: Boolean cat_id:ID food_id: ID): FoodEditDeleteOutPut
   }
 
   type foodAddOutPut {

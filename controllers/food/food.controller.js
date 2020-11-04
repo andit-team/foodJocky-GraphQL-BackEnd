@@ -77,6 +77,53 @@ exports.updateFood = async (root, args, context) => {
     }
 }
 
+exports.updateFoodStatus = async (root, args, context) => {
+
+    try{
+
+        if(context.user.type !== 'restaurant'){
+
+            let returnData = {
+                error: true,
+                msg: "Restaurant Login Required",
+                data: {}
+            }
+            return returnData
+    
+        }
+
+        let data = await Restaurant.findOneAndUpdate({_id:  context.user.user_id}, {
+            $set: 
+            {
+                'food_categories.$[categoryid].foods.$[foodid].active':args.status
+            },      
+        },
+        {
+            arrayFilters: [
+                {
+                    'categoryid._id': args.cat_id
+                },
+                {
+                    'foodid._id': args.food_id
+                }
+            ],
+            multi: true
+        }
+        )
+        let returnData = {
+            error: false,
+            msg: "Food Status Updated Successfully",
+        }
+        return returnData
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Food Status Update Failed!!!",
+        }
+        return returnData
+    }
+}
+
 exports.deleteFood = async (root, args, context) => {
     try{
         let data = await Restaurant.findOneAndUpdate({_id: args.foodInput.restaurant_id, 'food_categories._id': args.foodInput.food_categories_id}, {
