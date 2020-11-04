@@ -31,6 +31,15 @@ module.exports = (req) => {
                     }
                     return authData;
 
+                }else if(decodedToken.type === 'restaurant'){
+
+                    const authData = {
+                        type: 'restaurant',
+                        user_id: decodedToken._id,
+                        error: false
+                    }
+                    return authData;
+
                 }
 
             }

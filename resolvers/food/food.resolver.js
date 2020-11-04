@@ -23,6 +23,11 @@ const resolvers = {
       return result
     },
 
+    async updateFoodStatus(root, args, context) {
+      let result = await FoodController.updateFoodStatus(root, args, context)
+      return result
+    },
+
     async deleteFood(root, args, context) {
         let result = await FoodController.deleteFood(root, args, context)
         return result

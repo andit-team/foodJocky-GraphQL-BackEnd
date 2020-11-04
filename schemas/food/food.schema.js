@@ -10,6 +10,8 @@ type Query {
     addFood(foodInput: FoodInput): foodAddOutPut
     updateFood(foodInput: FoodInput): FoodEditDeleteOutPut
     deleteFood(foodParams: FoodParams): FoodEditDeleteOutPut
+
+    updateFoodStatus(foodParams: FoodParams): FoodEditDeleteOutPut
   }
 
   type foodAddOutPut {

@@ -100,7 +100,8 @@ exports.restaurantLogin = async(root, args, context) => {
 
         const token = jwt.sign(
             {
-                _id: restaurant._id
+                _id: restaurant._id,
+                type: 'restaurant'
             }
             , process.env.SECRET, 
             {
@@ -197,6 +198,67 @@ exports.updateRestaurant = async(root, args, context) => {
 
     }
     
+
+}
+
+// Rest. Status Update
+exports.updateRestaurantActivity = async(root, args, context) => {
+
+    if(context.user.error !== false && context.user.type !== 'owner' ||  context.user.type !== 'restaurant'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner / Restaurant Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let updateArgs = {
+            _id: args.restaurantInput._id
+        }
+
+        let upRestaurant = {
+            activity: args.restaurantInput.price_type,
+        }
+
+        let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
+
+        
+        if(uRestaurant.n > 0){
+            let returnData = {
+                error: false,
+                msg: "Activity Status Updated Successfully"
+            }
+            return returnData
+
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Activity Update Failed!!!"
+            }
+            return returnData
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Activity Status Update Failed!!!"
+        }
+        return returnData
+
+    }
+    
+
+}
+
+// Food Status Update
+exports.updateFoodStatus = async(root, args, context) => {
 
 }
 
@@ -359,7 +421,6 @@ exports.getOneRestaurant = async(root, args, context) => {
     }
 
 }
-
 
 exports.updateRestaurantStatus = async(root, args, context) => {
 

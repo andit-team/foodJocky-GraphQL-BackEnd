@@ -45,6 +45,11 @@ const resolvers = {
       let result = await RestaurantController.updateRestaurant(root, args, context)
       return result
     },
+    
+    async updateRestaurantActivity(root, args, context) {
+      let result = await RestaurantController.updateRestaurantActivity(root, args, context)
+      return result
+    },
 
     async deleteRestaurant(root, args, context) {
         //let result = await RestaurantController.deleteOwner(root, args, context)
