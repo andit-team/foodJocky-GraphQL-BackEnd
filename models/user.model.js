@@ -25,7 +25,7 @@ const userSchema = new Schema({
     type: { type: String },
     coordinates: []
   },
-  address: [{
+  addresses: [{
       address: {
         type: String
     },

@@ -4,12 +4,14 @@ const typeDefs = gql`
 type Query {
     getAllCustomers: CustomersOutPut
     getOneCustomer: customerAddOutPut
+    customerLogin(mobile: String, password: String): customerAddOutPut
   }
 
   type Mutation {
     addCustomer(customerInput: CustomerInput): customerAddOutPut
     updateCustomer(customerInput: CustomerInput): CustomerEditDeleteOutPut
     deleteCustomer(_id: ID): CustomerEditDeleteOutPut
+    updateCustomerLocation(address: Address): CustomerEditDeleteOutPut
   }
 
   input CustomerInput {
@@ -33,6 +35,7 @@ type Query {
 }
 
   type customerAddOutPut {
+      token: String
       error: Boolean
       msg: String
       data: CustomerData
