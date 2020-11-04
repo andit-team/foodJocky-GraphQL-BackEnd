@@ -17,8 +17,7 @@ module.exports = (req) => {
 
                     const authData = {
                         type: 'admin',
-                        user_id: decodedToken._id,
-                        error: false
+                        user_id: decodedToken._id
                     }
                     return authData;
 
@@ -26,8 +25,7 @@ module.exports = (req) => {
 
                     const authData = {
                         type: 'owner',
-                        user_id: decodedToken._id,
-                        error: false
+                        user_id: decodedToken._id
                     }
                     return authData;
 
@@ -37,14 +35,14 @@ module.exports = (req) => {
 
             const authData = {
                 user_id: null,
-                error: true
+                type: ""
             }
             return authData
 
     }catch (err) {
         const authData = {
             user_id: null,
-            error: true
+            type: ""
         }
         return authData
     }

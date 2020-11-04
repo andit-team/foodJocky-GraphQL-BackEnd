@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 exports.addRestaurant = async(root, args, context) => {
    
-    if(context.user.error !== false && context.user.type !== 'owner'){
+    if(context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
@@ -132,7 +132,7 @@ exports.restaurantLogin = async(root, args, context) => {
 // By Owner
 exports.updateRestaurant = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'owner'){
+    if(context.user.type !== 'owner'){
 
         let returnData = {
             error: true,
@@ -241,7 +241,7 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
   // todo
 
-  if(context.user.error !== false && context.user.type !== 'admin'){
+  if(context.user.type !== 'admin'){
 
     let returnData = {
         error: true,
@@ -287,7 +287,7 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 exports.getAllRestaurantsByOwner = async(root, args, context) => {
   // todo
 
-  if(context.user.error !== false && context.user.type !== 'owner'){
+  if(context.user.type !== 'owner'){
 
     let returnData = {
         error: true,
@@ -363,7 +363,7 @@ exports.getOneRestaurant = async(root, args, context) => {
 
 exports.updateRestaurantStatus = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,

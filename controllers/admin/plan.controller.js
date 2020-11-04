@@ -2,7 +2,7 @@ const Plan = require('../../models/plan.model')
 
 exports.addPlan = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,
@@ -47,7 +47,7 @@ exports.addPlan = async(root, args, context) => {
 
 exports.deletePlan = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,
@@ -99,7 +99,7 @@ exports.deletePlan = async(root, args, context) => {
 
 exports.updatePlan = async(root, args, context) => {
 
-    if(context.user.error !== false && context.user.type !== 'admin'){
+    if(context.user.type !== 'admin'){
 
         let returnData = {
             error: true,
