@@ -159,7 +159,6 @@ exports.updateRestaurant = async(root, args, context) => {
             cover_img: args.restaurantInput.cover_img,
             thumb_img: args.restaurantInput.thumb_img,
             address: args.restaurantInput.address,
-            food_categories: args.restaurantInput.food_categories,
             price_type: args.restaurantInput.price_type,
         }
 
