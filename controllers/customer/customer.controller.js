@@ -1,13 +1,15 @@
 const User = require('../../models/user.model')
+const bcrypt = require('bcryptjs')
 
 exports.addCustomer = async (root, args, context) => {
     try {
+        const hash = bcrypt.hashSync(args.customerInput.password, 8)
         let user = new User({
-            mobile: args.CustomerInput.mobile,
-            email: args.CustomerInput.email,
-            password: args.CustomerInput.password,
-            first_name: args.CustomerInput.first_name,
-            last_name: args.CustomerInput.last_name,
+            mobile: args.customerInput.mobile,
+            email: args.customerInput.email,
+            password: hash,
+            first_name: args.customerInput.first_name,
+            last_name: args.customerInput.last_name,
             type: 'customer'
         })
 
@@ -33,11 +35,11 @@ exports.addCustomer = async (root, args, context) => {
 exports.updateCustomer = async (root, args, context) => {
     try {
         let updateArgs = {
-            mobile: args.CustomerInput.mobile,
-            email: args.CustomerInput.email,
-            password: args.CustomerInput.password,
-            first_name: args.CustomerInput.first_name,
-            last_name: args.CustomerInput.last_name,
+            mobile: args.customerInput.mobile,
+            email: args.customerInput.email,
+            password: args.customerInput.password,
+            first_name: args.customerInput.first_name,
+            last_name: args.customerInput.last_name,
         }
 
         let query = {
