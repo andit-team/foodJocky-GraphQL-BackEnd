@@ -30,6 +30,10 @@ exports.addRestaurant = async(root, args, context) => {
             cover_img: args.restaurantInput.cover_img,
             thumb_img: args.restaurantInput.thumb_img,
             address: args.restaurantInput.address,
+            location: {
+                type: "Point",
+                coordinates: [args.restaurantInput.address.location.lng,args.restaurantInput.address.location.lat]
+            },
             food_categories: args.restaurantInput.food_categories,
             price_type: args.restaurantInput.price_type,
             status: "pending"
@@ -591,6 +595,7 @@ exports.SearchRestaurants = async(root, args, context) => {
         }
   
       let result = await Restaurant.find(query)
+      console.log(args)
   
       let returnData = {
           error: false,
