@@ -151,11 +151,11 @@ exports.deleteFood = async (root, args, context) => {
 
 exports.getAllFoods = async(root, args, context) => {
 
-    if(context.user.type !== 'owner'){
+    if(context.user.type !== 'owner' || context.user.type !== 'restaurant'){
 
         let returnData = {
             error: true,
-            msg: "Owner Login Required",
+            msg: "Owner / Restaurant Login Required",
             data: []
         }
         return returnData
