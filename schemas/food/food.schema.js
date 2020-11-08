@@ -3,6 +3,7 @@ const typeDefs = gql`
 
 type Query {
     getAllFoods: FoodCategoryOutPut
+    getAllFoodsByRestaurant: FoodCategoryOutPut
     getAllFoodsByAdmin(owner_id: ID): FoodCategoryOutPut
     getOneFood(foodParams: FoodParams): foodAddOutPut
   }
