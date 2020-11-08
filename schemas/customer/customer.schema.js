@@ -5,6 +5,7 @@ type Query {
     getAllCustomers: CustomersOutPut
     getOneCustomer: customerAddOutPut
     customerLogin(mobile: String, password: String): customerAddOutPut
+    verifyCustomerToken(token: String): customerAddOutPut
   }
 
   type Mutation {

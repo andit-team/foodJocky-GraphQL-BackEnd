@@ -15,6 +15,10 @@ const resolvers = {
       let result = await CustomerController.customerLogin(root, args, context)
       return result
     },
+    async verifyCustomerToken(root, args, context) {
+      let result = await CustomerController.verifyCustomerToken(root, args, context)
+      return result
+    },
   },
   Mutation: {
     async addCustomer(root, args, context) {

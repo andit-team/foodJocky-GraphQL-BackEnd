@@ -37,6 +37,14 @@ module.exports = (req) => {
                     }
                     return authData;
 
+                }else if(decodedToken.type === 'customer'){
+
+                    const authData = {
+                        type: 'customer',
+                        user_id: decodedToken._id
+                    }
+                    return authData;
+
                 }
 
             }
