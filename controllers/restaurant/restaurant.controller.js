@@ -565,7 +565,8 @@ exports.SearchRestaurants = async(root, args, context) => {
                   }
                  }
                 },
-                restaurant_or_homemade: args.restaurant_or_homemade
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                status: 'approved'
                }
     
         }else{
@@ -580,6 +581,7 @@ exports.SearchRestaurants = async(root, args, context) => {
                  }
                 },
                 restaurant_or_homemade: args.restaurant_or_homemade,
+                status: 'approved',
                 $or: [
                     {
                         name: {$regex: args.name, $options: 'i'}
