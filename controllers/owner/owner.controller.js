@@ -96,7 +96,7 @@ exports.ownerLogin = async(root, args, context) => {
         let returnData = {
             token: token,
             error: false,
-            msg: "owner Login Successful",
+            msg: "Owner Login Successful",
             data: owner
         }
         return returnData
@@ -105,7 +105,7 @@ exports.ownerLogin = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "owner Login UnSuccessful",
+            msg: "Owner Login UnSuccessful",
             data: {}
         }
         return returnData

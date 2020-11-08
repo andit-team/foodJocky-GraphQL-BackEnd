@@ -52,7 +52,7 @@ exports.addRestaurant = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Mobile Number Already Taken",
+            msg: "Restaurant Create Failed",
             data: {}
         }
         return returnData
