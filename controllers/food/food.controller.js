@@ -10,7 +10,8 @@ exports.addFood = async (root, args, context) => {
             dish_img: args.foodInput.dish_img,
             price: args.foodInput.price,
             commission: args.foodInput.commission,
-            price_and_size: args.foodInput.price_and_size
+            price_and_size: args.foodInput.price_and_size,
+            active: true
         }
 
         let data = await Restaurant.findOneAndUpdate(

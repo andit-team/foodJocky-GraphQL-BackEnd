@@ -100,6 +100,7 @@ type Food {
   dish_img: String
   price: Float
   commission: Float
+  active: Boolean
   price_and_size: [PriceAndSize]
 }
 
