@@ -3,7 +3,7 @@ const typeDefs = gql`
 
 type Query {
     getAllFoods: FoodCategoryOutPut
-    getAllFoodsByRestaurant: FoodCategoryOutPut
+    getAllFoodsByRestaurant: FoodCategoryOutPutOne
     getAllFoodsByAdmin(owner_id: ID): FoodCategoryOutPut
     getOneFood(foodParams: FoodParams): foodAddOutPut
   }
@@ -31,6 +31,12 @@ type FoodCategoryOutPut {
   error: Boolean
   msg: String
   data: [FoodCategoryWithId]
+}
+
+type FoodCategoryOutPutOne {
+  error: Boolean
+  msg: String
+  data: FoodCategoryWithId
 }
 
 type FoodCategoryWithId {

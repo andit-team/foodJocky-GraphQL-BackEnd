@@ -198,8 +198,8 @@ exports.getAllFoodsByRestaurant = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Owner / Restaurant Login Required",
-            data: []
+            msg: "Restaurant Login Required",
+            data: {}
         }
         return returnData
 
@@ -211,7 +211,7 @@ exports.getAllFoodsByRestaurant = async(root, args, context) => {
             name: 1,
             food_categories: 1  
         })
-            
+  
         let returnData = {
             error: false,
             msg: "Food Get Successfully",
