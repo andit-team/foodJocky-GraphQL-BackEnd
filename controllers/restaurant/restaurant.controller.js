@@ -616,3 +616,49 @@ exports.SearchRestaurants = async(root, args, context) => {
   
     }
   }
+
+  exports.verifyRestaurantToken = async(root, args, context) => {
+    
+    try{
+
+        const decodedToken = jwt.verify(
+            args.token,
+            process.env.SECRET
+        )
+
+        if(decodedToken.type === 'restaurant'){
+
+            let restaurant = await Restaurant.findById(decodedToken._id)
+
+            let returnData = {
+                error: false,
+                msg: "Token Verified Successfully",
+                data: restaurant
+            }
+            return returnData
+
+        }else{
+
+            let returnData = {
+                error: true,
+                msg: "Token Not Verified",
+                data: {}
+            }
+            return returnData
+
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Token Not Verified",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}

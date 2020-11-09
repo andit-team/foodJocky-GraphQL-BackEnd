@@ -36,7 +36,12 @@ const resolvers = {
    async restaurantLogin(root, args, context) {
      let result = await RestaurantController.restaurantLogin(root, args, context)
      return result
-   }
+   },
+
+   async verifyRestaurantToken(root, args, context) {
+    let result = await RestaurantController.verifyRestaurantToken(root, args, context)
+    return result
+  }
 
   },
   Mutation: {

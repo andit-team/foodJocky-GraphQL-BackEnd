@@ -12,6 +12,7 @@ type Query {
     restaurantLogin(user: String, password: String): RestaurantAddOutPut
 
     SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
+    verifyRestaurantToken(token: String): RestaurantAddOutPut
 
 }
 
