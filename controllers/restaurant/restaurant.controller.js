@@ -36,7 +36,8 @@ exports.addRestaurant = async(root, args, context) => {
             },
             food_categories: args.restaurantInput.food_categories,
             price_type: args.restaurantInput.price_type,
-            status: "pending"
+            status: "pending",
+            rejection_msg: "Your Request is in Pending Mode.......",
         })
 
         let nRestaurant = await newRestaurant.save();

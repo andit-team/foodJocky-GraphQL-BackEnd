@@ -16,6 +16,7 @@ exports.addOwner = async(root, args, context) => {
             owner_address: args.ownerInput.owner_address,
             password: hash,
             status: "pending",
+            rejection_msg: "Your Request is in Pending Mode.......",
             national_id: args.ownerInput.national_id
         })
 
