@@ -61,11 +61,11 @@ exports.ownerLogin = async(root, args, context) => {
             return returnData
         }
 
-        if(owner.status !== 'approved'){
+        if(owner.status === 'pending' || owner.status === 'suspended' || owner.status === 'cancelled'){
             let returnData = {
                 token: '',
                 error: true,
-                msg: "Owner Not Approved",
+                msg: owner.rejection_msg,
                 data: {}
             }
             return returnData
