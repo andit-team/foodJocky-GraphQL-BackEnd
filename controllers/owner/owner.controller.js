@@ -314,7 +314,8 @@ exports.updateOwnerWithStatus = async(root, args, context) => {
             email: args.ownerInput.email,
             owner_address: args.ownerInput.owner_address,
             national_id: args.ownerInput.national_id,
-            status: args.ownerInput.status
+            status: args.ownerInput.status,
+            rejection_msg: args.ownerInput.rejection_msg
         }
 
         if(args.ownerInput.password !== ''){

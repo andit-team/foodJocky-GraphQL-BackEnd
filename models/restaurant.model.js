@@ -140,7 +140,10 @@ const RestaurantsSchema = new Schema({
     active: {
         type: Boolean,
         default: true
-    }
+    },
+    rejection_msg:{
+        type: String
+    },
     
 },
 {

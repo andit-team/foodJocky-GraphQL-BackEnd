@@ -507,7 +507,8 @@ exports.updateRestaurantStatus = async(root, args, context) => {
             address: args.restaurantInput.address,
             food_categories: args.restaurantInput.food_categories,
             price_type: args.restaurantInput.price_type,
-            status: args.restaurantInput.status
+            status: args.restaurantInput.status,
+            rejection_msg: args.ownerInput.rejection_msg
         }
 
         if(args.restaurantInput.password !== ''){

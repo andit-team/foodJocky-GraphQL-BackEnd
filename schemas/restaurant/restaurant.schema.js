@@ -61,6 +61,7 @@ input RestaurantInput {
     price_type: String
     status: String
     active: Boolean
+    rejection_msg: String
 }
 
 input InputFoodCategories {
@@ -85,6 +86,7 @@ input InputFoodCategories {
     price_type: String
     status: String
     active: Boolean
+    rejection_msg: String
   }
 
   type FoodCategory {
