@@ -12,7 +12,6 @@ const auth = require('./auth/auth')
 const app = express()
 const PORT = process.env.PORT
 //process.env.NODE_ENV = 'production'
-//hello
 
 // Configure Mongoose to Connect to MongoDB
 mongoose
