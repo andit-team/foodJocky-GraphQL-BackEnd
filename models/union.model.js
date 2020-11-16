@@ -9,7 +9,7 @@ const UnionSchema = new Schema({
     id:{
         type: String
     },
-    upazilla_id: {
+    upazila_id: {
         type: String
     },
     name: {

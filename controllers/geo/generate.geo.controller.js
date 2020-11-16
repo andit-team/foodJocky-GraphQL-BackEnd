@@ -91,3 +91,254 @@
 
 
  }
+
+
+ exports.getDivisions = async(root, args, context)=> {
+
+    try{
+
+        let divisionData = await division.find();
+        if(!divisionData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding Division",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "Division Data Get Successfully",
+            data: divisionData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding Division",
+            data: []
+        }
+        return returnData
+    }
+
+
+ }
+
+
+ exports.getDistricts = async(root, args, context)=> {
+
+
+    try{
+
+        let districtData = await district.find({division_id: args.division_id});
+        if(!districtData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding district",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "district Data Get Successfully",
+            data: districtData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding district",
+            data: []
+        }
+        return returnData
+    }
+
+
+}
+
+
+exports.getUpazillas = async(root, args, context)=> {
+
+    try{
+
+        let upazilaData = await upazila.find({district_id: args.district_id});
+        if(!upazilaData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding upazila",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "upazila Data Get Successfully",
+            data: upazilaData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding upazila",
+            data: []
+        }
+        return returnData
+    }
+
+
+}
+
+
+exports.getUnions = async(root, args, context)=> {
+
+    try{
+
+        let unionData = await union.find({upazila_id: args.upazilla_id});
+        if(!unionData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding union",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "union Data Get Successfully",
+            data: unionData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding union",
+            data: []
+        }
+        return returnData
+    }
+
+
+}
+
+exports.getVillages = async(root, args, context)=> {
+
+    try{
+
+        let villageData = await village.find({union_id: args.union_id});
+        if(!villageData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding village",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "village Data Get Successfully",
+            data: villageData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding village",
+            data: []
+        }
+        return returnData
+    }
+
+}
+
+
+exports.getMunicipals = async(root, args, context)=> {
+
+    try{
+
+        let municipalData = await municipal.find({district_id: args.district_id});
+        if(!municipalData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding municipal",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "municipal Data Get Successfully",
+            data: municipalData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding municipal",
+            data: []
+        }
+        return returnData
+    }
+
+
+}
+
+
+exports.getWards = async(root, args, context)=> {
+
+    try{
+
+        let wardData = await ward.find({municipal_id: args.municipal_id});
+        if(!wardData){
+
+            let returnData = {
+                error: true,
+                msg: "Problem in finding ward",
+                data: []
+            }
+            return returnData
+
+        }
+
+        let returnData = {
+            error: false,
+            msg: "ward Data Get Successfully",
+            data: wardData
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Problem in finding ward",
+            data: []
+        }
+        return returnData
+    }
+
+
+}
