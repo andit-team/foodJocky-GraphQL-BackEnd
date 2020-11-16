@@ -27,8 +27,8 @@ exports.addFood = async (root, args, context) => {
             error: false,
             msg: 'Successfully Added Food',
             data: foods
-        };
-        return returnData;
+        }
+        return returnData
 
     } catch (error) {
         let returnData = {
@@ -36,7 +36,7 @@ exports.addFood = async (root, args, context) => {
             msg: 'Problem in adding Food',
             data: {}
         }
-        return returnData;
+        return returnData
     }
 }
 
@@ -148,7 +148,7 @@ exports.deleteFood = async (root, args, context) => {
         }
         return returnData
     }
-};
+}
 
 exports.getAllFoods = async(root, args, context) => {
 
@@ -300,7 +300,7 @@ exports.getOneFood = async(root, args, context) => {
             })
             if(foods !== null){
 
-                let foodsarr = foods.food_categories[0].foods;
+                let foodsarr = foods.food_categories[0].foods
                 let food = {}
                 foodsarr.map(result => {
                     if(result._id == args.foodParams._id){

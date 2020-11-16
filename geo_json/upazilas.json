@@ -1,8 +1,4 @@
 [
-{"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"andbaazar"},
-{"type":"table","name":"upazilas","database":"andbaazar","data":
-[
 {"id":"1","district_id":"1","name":"Debidwar","bn_name":"দেবিদ্বার","slug":"debidwar","url":"debidwar.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"2","district_id":"1","name":"Barura","bn_name":"বরুড়া","slug":"barura","url":"barura.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"3","district_id":"1","name":"Brahmanpara","bn_name":"ব্রাহ্মণপাড়া","slug":"brahmanpara","url":"brahmanpara.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
@@ -494,6 +490,4 @@
 {"id":"489","district_id":"64","name":"Mohongonj","bn_name":"মোহনগঞ্জ","slug":"mohongonj","url":"mohongonj.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"490","district_id":"64","name":"Purbadhala","bn_name":"পূর্বধলা","slug":"purbadhala","url":"purbadhala.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"491","district_id":"64","name":"Netrokona Sadar","bn_name":"নেত্রকোণা সদর","slug":"netrokona-sadar","url":"netrokonasadar.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null}
-]
-}
 ]

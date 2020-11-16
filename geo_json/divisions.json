@@ -1,8 +1,4 @@
 [
-{"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"andbaazar"},
-{"type":"table","name":"divisions","database":"andbaazar","data":
-[
 {"id":"1","name":"Chattagram","bn_name":"চট্টগ্রাম","slug":"chattagram","url":"www.chittagongdiv.gov.bd","lat":"22.358627","lng":"91.784503","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"2","name":"Rajshahi","bn_name":"রাজশাহী","slug":"rajshahi","url":"www.rajshahidiv.gov.bd","lat":"24.374830","lng":"88.604095","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"3","name":"Khulna","bn_name":"খুলনা","slug":"khulna","url":"www.khulnadiv.gov.bd","lat":"22.837273","lng":"89.540044","created_at":"2020-11-15 07:23:43","updated_at":null},
@@ -11,6 +7,4 @@
 {"id":"6","name":"Dhaka","bn_name":"ঢাকা","slug":"dhaka","url":"www.dhakadiv.gov.bd","lat":"23.811273","lng":"90.404240","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"7","name":"Rangpur","bn_name":"রংপুর","slug":"rangpur","url":"www.rangpurdiv.gov.bd","lat":"25.744268","lng":"89.273203","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"8","name":"Mymensingh","bn_name":"ময়মনসিংহ","slug":"mymensingh","url":"www.mymensinghdiv.gov.bd","lat":"24.747132","lng":"90.421129","created_at":"2020-11-15 07:23:43","updated_at":null}
-]
-}
 ]

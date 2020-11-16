@@ -17,7 +17,7 @@ exports.addRestaurant = async(root, args, context) => {
     }
 
     try{
-        const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
+        const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
         let newRestaurant = new Restaurant({
             user: args.restaurantInput.user,
             password: hash,
@@ -40,7 +40,7 @@ exports.addRestaurant = async(root, args, context) => {
             rejection_msg: "Your Request is in Pending Mode.......",
         })
 
-        let nRestaurant = await newRestaurant.save();
+        let nRestaurant = await newRestaurant.save()
 
         let returnData = {
             error: false,
@@ -169,7 +169,7 @@ exports.updateRestaurant = async(root, args, context) => {
         }
 
         if(args.restaurantInput.password !== ''){
-            const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
+            const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
             upRestaurant.password = hash
         }
 
@@ -513,7 +513,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
         }
 
         if(args.restaurantInput.password !== ''){
-            const hash = bcrypt.hashSync(args.restaurantInput.password, 8);
+            const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
             upRestaurant.password = hash
         }
 
@@ -553,7 +553,7 @@ exports.SearchRestaurants = async(root, args, context) => {
   
     try{
   
-        let query = {};
+        let query = {}
 
         if('' === args.name){
     

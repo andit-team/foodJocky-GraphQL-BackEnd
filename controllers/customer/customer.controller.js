@@ -20,8 +20,8 @@ exports.addCustomer = async (root, args, context) => {
             error: false,
             msg: 'Successfully Added Customer',
             data: data
-        };
-        return returnData;
+        }
+        return returnData
 
     } catch (error) {
         let returnData = {
@@ -29,7 +29,7 @@ exports.addCustomer = async (root, args, context) => {
             msg: 'Problem in adding Customer',
             data: {}
         }
-        return returnData;
+        return returnData
     }
 }
 
@@ -54,8 +54,8 @@ exports.updateCustomer = async (root, args, context) => {
             let returnData = {
                 error: false,
                 msg: 'Successfully Updated Customer'
-            };
-            return returnData;
+            }
+            return returnData
 
         }else {
 
@@ -63,7 +63,7 @@ exports.updateCustomer = async (root, args, context) => {
                 error: true,
                 msg: 'Problem in Updating Customer'
             }
-            return returnData;
+            return returnData
 
         }
 
@@ -73,7 +73,7 @@ exports.updateCustomer = async (root, args, context) => {
             error: true,
             msg: 'Problem in Updating Customer'
         }
-        return returnData;
+        return returnData
     }
 }
 
@@ -102,8 +102,8 @@ exports.deleteCustomer = async (root, args, context) => {
     //         error: false,
     //         msg: 'Successfully Added Food',
     //         data: foods
-    //     };
-    //     return returnData;
+    //     }
+    //     return returnData
 
     // } catch (error) {
     //     let returnData = {
@@ -111,7 +111,7 @@ exports.deleteCustomer = async (root, args, context) => {
     //         msg: 'Problem in adding Food',
     //         data: {}
     //     }
-    //     return returnData;
+    //     return returnData
     // }
 }
 
@@ -127,8 +127,8 @@ exports.getAllCustomers = async (root, args, context) => {
                 error: false,
                 msg: 'Successfully Get Customer',
                 data: customers
-            };
-            return returnData;
+            }
+            return returnData
 
         }else{
 
@@ -137,7 +137,7 @@ exports.getAllCustomers = async (root, args, context) => {
                 msg: 'Problem in Getting Data',
                 data: []
             }
-            return returnData;
+            return returnData
 
         }
         
@@ -149,7 +149,7 @@ exports.getAllCustomers = async (root, args, context) => {
             msg: 'Problem in Getting Data',
             data: []
         }
-        return returnData;
+        return returnData
 
     }
 }

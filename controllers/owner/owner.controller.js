@@ -6,7 +6,7 @@ exports.addOwner = async(root, args, context) => {
     
     try{
 
-        const hash = bcrypt.hashSync(args.ownerInput.password, 8);
+        const hash = bcrypt.hashSync(args.ownerInput.password, 8)
         let newOwner = new User({
             first_name: args.ownerInput.first_name,
             last_name: args.ownerInput.last_name,
@@ -20,7 +20,7 @@ exports.addOwner = async(root, args, context) => {
             national_id: args.ownerInput.national_id
         })
 
-        let nOwner = await newOwner.save();
+        let nOwner = await newOwner.save()
 
         let returnData = {
             error: false,
@@ -145,7 +145,7 @@ exports.updateOwner = async(root, args, context) => {
         }
 
         if(args.ownerInput.password !== ''){
-            const hash = bcrypt.hashSync(args.ownerInput.password, 8);
+            const hash = bcrypt.hashSync(args.ownerInput.password, 8)
             upOwner.password = hash
         }
 
@@ -266,7 +266,7 @@ exports.getOneOwner = async(root, args, context) => {
 
     try{
 
-        let owner = await User.findById(args._id);
+        let owner = await User.findById(args._id)
 
         let returnData = {
             error: false,
@@ -320,7 +320,7 @@ exports.updateOwnerWithStatus = async(root, args, context) => {
         }
 
         if(args.ownerInput.password !== ''){
-            const hash = bcrypt.hashSync(args.ownerInput.password, 8);
+            const hash = bcrypt.hashSync(args.ownerInput.password, 8)
             upOwner.password = hash
         }
 

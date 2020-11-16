@@ -1,8 +1,4 @@
 [
-{"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"andbaazar"},
-{"type":"table","name":"villages","database":"andbaazar","data":
-[
 {"id":"1","union_id":"1877","name":"Rhimpur","bn_name":"রহিমপুর","slug":"rhimpur","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:20","updated_at":null},
 {"id":"2","union_id":"1877","name":"Uludangoa","bn_name":"উলুডাঙ্গা","slug":"uludangoa","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:20","updated_at":null},
 {"id":"3","union_id":"1877","name":"Deyara","bn_name":"দেয়াড়া","slug":"deyara","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:20","updated_at":null},
@@ -4628,6 +4624,4 @@
 {"id":"4623","union_id":"1738","name":"Pateswree","bn_name":" পাটেশ্বরী","slug":"pateswree","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:32","updated_at":null},
 {"id":"4624","union_id":"1738","name":"Satbareeya","bn_name":" সাতবাড়ীয়া","slug":"satbareeya","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:32","updated_at":null},
 {"id":"4625","union_id":"1738","name":"Perleesthan","bn_name":" পেড়লীস্থান","slug":"perleesthan","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 10:41:32","updated_at":null}
-]
-}
 ]

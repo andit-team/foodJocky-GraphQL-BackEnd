@@ -1,8 +1,4 @@
 [
-    {"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-    {"type":"database","name":"andbaazar"},
-    {"type":"table","name":"municipals","database":"andbaazar","data":
-    [
     {"id":"1","district_id":"33","name":"Barisal City Corporation","bn_name":"বরিশাল সিটি কর্পোরেশন","slug":"barisal-city-corporation","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":"2020-11-15 07:23:43"},
     {"id":"2","district_id":"8","name":"Chattogram City Corporatio","bn_name":"চট্টগ্রাম সিটি কর্পোরেশন","slug":"chattogram-city-corporatio","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":"2020-11-15 07:23:43"},
     {"id":"3","district_id":"47","name":"Dhaka North City Corporation","bn_name":"ঢাকা উত্তর সিটি কর্পোরেশন","slug":"dhaka-north-city-corporation","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":"2020-11-15 07:23:43"},
@@ -326,7 +322,5 @@
     {"id":"321","district_id":"36","name":"Golapganj Paurashava","bn_name":"গোলাপগঞ্জ পৌরসভা","slug":"golapganj-paurashava","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:47","updated_at":"2020-11-15 07:23:47"},
     {"id":"322","district_id":"36","name":"Kanaighat Paurashava","bn_name":"কানাইঘাট পৌরসভা","slug":"kanaighat-paurashava","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:47","updated_at":"2020-11-15 07:23:47"},
     {"id":"323","district_id":"36","name":"Zakiganj Paurashava","bn_name":"জকিগঞ্জ পৌরসভা","slug":"zakiganj-paurashava","url":null,"lat":null,"lng":null,"created_at":"2020-11-15 07:23:47","updated_at":"2020-11-15 07:23:47"}
-    ]
-    }
-    ]
+]
     

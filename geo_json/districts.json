@@ -1,8 +1,4 @@
 [
-{"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"andbaazar"},
-{"type":"table","name":"districts","database":"andbaazar","data":
-[
 {"id":"1","division_id":"1","name":"Comilla","bn_name":"কুমিল্লা","slug":"comilla","url":"www.comilla.gov.bd","lat":"23.4682747","lng":"91.1788135","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"2","division_id":"1","name":"Feni","bn_name":"ফেনী","slug":"feni","url":"www.feni.gov.bd","lat":"23.023231","lng":"91.3840844","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"3","division_id":"1","name":"Brahmanbaria","bn_name":"ব্রাহ্মণবাড়িয়া","slug":"brahmanbaria","url":"www.brahmanbaria.gov.bd","lat":"23.9570904","lng":"91.1119286","created_at":"2020-11-15 07:23:43","updated_at":null},
@@ -67,6 +63,4 @@
 {"id":"62","division_id":"8","name":"Mymensingh","bn_name":"ময়মনসিংহ","slug":"mymensingh","url":"www.mymensingh.gov.bd","lat":"24.749232","lng":"90.418967","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"63","division_id":"8","name":"Jamalpur","bn_name":"জামালপুর","slug":"jamalpur","url":"www.jamalpur.gov.bd","lat":"24.937533","lng":"89.937775","created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"64","division_id":"8","name":"Netrokona","bn_name":"নেত্রকোণা","slug":"netrokona","url":"www.netrokona.gov.bd","lat":"24.870955","lng":"90.727887","created_at":"2020-11-15 07:23:43","updated_at":null}
-]
-}
 ]

@@ -1,8 +1,4 @@
 [
-{"type":"header","version":"5.0.2","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"andbaazar"},
-{"type":"table","name":"unions","database":"andbaazar","data":
-[
 {"id":"1","upazila_id":"1","name":"Subil","bn_name":"সুবিল","slug":"subil","url":"subilup.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"2","upazila_id":"1","name":"North Gunaighor","bn_name":"উত্তর গুনাইঘর","slug":"north-gunaighor","url":"gunaighornorthup.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"3","upazila_id":"1","name":"South Gunaighor","bn_name":"দক্ষিণ গুনাইঘর","slug":"south-gunaighor","url":"gunaighorsouth.comilla.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
@@ -4543,6 +4539,4 @@
 {"id":"4538","upazila_id":"491","name":"Rouha","bn_name":"রৌহা","slug":"rouha","url":"rouhaup.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"4539","upazila_id":"491","name":"Medni","bn_name":"মেদনী","slug":"medni","url":"medniup.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null},
 {"id":"4540","upazila_id":"491","name":"Kaliara Babragati","bn_name":"কালিয়ারা গাবরাগাতি","slug":"kaliara-babragati","url":"kaliaragabragatiup.netrokona.gov.bd","lat":null,"lng":null,"created_at":"2020-11-15 07:23:43","updated_at":null}
-]
-}
 ]

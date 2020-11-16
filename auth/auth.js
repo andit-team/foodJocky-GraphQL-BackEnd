@@ -19,7 +19,7 @@ module.exports = (req) => {
                         type: 'admin',
                         user_id: decodedToken._id
                     }
-                    return authData;
+                    return authData
 
                 }else if(decodedToken.type === 'owner'){
 
@@ -27,7 +27,7 @@ module.exports = (req) => {
                         type: 'owner',
                         user_id: decodedToken._id
                     }
-                    return authData;
+                    return authData
 
                 }else if(decodedToken.type === 'restaurant'){
 
@@ -35,7 +35,7 @@ module.exports = (req) => {
                         type: 'restaurant',
                         user_id: decodedToken._id
                     }
-                    return authData;
+                    return authData
 
                 }else if(decodedToken.type === 'customer'){
 
@@ -43,7 +43,7 @@ module.exports = (req) => {
                         type: 'customer',
                         user_id: decodedToken._id
                     }
-                    return authData;
+                    return authData
 
                 }
 
