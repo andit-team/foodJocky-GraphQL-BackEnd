@@ -77,13 +77,33 @@ const userSchema = new Schema({
   rejection_msg:{
     type: String
   },
-  area: {
-      division: String,
-      district: String,
-      municipals: String,// if municipals then here end otherwise below
-      upazilla: String,
-      union: String,
-      village: String
+  division: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'divisions',
+  },
+  district: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'districts',
+  },
+  municipal: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Municipals',
+  },
+  word: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Words',
+  },
+  upazila: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Upazilas',
+  },
+  union: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Unions',
+  },
+  village: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Villages',
   },
   status: {
       type: String
