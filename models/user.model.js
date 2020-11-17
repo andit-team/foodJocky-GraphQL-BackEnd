@@ -78,32 +78,32 @@ const userSchema = new Schema({
     type: String
   },
   division: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'divisions',
+      type: String,
+      
   },
   district: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'districts',
+    type: String,
+    
   },
   municipal: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Municipals',
+    type: String,
+    
   },
   word: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Words',
+    type: String,
+    
   },
   upazila: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Upazilas',
+    type: String,
+    
   },
   union: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Unions',
+    type: String,
+    
   },
   village: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Villages',
+    type: String,
+    
   },
   status: {
       type: String
