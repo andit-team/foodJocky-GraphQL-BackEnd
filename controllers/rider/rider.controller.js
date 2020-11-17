@@ -3,11 +3,12 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 exports.addRider = async(root, args, context) => {
-    
-    try{
 
+    try{
         const hash = bcrypt.hashSync(args.riderInput.password, 8)
-        let newRider = new User({
+
+
+        let rider = {
             first_name: args.riderInput.first_name,
             last_name: args.riderInput.last_name,
             mobile: args.riderInput.mobile,
@@ -18,22 +19,57 @@ exports.addRider = async(root, args, context) => {
             status: "pending",
             rejection_msg: "Your Request is in Pending Mode.......",
             national_id: args.riderInput.national_id,
-        })
+        }
 
         if(args.riderInput.residential_or_municipal === 'residential'){
-            newRider.division = args.riderInput.division
-            newRider.district= args.riderInput.district
-            newRider.upazila= args.riderInput.upazila
-            newRider.union= args.riderInput.union
-            newRider.village= args.riderInput.village
-
-        }else{
-            newRider.division = args.riderInput.division
-            newRider.district= args.riderInput.district
-            newRider.municipal= args.riderInput.municipal
-            newRider.word= args.riderInput.ward
+            rider = {
+                ...rider,
+                division: args.riderInput.division,
+                district: args.riderInput.district,
+                upazila: args.riderInput.upazila,
+                union: args.riderInput.union,
+                village: args.riderInput.village
+            }
+        } else {
+            rider = {
+                ...rider,
+                division: args.riderInput.division,
+                district: args.riderInput.district,
+                municipal: args.riderInput.municipal,
+                word: args.riderInput.ward
+            }
         }
-        
+
+        let newRider = new User(rider);
+
+
+        // let newRider = new User({
+        //     first_name: args.riderInput.first_name,
+        //     last_name: args.riderInput.last_name,
+        //     mobile: args.riderInput.mobile,
+        //     email: args.riderInput.email,
+        //     type: args.riderInput.type,
+        //     owner_address: args.riderInput.owner_address,
+        //     password: hash,
+        //     status: "pending",
+        //     rejection_msg: "Your Request is in Pending Mode.......",
+        //     national_id: args.riderInput.national_id,
+        // })
+        //
+        // if(args.riderInput.residential_or_municipal === 'residential'){
+        //     newRider.division = args.riderInput.division
+        //     newRider.district= args.riderInput.district
+        //     newRider.upazila= args.riderInput.upazila
+        //     newRider.union= args.riderInput.union
+        //     newRider.village= args.riderInput.village
+        //
+        // }else{
+        //     newRider.division = args.riderInput.division
+        //     newRider.district= args.riderInput.district
+        //     newRider.municipal= args.riderInput.municipal
+        //     newRider.word= args.riderInput.ward
+        // }
+
         let nOwner = await newRider.save()
 
         let returnData = {
@@ -53,12 +89,12 @@ exports.addRider = async(root, args, context) => {
         return returnData
 
     }
-    
+
 
 }
 
 exports.riderLogin = async(root, args, context) => {
-    
+
     try{
 
         let rider = await User.findOne({
@@ -103,7 +139,7 @@ exports.riderLogin = async(root, args, context) => {
                 _id: rider._id,
                 type: rider.type
             }
-            , process.env.SECRET, 
+            , process.env.SECRET,
             {
             expiresIn: "8h"
         })
@@ -126,7 +162,7 @@ exports.riderLogin = async(root, args, context) => {
         return returnData
 
     }
-    
+
 
 }
 
@@ -142,7 +178,7 @@ exports.updateRider = async(root, args, context) => {
         return returnData
 
     }
-    
+
     try{
 
         let updateArgs = {
@@ -176,7 +212,7 @@ exports.updateRider = async(root, args, context) => {
             }
             return returnData
         }
-        
+
 
     }catch(error){
 
@@ -187,7 +223,7 @@ exports.updateRider = async(root, args, context) => {
         return returnData
 
     }
-    
+
 
 }
 
@@ -311,11 +347,11 @@ exports.updateRiderWithStatus = async(root, args, context) => {
         return returnData
 
     }
-    
+
     try{
 
         let updateArgs = {
-            _id: args.riderInput._id  
+            _id: args.riderInput._id
         }
 
         let upRider = {
@@ -351,7 +387,7 @@ exports.updateRiderWithStatus = async(root, args, context) => {
             }
             return returnData
         }
-        
+
 
     }catch(error){
 
@@ -362,12 +398,12 @@ exports.updateRiderWithStatus = async(root, args, context) => {
         return returnData
 
     }
-    
+
 
 }
 
 exports.verifyRiderToken = async(root, args, context) => {
-    
+
     try{
 
         const decodedToken = jwt.verify(
@@ -396,7 +432,7 @@ exports.verifyRiderToken = async(root, args, context) => {
             return returnData
 
         }
-        
+
 
     }catch(error){
 
@@ -408,6 +444,6 @@ exports.verifyRiderToken = async(root, args, context) => {
         return returnData
 
     }
-    
+
 
 }
