@@ -48,13 +48,13 @@ input RiderInput {
     national_id: String
     owner_address: String
     residential_or_municipal: String
-    division: ID
-    district: ID
-    municipal: ID
-    ward: ID
-    upazila: ID
-    union: ID
-    village: ID
+    division: String
+    district: String
+    municipal: String
+    ward: String
+    upazila: String
+    union: String
+    village: String
     status: String
     rejection_msg: String
 }
