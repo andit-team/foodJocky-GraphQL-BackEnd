@@ -13,7 +13,7 @@ exports.addRider = async(root, args, context) => {
             last_name: args.riderInput.last_name,
             mobile: args.riderInput.mobile,
             email: args.riderInput.email,
-            type: args.riderInput.type,
+            type: 'rider',
             owner_address: args.riderInput.owner_address,
             password: hash,
             status: "pending",
