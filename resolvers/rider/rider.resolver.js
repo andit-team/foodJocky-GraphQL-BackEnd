@@ -1,7 +1,7 @@
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
 
-const RiderController = require('../../controllers/owner/owner.controller')
+const RiderController = require('../../controllers/rider/rider.controller')
 
 const RIDER_ADDED = "RIDER_ADDED"
 
@@ -39,7 +39,7 @@ const resolvers = {
       pubsub.publish(RIDER_ADDED, { ownerAdded: result })
       return result
     },
-    
+
     async updateRider(root, args, context) {
       let result = await RiderController.updateRider(root, args, context)
       return result
