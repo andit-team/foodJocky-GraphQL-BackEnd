@@ -6,7 +6,7 @@ exports.addAdmin = async(root, args, context) => {
     
     try{
 
-        const hash = bcrypt.hashSync(args.password, 8);
+        const hash = bcrypt.hashSync(args.password, 8)
         let newAdmin = new User({
             mobile: args.mobile,
             password: hash,

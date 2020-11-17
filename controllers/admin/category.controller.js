@@ -20,7 +20,7 @@ exports.addCategory = async(root, args, context) => {
             name: args.name
         })
 
-        let nCategoy = await newCategoy.save();
+        let nCategoy = await newCategoy.save()
         let returnData = {
             error: false,
             msg: "Category Created Successfully",
@@ -59,7 +59,7 @@ exports.deleteCategory = async(root, args, context) => {
         let deleteArgs = {
             _id: args._id
         }
-        let categoryDelete = await Category.deleteOne(deleteArgs);
+        let categoryDelete = await Category.deleteOne(deleteArgs)
         if((categoryDelete).n > 0){
 
             let returnData = {
@@ -94,7 +94,7 @@ exports.getAllCategories = async(root, args, context) => {
 
     try{
 
-        let categoies = Category.find({});
+        let categoies = Category.find({})
 
         let returnData = {
             error: false,

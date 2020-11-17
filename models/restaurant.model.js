@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 const RestaurantsSchema = new Schema({
     user:{
         type: String,
@@ -148,9 +148,9 @@ const RestaurantsSchema = new Schema({
 },
 {
     timestamps: true
-});
+})
 
-RestaurantsSchema.index({ location: "2dsphere"});
+RestaurantsSchema.index({ location: "2dsphere"})
 
-const Restaurants = mongoose.model('Restaurants', RestaurantsSchema);
-module.exports = Restaurants;
+const Restaurants = mongoose.model('Restaurants', RestaurantsSchema)
+module.exports = Restaurants

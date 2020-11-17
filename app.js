@@ -37,13 +37,13 @@ app.use(
 app.use("/uploads", express.static(path.join("uploads")))
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); //* will allow from all cross domain
+    res.header("Access-Control-Allow-Origin", "*") //* will allow from all cross domain
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
+    )
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+    next()
 })
 
 app.use(cors())
@@ -55,8 +55,8 @@ const schema = require('./schema')
 const server = new ApolloServer({ schema, 
     context: ({ req }) => {
 
-        let user = auth(req);
-        return { user };
+        let user = auth(req)
+        return { user }
    }
 
  })

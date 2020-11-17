@@ -23,7 +23,7 @@ exports.addPlan = async(root, args, context) => {
             feature: args.planInput.feature
         })
 
-        let nPlan = await newPlan.save();
+        let nPlan = await newPlan.save()
         let returnData = {
             error: false,
             msg: "Plan Created Successfully",
@@ -64,7 +64,7 @@ exports.deletePlan = async(root, args, context) => {
             _id: args._id
         }
 
-        let deletedData = await Plan.deleteOne(deleteArgs);
+        let deletedData = await Plan.deleteOne(deleteArgs)
 
         if( deletedData.n > 0){
 
@@ -120,7 +120,7 @@ exports.updatePlan = async(root, args, context) => {
             feature: args.updatePlanInput.feature
         }
 
-        let result = await Plan.updateOne({_id: args.updatePlanInput._id}, updateArgs);
+        let result = await Plan.updateOne({_id: args.updatePlanInput._id}, updateArgs)
 
         if( result.n > 0){
 
@@ -158,7 +158,7 @@ exports.getAllPlans = async(root, args, context) => {
 
     try{
 
-        let plans = Plan.find({});
+        let plans = Plan.find({})
 
         let returnData = {
             error: false,
@@ -184,7 +184,7 @@ exports.getOnePlan = async(root, args, context) => {
 
     try{
 
-        let plan = Plan.findOne({_id: args._id});
+        let plan = Plan.findOne({_id: args._id})
 
         let returnData = {
             error: false,

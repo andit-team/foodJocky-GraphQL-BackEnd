@@ -41,6 +41,6 @@ const resolvers = {
         return result
       },
   },
-};
+}
 
-module.exports = resolvers;
+module.exports = resolvers

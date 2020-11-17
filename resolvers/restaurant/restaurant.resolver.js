@@ -1,5 +1,5 @@
-const { PubSub } = require('apollo-server');
-const pubsub = new PubSub();
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 
 const RestaurantController = require('../../controllers/restaurant/restaurant.controller')
 
@@ -47,7 +47,7 @@ const resolvers = {
   Mutation: {
     async addRestaurant(root, args, context) {
       let result = await RestaurantController.addRestaurant(root, args, context)
-      pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result });
+      pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result })
       return result
     },
     
@@ -78,6 +78,6 @@ const resolvers = {
         return result
       },
   },
-};
+}
 
-module.exports = resolvers;
+module.exports = resolvers
