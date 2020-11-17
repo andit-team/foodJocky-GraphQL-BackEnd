@@ -27,6 +27,7 @@ const typeDefs = gql`
   }
 
   type AreaData {
+    _id: ID
     id: String
     name: String
     bn_name: String

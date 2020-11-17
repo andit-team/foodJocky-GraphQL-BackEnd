@@ -42,34 +42,6 @@ exports.addRider = async(root, args, context) => {
 
         let newRider = new User(rider);
 
-
-        // let newRider = new User({
-        //     first_name: args.riderInput.first_name,
-        //     last_name: args.riderInput.last_name,
-        //     mobile: args.riderInput.mobile,
-        //     email: args.riderInput.email,
-        //     type: args.riderInput.type,
-        //     owner_address: args.riderInput.owner_address,
-        //     password: hash,
-        //     status: "pending",
-        //     rejection_msg: "Your Request is in Pending Mode.......",
-        //     national_id: args.riderInput.national_id,
-        // })
-        //
-        // if(args.riderInput.residential_or_municipal === 'residential'){
-        //     newRider.division = args.riderInput.division
-        //     newRider.district= args.riderInput.district
-        //     newRider.upazila= args.riderInput.upazila
-        //     newRider.union= args.riderInput.union
-        //     newRider.village= args.riderInput.village
-        //
-        // }else{
-        //     newRider.division = args.riderInput.division
-        //     newRider.district= args.riderInput.district
-        //     newRider.municipal= args.riderInput.municipal
-        //     newRider.word= args.riderInput.ward
-        // }
-
         let nOwner = await newRider.save()
 
         let returnData = {
