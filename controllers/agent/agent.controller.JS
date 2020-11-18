@@ -6,8 +6,7 @@ exports.addAgent = async(root, args, context) => {
 
     try{
         const hash = bcrypt.hashSync(args.agentInput.password, 8)
-
-
+        
         let agent = {
             first_name: args.agentInput.first_name,
             last_name: args.agentInput.last_name,
