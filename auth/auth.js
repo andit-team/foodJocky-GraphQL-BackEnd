@@ -53,6 +53,14 @@ module.exports = (req) => {
                     }
                     return authData
 
+                }else if(decodedToken.type === 'agent'){
+
+                    const authData = {
+                        type: 'agent',
+                        user_id: decodedToken._id
+                    }
+                    return authData
+
                 }
 
             }

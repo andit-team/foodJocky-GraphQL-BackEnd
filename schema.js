@@ -12,6 +12,7 @@ const foodSchema = require('./schemas/food/food.schema')
 const customerSchema = require('./schemas/customer/customer.schema')
 const geoSchema = require('./schemas/geo/geo.schema')
 const riderSchema = require('./schemas/rider/rider.schema')
+const agentSchema = require('./schemas/agent/agent.schema')
 
 const categoryResolver = require('./resolvers/admin/category.resolver')
 const planResolver = require('./resolvers/admin/plan.resolver')
@@ -22,6 +23,7 @@ const foodResolver= require('./resolvers/food/food.resolver')
 const customerResolver= require('./resolvers/customer/customer.resolver')
 const geoResolver= require('./resolvers/geo/geo.resolver')
 const riderResolver= require('./resolvers/rider/rider.resolver')
+const agentResolver= require('./resolvers/agent/agent.resolver')
 
 const types = [
 	categorySchema,
@@ -33,6 +35,7 @@ const types = [
 	customerSchema,
 	geoSchema,
 	riderSchema,
+	agentSchema,
 ]
 
 const typeDefs = mergeTypeDefs(types)
@@ -47,6 +50,7 @@ const resolvers = [
 	customerResolver,
 	geoResolver,
 	riderResolver,
+	agentResolver,
   ]
 
 const graphQlResolvers = mergeResolvers(resolvers)

@@ -128,6 +128,11 @@ const userSchema = new Schema({
   },
   want_to_deliver_remote: {
       type: Boolean
+  },
+
+  // For Agent----------------------------------------
+  trade_license_no: {
+    type: String
   }
 },
 {

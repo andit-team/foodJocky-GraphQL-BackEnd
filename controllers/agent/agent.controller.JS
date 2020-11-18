@@ -2,52 +2,53 @@ const User = require('../../models/user.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-exports.addRider = async(root, args, context) => {
+exports.addAgent = async(root, args, context) => {
 
     try{
-        const hash = bcrypt.hashSync(args.riderInput.password, 8)
+        const hash = bcrypt.hashSync(args.agentInput.password, 8)
 
 
-        let rider = {
-            first_name: args.riderInput.first_name,
-            last_name: args.riderInput.last_name,
-            mobile: args.riderInput.mobile,
-            email: args.riderInput.email,
-            type: 'rider',
-            owner_address: args.riderInput.owner_address,
+        let agent = {
+            first_name: args.agentInput.first_name,
+            last_name: args.agentInput.last_name,
+            mobile: args.agentInput.mobile,
+            email: args.agentInput.email,
+            type: 'agent',
+            owner_address: args.agentInput.owner_address,
             password: hash,
             status: "pending",
             rejection_msg: "Your Request is in Pending Mode.......",
-            national_id: args.riderInput.national_id,
+            national_id: args.agentInput.national_id,
+            trade_license_no: args.agentInput.trade_license_no,
         }
 
-        if(args.riderInput.residential_or_municipal === 'residential'){
-            rider = {
-                ...rider,
-                division: args.riderInput.division,
-                district: args.riderInput.district,
-                upazila: args.riderInput.upazila,
-                union: args.riderInput.union,
-                village: args.riderInput.village
+        if(args.agentInput.residential_or_municipal === 'residential'){
+            agent = {
+                ...agent,
+                division: args.agentInput.division,
+                district: args.agentInput.district,
+                upazila: args.agentInput.upazila,
+                union: args.agentInput.union,
+                village: args.agentInput.village
             }
         } else {
-            rider = {
-                ...rider,
-                division: args.riderInput.division,
-                district: args.riderInput.district,
-                municipal: args.riderInput.municipal,
-                word: args.riderInput.ward
+            agent = {
+                ...agent,
+                division: args.agentInput.division,
+                district: args.agentInput.district,
+                municipal: args.agentInput.municipal,
+                word: args.agentInput.ward
             }
         }
 
-        let newRider = new User(rider);
+        let newAgent = new User(agent);
 
-        let nOwner = await newRider.save()
+        let nAgent = await newAgent.save()
 
         let returnData = {
             error: false,
-            msg: "Rider Created Successfully",
-            data: nOwner
+            msg: "Agent Created Successfully",
+            data: nAgent
         }
         return returnData
 
@@ -65,36 +66,36 @@ exports.addRider = async(root, args, context) => {
 
 }
 
-exports.riderLogin = async(root, args, context) => {
+exports.agentLogin = async(root, args, context) => {
 
     try{
 
-        let rider = await User.findOne({
+        let agent = await User.findOne({
             mobile: args.mobile,
-            type: 'rider'
+            type: 'agent'
         })
 
-        if(!rider){
+        if(!agent){
             let returnData = {
                 token: '',
                 error: true,
-                msg: "Rider Not Found",
+                msg: "Agent Not Found",
                 data: {}
             }
             return returnData
         }
 
-        if(rider.status !== 'approved' ){
+        if(agent.status !== 'approved' ){
             let returnData = {
                 token: '',
                 error: true,
-                msg: rider.rejection_msg,
+                msg: agent.rejection_msg,
                 data: {}
             }
             return returnData
         }
 
-        let passMatch = await bcrypt.compare(args.password, rider.password)
+        let passMatch = await bcrypt.compare(args.password, agent.password)
 
         if(!passMatch){
             let returnData = {
@@ -108,8 +109,8 @@ exports.riderLogin = async(root, args, context) => {
 
         const token = jwt.sign(
             {
-                _id: rider._id,
-                type: rider.type
+                _id: agent._id,
+                type: agent.type
             }
             , process.env.SECRET,
             {
@@ -119,8 +120,8 @@ exports.riderLogin = async(root, args, context) => {
         let returnData = {
             token: token,
             error: false,
-            msg: "Rider Login Successful",
-            data: rider
+            msg: "Agent Login Successful",
+            data: agent
         }
         return returnData
 
@@ -128,7 +129,7 @@ exports.riderLogin = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Rider Login UnSuccessful",
+            msg: "Agent Login UnSuccessful",
             data: {}
         }
         return returnData
@@ -138,7 +139,7 @@ exports.riderLogin = async(root, args, context) => {
 
 }
 
-exports.updateRider = async(root, args, context) => {
+exports.updateAgent = async(root, args, context) => {
 
     // if(context.user.type !== 'rider'){
 
@@ -158,12 +159,12 @@ exports.updateRider = async(root, args, context) => {
     //     }
 
     //     let upRider = {
-    //         first_name: args.riderInput.first_name,
-    //         last_name: args.riderInput.last_name,
+    //         first_name: args.agentInput.first_name,
+    //         last_name: args.agentInput.last_name,
     //     }
 
-    //     if(args.riderInput.password !== ''){
-    //         const hash = bcrypt.hashSync(args.riderInput.password, 8)
+    //     if(args.agentInput.password !== ''){
+    //         const hash = bcrypt.hashSync(args.agentInput.password, 8)
     //         upRider.password = hash
     //     }
 
@@ -199,7 +200,7 @@ exports.updateRider = async(root, args, context) => {
 
 }
 
-exports.deleteRider = async(root, args, context) => {
+exports.deleteAgent = async(root, args, context) => {
 
     // try{
     //     let deleteArgs = {
@@ -236,7 +237,7 @@ exports.deleteRider = async(root, args, context) => {
 
 }
 
-exports.getAllRiders = async(root, args, context) => {
+exports.getAllAgents = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){
 
@@ -251,19 +252,19 @@ exports.getAllRiders = async(root, args, context) => {
 
     try{
         let query = {
-            type: 'rider'
+            type: 'agent'
         }
 
         if(args.status !== ""){
             query.status = args.status
         }
 
-        let riders = await User.find(query)
+        let agents = await User.find(query)
 
         let returnData = {
             error: false,
-            msg: "Rider Get Successfully",
-            data: riders
+            msg: "Agent Get Successfully",
+            data: agents
         }
         return returnData
 
@@ -271,7 +272,7 @@ exports.getAllRiders = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Rider Get UnSuccessful",
+            msg: "Agent Get UnSuccessful",
             data: []
         }
         return returnData
@@ -280,16 +281,16 @@ exports.getAllRiders = async(root, args, context) => {
 
 }
 
-exports.getOneRider = async(root, args, context) => {
+exports.getOneagent = async(root, args, context) => {
 
     try{
 
-        let rider = await User.findById(args._id)
+        let agent = await User.findById(args._id)
 
         let returnData = {
             error: false,
-            msg: "Rider Get Successfully",
-            data: rider
+            msg: "Agent Get Successfully",
+            data: agent
         }
         return returnData
 
@@ -297,7 +298,7 @@ exports.getOneRider = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "rider Get UnSuccessful",
+            msg: "Agent Get UnSuccessful",
             data: []
         }
         return returnData
@@ -307,7 +308,7 @@ exports.getOneRider = async(root, args, context) => {
 }
 
 
-exports.updateRiderWithStatus = async(root, args, context) => {
+exports.updateAgentWithStatus = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){
 
@@ -323,39 +324,40 @@ exports.updateRiderWithStatus = async(root, args, context) => {
     try{
 
         let updateArgs = {
-            _id: args.riderInput._id
+            _id: args.agentInput._id
         }
 
-        let upRider = {
-            first_name: args.riderInput.first_name,
-            last_name: args.riderInput.last_name,
-            mobile: args.riderInput.mobile,
-            email: args.riderInput.email,
-            owner_address: args.riderInput.owner_address,
-            national_id: args.riderInput.national_id,
-            status: args.riderInput.status,
-            rejection_msg: args.riderInput.rejection_msg
+        let upAgent = {
+            first_name: args.agentInput.first_name,
+            last_name: args.agentInput.last_name,
+            mobile: args.agentInput.mobile,
+            email: args.agentInput.email,
+            owner_address: args.agentInput.owner_address,
+            national_id: args.agentInput.national_id,
+            status: args.agentInput.status,
+            rejection_msg: args.agentInput.rejection_msg,
+            trade_license_no: args.agentInput.trade_license_no,
         }
 
-        if(args.riderInput.password !== ''){
-            const hash = bcrypt.hashSync(args.riderInput.password, 8)
-            upRider.password = hash
+        if(args.agentInput.password !== ''){
+            const hash = bcrypt.hashSync(args.agentInput.password, 8)
+            upAgent.password = hash
         }
 
-        let uRider = await User.updateOne(updateArgs,upRider)
+        let uAgent = await User.updateOne(updateArgs,upAgent)
 
-        if(uRider.n > 0){
+        if(uAgent.n > 0){
 
             let returnData = {
                 error: false,
-                msg: "Rider Status Updated Successfully"
+                msg: "Agent Status Updated Successfully"
             }
             return returnData
 
         }else{
             let returnData = {
                 error: true,
-                msg: "Rider Status Update Unsuccessful"
+                msg: "Agent Status Update Unsuccessful"
             }
             return returnData
         }
@@ -365,7 +367,7 @@ exports.updateRiderWithStatus = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Rider Status Update Unsuccessful"
+            msg: "Agent Status Update Unsuccessful"
         }
         return returnData
 
@@ -374,7 +376,7 @@ exports.updateRiderWithStatus = async(root, args, context) => {
 
 }
 
-exports.verifyRiderToken = async(root, args, context) => {
+exports.verifyAgentToken = async(root, args, context) => {
 
     try{
 
@@ -383,14 +385,14 @@ exports.verifyRiderToken = async(root, args, context) => {
             process.env.SECRET
         )
 
-        if(decodedToken.type === 'rider'){
+        if(decodedToken.type === 'agent'){
 
-            let rider = await User.findById(decodedToken._id)
+            let Agent = await User.findById(decodedToken._id)
 
             let returnData = {
                 error: false,
                 msg: "Token Verified Successfully",
-                data: rider
+                data: Agent
             }
             return returnData
 
