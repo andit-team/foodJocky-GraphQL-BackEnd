@@ -36,7 +36,7 @@ const resolvers = {
   Mutation: {
     async addRider(root, args, context) {
       let result = await RiderController.addRider(root, args, context)
-      pubsub.publish(RIDER_ADDED, { ownerAdded: result })
+      pubsub.publish(RIDER_ADDED, { riderAdded: result })
       return result
     },
 
