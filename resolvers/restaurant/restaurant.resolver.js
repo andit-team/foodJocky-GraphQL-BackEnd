@@ -16,7 +16,7 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator(RESTAURANT_ADDED_SEEN_BY_AGENT),
         (payload, variables, context) => {
-          return payload.agent_id === context.user.user_id
+          return payload.agent.agent_id === context.user.user_id
         }
       )
 
@@ -60,7 +60,7 @@ const resolvers = {
       let result = await RestaurantController.addRestaurant(root, args, context)
       pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result })
       let agent = {
-        agent_id: result.agent
+        agent_id: result.data.agent
       }
       pubsub.publish(RESTAURANT_ADDED_SEEN_BY_AGENT, { restaurantAddedSeeByAgent: result, agent })
       return result
