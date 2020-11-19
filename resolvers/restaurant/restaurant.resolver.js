@@ -4,11 +4,22 @@ const pubsub = new PubSub()
 const RestaurantController = require('../../controllers/restaurant/restaurant.controller')
 
 const RESTAURANT_ADDED = "RESTAURANT_ADDED"
+const RESTAURANT_ADDED_SEEN_BY_AGENT = "RESTAURANT_ADDED_SEEN_BY_AGENT"
 
 const resolvers = {
   Subscription: {
     restaurantAdded: {
       subscribe: () => pubsub.asyncIterator(RESTAURANT_ADDED),
+    },
+    restaurantAddedSeeByAgent: {
+
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(RESTAURANT_ADDED_SEEN_BY_AGENT),
+        (payload, variables, context) => {
+          return payload.agent_id === context.user.user_id
+        }
+      )
+
     }
   },
   Query: {
@@ -48,6 +59,10 @@ const resolvers = {
     async addRestaurant(root, args, context) {
       let result = await RestaurantController.addRestaurant(root, args, context)
       pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result })
+      let agent = {
+        agent_id: result.agent
+      }
+      pubsub.publish(RESTAURANT_ADDED_SEEN_BY_AGENT, { restaurantAddedSeeByAgent: result, agent })
       return result
     },
     

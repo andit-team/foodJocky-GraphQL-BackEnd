@@ -126,10 +126,10 @@ const RestaurantsSchema = new Schema({
     // earned_amount: {
     //     type: Number
     // },
-    // agent_id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'agents',
-    // }
+    agent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+    },
     shop_days:[{
         day: {
             type: Number

@@ -3,6 +3,7 @@ const typeDefs = gql`
 
 type Subscription {
   restaurantAdded: RestaurantAddOutPut
+  restaurantAddedSeeByAgent: RestaurantAddOutPut
 }
 
 type Query {
@@ -62,6 +63,14 @@ input RestaurantInput {
     status: String
     active: Boolean
     rejection_msg: String
+    residential_or_municipal: String
+    division: String
+    district: String
+    municipal: String
+    ward: String
+    upazila: String
+    union: String
+    village: String
 }
 
 input InputFoodCategories {

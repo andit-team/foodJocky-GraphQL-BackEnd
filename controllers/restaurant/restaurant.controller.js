@@ -18,7 +18,7 @@ exports.addRestaurant = async(root, args, context) => {
 
     try{
         const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
-        let newRestaurant = new Restaurant({
+        let resData = {
             user: args.restaurantInput.user,
             password: hash,
             name: args.restaurantInput.name,
@@ -38,7 +38,56 @@ exports.addRestaurant = async(root, args, context) => {
             price_type: args.restaurantInput.price_type,
             status: "pending",
             rejection_msg: "Your Request is in Pending Mode.......",
-        })
+        }
+
+        let agent;
+
+        if(args.restaurantInput.residential_or_municipal === 'residential'){
+            
+            agent = await User.findOne({
+                division: args.restaurantInput.division,
+                district: args.restaurantInput.district,
+                upazila: args.restaurantInput.upazila,
+                union: args.restaurantInput.union,
+                village: args.restaurantInput.village
+            },{
+                _id: 1
+            })
+
+            resData = {
+                ...resData,
+                division: args.restaurantInput.division,
+                district: args.restaurantInput.district,
+                upazila: args.restaurantInput.upazila,
+                union: args.restaurantInput.union,
+                village: args.restaurantInput.village,
+                agent: agent._id
+            }
+
+        } else {
+            
+            agent = await User.findOne({
+                division: args.restaurantInput.division,
+                district: args.restaurantInput.district,
+                municipal: args.restaurantInput.municipal,
+                word: args.restaurantInput.ward
+            },{
+                _id: 1
+            })
+
+            resData = {
+                ...resData,
+                division: args.restaurantInput.division,
+                district: args.restaurantInput.district,
+                municipal: args.restaurantInput.municipal,
+                word: args.restaurantInput.ward,
+                agent: agent._id
+            }
+
+
+        }
+
+        let newRestaurant = new Restaurant(resData)
 
         let nRestaurant = await newRestaurant.save()
 
