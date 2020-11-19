@@ -45,6 +45,7 @@ exports.addRestaurant = async(root, args, context) => {
         if(args.restaurantInput.residential_or_municipal === 'residential'){
             
             agent = await User.findOne({
+                type: 'agent',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 upazila: args.restaurantInput.upazila,
@@ -67,6 +68,7 @@ exports.addRestaurant = async(root, args, context) => {
         } else {
             
             agent = await User.findOne({
+                type: 'agent',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 municipal: args.restaurantInput.municipal,
