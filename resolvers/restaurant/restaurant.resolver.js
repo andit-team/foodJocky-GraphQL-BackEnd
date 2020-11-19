@@ -1,4 +1,4 @@
-const { PubSub } = require('apollo-server')
+const { PubSub, withFilter } = require('apollo-server')
 const pubsub = new PubSub()
 
 const RestaurantController = require('../../controllers/restaurant/restaurant.controller')
