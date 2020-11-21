@@ -23,8 +23,7 @@ const resolvers = {
               token,
               process.env.SECRET
           )
-
-          return payload.agent_id === decodedToken._id
+          return payload.agent_id == decodedToken._id
         }
       )
 
