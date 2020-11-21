@@ -24,7 +24,7 @@ const resolvers = {
               process.env.SECRET
           )
 
-          return payload.agent.agent_id === decodedToken._id
+          return payload.agent_id === decodedToken._id
         }
       )
 
@@ -67,10 +67,8 @@ const resolvers = {
     async addRestaurant(root, args, context) {
       let result = await RestaurantController.addRestaurant(root, args, context)
       pubsub.publish(RESTAURANT_ADDED, { restaurantAdded: result })
-      let agent = {
-        agent_id: result.data.agent
-      }
-      pubsub.publish(RESTAURANT_ADDED_SEEN_BY_AGENT, { restaurantAddedSeeByAgent: result, agent })
+      let agent_id = result.data.agent
+      pubsub.publish(RESTAURANT_ADDED_SEEN_BY_AGENT, { restaurantAddedSeeByAgent: result, agent_id })
       return result
     },
     
