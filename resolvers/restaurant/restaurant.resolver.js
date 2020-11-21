@@ -1,5 +1,6 @@
 const { PubSub, withFilter } = require('apollo-server')
 const pubsub = new PubSub()
+const jwt = require("jsonwebtoken")
 
 const RestaurantController = require('../../controllers/restaurant/restaurant.controller')
 
@@ -15,8 +16,15 @@ const resolvers = {
 
       subscribe: withFilter(
         () => pubsub.asyncIterator(RESTAURANT_ADDED_SEEN_BY_AGENT),
-        (payload, variables, context) => {
-          return payload.agent.agent_id === context.user.user_id
+        (payload, variables) => {
+
+          const token = variables.token
+          const decodedToken = jwt.verify(
+              token,
+              process.env.SECRET
+          )
+
+          return payload.agent.agent_id === decodedToken._id
         }
       )
 

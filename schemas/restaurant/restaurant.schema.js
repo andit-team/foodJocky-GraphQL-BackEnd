@@ -3,7 +3,7 @@ const typeDefs = gql`
 
 type Subscription {
   restaurantAdded: RestaurantAddOutPut
-  restaurantAddedSeeByAgent: RestaurantAddOutPut
+  restaurantAddedSeeByAgent(token: String!): RestaurantAddOutPut
 }
 
 type Query {
