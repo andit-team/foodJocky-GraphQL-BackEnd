@@ -93,12 +93,8 @@ exports.deleteCategory = async(root, args, context) => {
 exports.getAllCategories = async(root, args, context) => {
 
     try{
-        const resPerPage = args.perPageValue || 10
-        const page = args.page || 1
-        const query = {
-            name: {$regex: args.name, $options: 'i'}
-        }
-        let categoies = await Category.find(query).skip((resPerPage * page) - resPerPage).limit(resPerPage).sort({createdAt: -1})
+
+        let categoies = Category.find({})
 
         let returnData = {
             error: false,
