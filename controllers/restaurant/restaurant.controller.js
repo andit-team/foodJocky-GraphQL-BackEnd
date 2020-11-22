@@ -167,8 +167,8 @@ exports.restaurantLogin = async(root, args, context) => {
             {
                 _id: restaurant._id,
                 type: 'restaurant'
-            }
-            , process.env.SECRET, 
+            },
+            process.env.SECRET, 
             {
             expiresIn: "8h"
         })
