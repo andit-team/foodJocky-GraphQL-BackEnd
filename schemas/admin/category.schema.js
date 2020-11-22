@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   type Query {
-    getAllCategories: CategoriesOutPut
+    getAllCategories(page: Int, perPageValue: Int, name: String): CategoriesOutPut
   }
 
   type Mutation {
