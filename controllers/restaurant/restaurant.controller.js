@@ -55,6 +55,15 @@ exports.addRestaurant = async(root, args, context) => {
                 _id: 1
             })
 
+            if(!agent){
+                let returnData = {
+                    error: true,
+                    msg: "No Agent In Your Area",
+                    data: {}
+                }
+                return returnData
+            }
+
             resData = {
                 ...resData,
                 division: args.restaurantInput.division,
