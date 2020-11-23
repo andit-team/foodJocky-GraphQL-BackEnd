@@ -81,7 +81,7 @@ exports.addRestaurant = async(root, args, context) => {
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 municipal: args.restaurantInput.municipal,
-                word: args.restaurantInput.ward
+                ward: args.restaurantInput.ward
             },{
                 _id: 1
             })
@@ -91,7 +91,7 @@ exports.addRestaurant = async(root, args, context) => {
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 municipal: args.restaurantInput.municipal,
-                word: args.restaurantInput.ward,
+                ward: args.restaurantInput.ward,
                 agent: agent._id
             }
 

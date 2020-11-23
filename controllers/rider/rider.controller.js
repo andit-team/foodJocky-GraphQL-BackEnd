@@ -36,7 +36,7 @@ exports.addRider = async(root, args, context) => {
                 division: args.riderInput.division,
                 district: args.riderInput.district,
                 municipal: args.riderInput.municipal,
-                word: args.riderInput.ward
+                ward: args.riderInput.ward
             }
         }
 

@@ -89,7 +89,7 @@ const userSchema = new Schema({
     type: String,
     
   },
-  word: {
+  ward: {
     type: String,
     
   },
@@ -132,6 +132,9 @@ const userSchema = new Schema({
 
   // For Agent----------------------------------------
   trade_license_no: {
+    type: String
+  },
+  agent_level: {
     type: String
   }
 },

@@ -58,6 +58,7 @@ input AgentInput {
     status: String
     rejection_msg: String
     trade_license_no: String
+    agent_level: String
 }
 
   type AgentData {
@@ -70,8 +71,9 @@ input AgentInput {
     national_id: String
     status: String
     rejection_msg: String
-    owner_address: String,
+    owner_address: String
     trade_license_no: String
+    agent_level: String
   }
 `
 module.exports = typeDefs

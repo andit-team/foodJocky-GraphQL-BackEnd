@@ -103,7 +103,7 @@ const RestaurantsSchema = new Schema({
       type: String,
       
     },
-    word: {
+    ward: {
       type: String,
       
     },
