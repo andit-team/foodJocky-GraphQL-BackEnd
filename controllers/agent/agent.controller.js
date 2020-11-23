@@ -24,16 +24,6 @@ exports.addAgent = async(root, args, context) => {
 
         if(args.agentInput.agent_level === 'division'){
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division
@@ -41,16 +31,6 @@ exports.addAgent = async(root, args, context) => {
 
         } else if(args.agentInput.agent_level === 'district') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -59,16 +39,6 @@ exports.addAgent = async(root, args, context) => {
 
         }else if(args.agentInput.agent_level === 'upazila') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district, upazila: args.agentInput.upazila})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -78,16 +48,6 @@ exports.addAgent = async(root, args, context) => {
 
         }else if(args.agentInput.agent_level === 'union') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district, upazila: args.agentInput.upazila, union: args.agentInput.union})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -98,16 +58,6 @@ exports.addAgent = async(root, args, context) => {
 
         }else if(args.agentInput.agent_level === 'village') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district, upazila: args.agentInput.upazila, union: args.agentInput.union, village: args.agentInput.village})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -118,16 +68,6 @@ exports.addAgent = async(root, args, context) => {
             }
         }else if(args.agentInput.agent_level === 'municipal') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district, municipal: args.agentInput.municipal})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -137,16 +77,6 @@ exports.addAgent = async(root, args, context) => {
 
         }else if(args.agentInput.agent_level === 'ward') {
 
-            let checkAgent = await User.findOne({type: 'agent', division: args.agentInput.division, district: args.agentInput.district, municipal: args.agentInput.municipal, ward: args.agentInput.ward})
-            if(checkAgent){
-
-                let returnData = {
-                    error: true,
-                    msg: "Agent Already Exists Here Please Contact With Admin.....",
-                    data: {}
-                }
-                return returnData
-            }
             agent = {
                 ...agent,
                 division: args.agentInput.division,
@@ -452,8 +382,7 @@ exports.updateAgentWithStatus = async(root, args, context) => {
             national_id: args.agentInput.national_id,
             status: args.agentInput.status,
             rejection_msg: args.agentInput.rejection_msg,
-            trade_license_no: args.agentInput.trade_license_no,
-            agent_level: args.agentInput.agent_level
+            trade_license_no: args.agentInput.trade_license_no
         }
 
         if(args.agentInput.password !== ''){
