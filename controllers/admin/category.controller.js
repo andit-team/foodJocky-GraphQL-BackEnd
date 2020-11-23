@@ -94,7 +94,7 @@ exports.getAllCategories = async(root, args, context) => {
 
     try{
 
-        let categoies = Category.find({})
+        let categoies = await Category.find({})
 
         let returnData = {
             error: false,
