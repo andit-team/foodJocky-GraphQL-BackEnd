@@ -110,8 +110,8 @@ exports.agentLogin = async(root, args, context) => {
             {
                 _id: agent._id,
                 type: agent.type
-            }
-            , process.env.SECRET,
+            },
+            process.env.SECRET,
             {
             expiresIn: "8h"
         })

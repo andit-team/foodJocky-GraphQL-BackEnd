@@ -6,8 +6,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addAgentAreaPlan(name: String, commission: Float): AgentAreaPlanAddOutPut
-    updateAgentAreaPlan(_id: ID, name: String, commission: Float): AgentAreaPlanEditDeleteOutPut
+    addAgentAreaPlan(name: String, key: String, own_commission: Float, child_commission: Float): AgentAreaPlanAddOutPut
+    updateAgentAreaPlan(_id: ID, name: String, key: String, own_commission: Float, child_commission: Float): AgentAreaPlanEditDeleteOutPut
     deleteAgentAreaPlan(_id: ID): AgentAreaPlanEditDeleteOutPut
   }
 
@@ -31,7 +31,9 @@ type AgentAreaPlansOutPut {
   type AgentAreaPlanData {
     _id: ID
     name: String
-    commission: Float
+    key: String
+    own_commission: Float
+    child_commission: Float
   }
 `
 module.exports = typeDefs

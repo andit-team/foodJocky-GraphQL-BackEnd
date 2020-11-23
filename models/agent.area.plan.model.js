@@ -5,7 +5,14 @@ const AgentAreaPlanSchema = new Schema({
         type: String,
         unique: true
     },
-    commission: {
+    key: {
+        type: String,
+        unique: true
+    },
+    own_commission: {
+        type: Number
+    },
+    child_commission: {
         type: Number
     }
 },

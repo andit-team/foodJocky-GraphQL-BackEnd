@@ -18,7 +18,9 @@ exports.addAgentAreaPlan = async(root, args, context) => {
 
         let newAgentAreaPlan = new AgentAreaPlan({
             name: args.name,
-            commission: args.commission
+            key: args.key,
+            own_commission: args.own_commission,
+            child_commission: args.child_commission
         })
 
         let nAgentAreaPlan = await newAgentAreaPlan.save()
@@ -136,7 +138,9 @@ exports.updateAgentAreaPlan = async(root, args, context) => {
         }
         let updateData = {
             name: args.name,
-            commission: args.commission
+            key: args.key,
+            own_commission: args.own_commission,
+            child_commission: args.child_commission
         }
         let AgentAreaPlanDelete = await AgentAreaPlan.updateOne(updateArgs,updateData)
         if(AgentAreaPlanDelete.n > 0){
