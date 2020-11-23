@@ -46,6 +46,7 @@ exports.addRestaurant = async(root, args, context) => {
             
             agent = await User.findOne({
                 type: 'agent',
+                status: 'approved',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 upazila: args.restaurantInput.upazila,
@@ -56,12 +57,64 @@ exports.addRestaurant = async(root, args, context) => {
             })
 
             if(!agent){
-                let returnData = {
-                    error: true,
-                    msg: "No Agent In Your Area",
-                    data: {}
+
+                agent = await User.findOne({
+                    type: 'agent',
+                    status: 'approved',
+                    division: args.restaurantInput.division,
+                    district: args.restaurantInput.district,
+                    upazila: args.restaurantInput.upazila,
+                    union: args.restaurantInput.union
+                },{
+                    _id: 1
+                })
+
+                if(!agent){
+
+                    agent = await User.findOne({
+                        type: 'agent',
+                        status: 'approved',
+                        division: args.restaurantInput.division,
+                        district: args.restaurantInput.district,
+                        upazila: args.restaurantInput.upazila
+                    },{
+                        _id: 1
+                    })
+
+                    if(!agent){
+
+                        agent = await User.findOne({
+                            type: 'agent',
+                            status: 'approved',
+                            division: args.restaurantInput.division,
+                            district: args.restaurantInput.district
+                        },{
+                            _id: 1
+                        })
+                        if(!agent){
+
+                            agent = await User.findOne({
+                                type: 'agent',
+                                status: 'approved',
+                                division: args.restaurantInput.division,
+                            },{
+                                _id: 1
+                            })
+
+                            if(!agent){
+
+                                let returnData = {
+                                    error: true,
+                                    msg: "No Agent In Your Area",
+                                    data: {}
+                                }
+                                return returnData
+
+                            }
+                        }
+                    }
+
                 }
-                return returnData
             }
 
             resData = {
@@ -78,6 +131,7 @@ exports.addRestaurant = async(root, args, context) => {
             
             agent = await User.findOne({
                 type: 'agent',
+                status: 'approved',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 municipal: args.restaurantInput.municipal,
@@ -85,6 +139,51 @@ exports.addRestaurant = async(root, args, context) => {
             },{
                 _id: 1
             })
+
+            if(!agent){
+
+                agent = await User.findOne({
+                    type: 'agent',
+                    status: 'approved',
+                    division: args.restaurantInput.division,
+                    district: args.restaurantInput.district,
+                    municipal: args.restaurantInput.municipal
+                },{
+                    _id: 1
+                })
+                    if(!agent){
+
+                        agent = await User.findOne({
+                            type: 'agent',
+                            status: 'approved',
+                            division: args.restaurantInput.division,
+                            district: args.restaurantInput.district
+                        },{
+                            _id: 1
+                        })
+                        if(!agent){
+
+                            agent = await User.findOne({
+                                type: 'agent',
+                                status: 'approved',
+                                division: args.restaurantInput.division,
+                            },{
+                                _id: 1
+                            })
+
+                            if(!agent){
+
+                                let returnData = {
+                                    error: true,
+                                    msg: "No Agent In Your Area",
+                                    data: {}
+                                }
+                                return returnData
+
+                            }
+                        }
+                }
+            }
 
             resData = {
                 ...resData,
