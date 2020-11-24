@@ -47,6 +47,7 @@ exports.addRestaurant = async(root, args, context) => {
             agent = await User.findOne({
                 type: 'agent',
                 status: 'approved',
+                agent_level: 'village',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 upazila: args.restaurantInput.upazila,
@@ -61,6 +62,7 @@ exports.addRestaurant = async(root, args, context) => {
                 agent = await User.findOne({
                     type: 'agent',
                     status: 'approved',
+                    agent_level: 'union',
                     division: args.restaurantInput.division,
                     district: args.restaurantInput.district,
                     upazila: args.restaurantInput.upazila,
@@ -74,6 +76,7 @@ exports.addRestaurant = async(root, args, context) => {
                     agent = await User.findOne({
                         type: 'agent',
                         status: 'approved',
+                        agent_level: 'upazila',
                         division: args.restaurantInput.division,
                         district: args.restaurantInput.district,
                         upazila: args.restaurantInput.upazila
@@ -86,6 +89,7 @@ exports.addRestaurant = async(root, args, context) => {
                         agent = await User.findOne({
                             type: 'agent',
                             status: 'approved',
+                            agent_level: 'district',
                             division: args.restaurantInput.division,
                             district: args.restaurantInput.district
                         },{
@@ -96,6 +100,7 @@ exports.addRestaurant = async(root, args, context) => {
                             agent = await User.findOne({
                                 type: 'agent',
                                 status: 'approved',
+                                agent_level: 'division',
                                 division: args.restaurantInput.division,
                             },{
                                 _id: 1
@@ -132,6 +137,7 @@ exports.addRestaurant = async(root, args, context) => {
             agent = await User.findOne({
                 type: 'agent',
                 status: 'approved',
+                agent_level: 'ward',
                 division: args.restaurantInput.division,
                 district: args.restaurantInput.district,
                 municipal: args.restaurantInput.municipal,
@@ -145,6 +151,7 @@ exports.addRestaurant = async(root, args, context) => {
                 agent = await User.findOne({
                     type: 'agent',
                     status: 'approved',
+                    agent_level: 'municipal',
                     division: args.restaurantInput.division,
                     district: args.restaurantInput.district,
                     municipal: args.restaurantInput.municipal
@@ -156,6 +163,7 @@ exports.addRestaurant = async(root, args, context) => {
                         agent = await User.findOne({
                             type: 'agent',
                             status: 'approved',
+                            agent_level: 'district',
                             division: args.restaurantInput.division,
                             district: args.restaurantInput.district
                         },{
@@ -166,6 +174,7 @@ exports.addRestaurant = async(root, args, context) => {
                             agent = await User.findOne({
                                 type: 'agent',
                                 status: 'approved',
+                                agent_level: 'division',
                                 division: args.restaurantInput.division,
                             },{
                                 _id: 1
