@@ -19,6 +19,7 @@ type Query {
 }
 
 input AreaInput {
+  status: String
   division: String
   district: String
   municipal: String

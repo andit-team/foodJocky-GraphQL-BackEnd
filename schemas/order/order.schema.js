@@ -3,6 +3,8 @@ const typeDefs = gql`
 
 type Subscription {
     orderAdded: OrderAddOutPut
+    orderAddedSeeByRestaurant(token: String!): OrderAddOutPut
+    orderAddedSeeByAgent(token: String!): OrderAddOutPut
 }
 
 type Query {
@@ -34,7 +36,6 @@ input OrderInput {
     items: [ItemInput]
     total: Float
     restaurant: ID
-    customer: ID
 }
 
 input ItemInput {

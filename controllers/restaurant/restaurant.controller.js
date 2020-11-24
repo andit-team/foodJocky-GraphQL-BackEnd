@@ -586,6 +586,13 @@ exports.getAllRestaurantsByAgent = async(root, args, context) => {
          division: args.areaInput.division
      }
 
+     if(args.areaInput.status !== ''){
+         query = {
+             ...query,
+             status: args.areaInput.status
+         }
+     }
+
      if(args.areaInput.district !== ''){
          query = {
              ...query,
