@@ -582,84 +582,55 @@ exports.getAllRestaurantsByAgent = async(root, args, context) => {
   
     try{
 
-      let agent = await User.findById(context.user.user_id)
-      let sentAgentLevelData = {}
-      if(agent.agent_level === 'division'){
+     let query = {
+         division: args.areaInput.division
+     }
 
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division
+     if(args.areaInput.district !== ''){
+         query = {
+             ...query,
+             district: args.areaInput.district
+         }
+     }
+     if(args.areaInput.municipal !== ''){
+        query = {
+            ...query,
+            district: args.areaInput.district,
+            municipal: args.areaInput.municipal
         }
-
-    } else if(agent.agent_level === 'district') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district
+     }
+     if(args.areaInput.ward !== ''){
+        query = {
+            ...query,
+            district: args.areaInput.district,
+            municipal: args.areaInput.municipal,
+            ward: args.areaInput.ward
         }
-
-    }else if(agent.agent_level === 'upazila') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district,
-            upazila: agent.upazila
+     }
+     if(args.areaInput.upazila !== ''){
+        query = {
+            ...query,
+            district: args.areaInput.district,
+            upazila: args.areaInput.upazila
         }
-
-    }else if(agent.agent_level === 'union') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district,
-            upazila: agent.upazila,
-            union: agent.union
+     }
+     if(args.areaInput.union !== ''){
+        query = {
+            ...query,
+            district: args.areaInput.district,
+            upazila: args.areaInput.upazila,
+            union: args.areaInput.union
         }
-
-    }else if(agent.agent_level === 'village') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district,
-            upazila: agent.upazila,
-            union: agent.union,
-            village: agent.village
+     }
+     if(args.areaInput.village !== ''){
+        query = {
+            ...query,
+            district: args.areaInput.district,
+            upazila: args.areaInput.upazila,
+            union: args.areaInput.union,
+            village: args.areaInput.village
         }
-    }else if(agent.agent_level === 'municipal') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district,
-            municipal: agent.municipal
-        }
-
-    }else if(agent.agent_level === 'ward') {
-
-        sentAgentLevelData = {
-            ...sentAgentLevelData,
-            division: agent.division,
-            district: agent.district,
-            municipal: agent.municipal,
-            ward: agent.ward
-        }
-
-    }
-
-    let query = {
-        ...sentAgentLevelData
-    }
-
-      if(args.owner_id !== ""){
-          query.owner = args.owner_id
-      }
-  
-      if(args.status !== ""){
-          query.status = args.status
-      }
+     }
   
       let result = await Restaurant.find(query).populate('owner').populate('plan')
   
