@@ -7,70 +7,70 @@ type Subscription {
 }
 
 type Query {
-    getAllRestaurantsByOwner(status: String): RestaurantsOutPut
-    getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
-    getOneRestaurant(_id: ID): RestaurantAddOutPut
-    restaurantLogin(user: String, password: String): RestaurantAddOutPut
+  getAllRestaurantsByOwner(status: String): RestaurantsOutPut
+  getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
+  getOneRestaurant(_id: ID): RestaurantAddOutPut
+  restaurantLogin(user: String, password: String): RestaurantAddOutPut
 
-    SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
-    verifyRestaurantToken(token: String): RestaurantAddOutPut
+  SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
+  verifyRestaurantToken(token: String): RestaurantAddOutPut
 
 }
 
 type Mutation {
-    addRestaurant(restaurantInput: RestaurantInput): RestaurantAddOutPut
-    updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
-    deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
-    updateRestaurantStatus(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
+  addRestaurant(restaurantInput: RestaurantInput): RestaurantAddOutPut
+  updateRestaurant(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
+  deleteRestaurant(_id: ID): RestaurantEditDeleteOutPut
+  updateRestaurantStatus(restaurantInput: RestaurantInput): RestaurantEditDeleteOutPut
 
-    updateRestaurantActivityByOwner(status: Boolean, rest_id: ID ): RestaurantEditDeleteOutPut
-    updateRestaurantActivityBySelf(status: Boolean): RestaurantEditDeleteOutPut
+  updateRestaurantActivityByOwner(status: Boolean, rest_id: ID ): RestaurantEditDeleteOutPut
+  updateRestaurantActivityBySelf(status: Boolean): RestaurantEditDeleteOutPut
 }
 
 type RestaurantAddOutPut {
-      token: String
-      error: Boolean
-      msg: String
-      data: RestaurantData
+  token: String
+  error: Boolean
+  msg: String
+  data: RestaurantData
 }
 
 type RestaurantEditDeleteOutPut {
-    error: Boolean
-    msg: String
+  error: Boolean
+  msg: String
 }
 
 type RestaurantsOutPut {
-    error: Boolean
-    msg: String
-    data: [RestaurantData]
+  error: Boolean
+  msg: String
+  data: [RestaurantData]
 }
 
 input RestaurantInput {
-    _id: ID
-    user: String
-    password: String
-    name: String
-    restaurant_or_homemade: String
-    owner: ID
-    plan: ID
-    tags: [String]
-    description: String
-    cover_img: String
-    thumb_img: String
-    address: Address
-    food_categories: [InputFoodCategories]
-    price_type: String
-    status: String
-    active: Boolean
-    rejection_msg: String
-    residential_or_municipal: String
-    division: String
-    district: String
-    municipal: String
-    ward: String
-    upazila: String
-    union: String
-    village: String
+  _id: ID
+  user: String
+  password: String
+  name: String
+  restaurant_or_homemade: String
+  owner: ID
+  plan: ID
+  tags: [String]
+  description: String
+  cover_img: String
+  thumb_img: String
+  address: Address
+  food_categories: [InputFoodCategories]
+  price_type: String
+  status: String
+  active: Boolean
+  rejection_msg: String
+  residential_or_municipal: String
+  division: String
+  district: String
+  municipal: String
+  ward: String
+  upazila: String
+  union: String
+  village: String
 }
 
 input InputFoodCategories {
@@ -78,30 +78,30 @@ input InputFoodCategories {
   name: String
 }
 
-  type RestaurantData {
-    _id: ID
-    user: String
-    password: String
-    name: String
-    restaurant_or_homemade: String
-    owner: Owner
-    plan: Plan
-    tags: [String]
-    description: String
-    cover_img: String
-    thumb_img: String
-    address: AddressType
-    food_categories:[FoodCategory]
-    price_type: String
-    status: String
-    active: Boolean
-    rejection_msg: String
-  }
+type RestaurantData {
+  _id: ID
+  user: String
+  password: String
+  name: String
+  restaurant_or_homemade: String
+  owner: Owner
+  plan: Plan
+  tags: [String]
+  description: String
+  cover_img: String
+  thumb_img: String
+  address: AddressType
+  food_categories:[FoodCategory]
+  price_type: String
+  status: String
+  active: Boolean
+  rejection_msg: String
+}
 
-  type FoodCategory {
-    _id: ID
-    name: String
-    foods: [Food]
+type FoodCategory {
+  _id: ID
+  name: String
+  foods: [Food]
 }
 
 type Food {
@@ -120,30 +120,30 @@ type PriceAndSize {
   price: Float
 }
 
-  type Owner {
-    _id: ID
-    first_name: String
-    last_name: String
-    mobile: String
-    password: String
-    email: String
-    type: String
-    owner_address: String
+type Owner {
+  _id: ID
+  first_name: String
+  last_name: String
+  mobile: String
+  password: String
+  email: String
+  type: String
+  owner_address: String
 }
 
 type Plan {
-    _id: ID
-    title: String
-    price: Int
-    commision: Int
-    duration: String
-    feature: Boolean
-  }
+  _id: ID
+  title: String
+  price: Int
+  commision: Int
+  duration: String
+  feature: Boolean
+}
 
 input Address {
-      address: String
-      location: Location
-  }
+  address: String
+  location: Location
+}
 
 input Location {
   lat: Float

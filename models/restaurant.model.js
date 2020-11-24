@@ -92,32 +92,25 @@ const RestaurantsSchema = new Schema({
         type: String            // $, $$, $$$, $$$$
     },
     division: {
-        type: String,
-        
+        type: String
     },
     district: {
-      type: String,
-      
+      type: String
     },
     municipal: {
-      type: String,
-      
+      type: String
     },
     ward: {
-      type: String,
-      
+      type: String
     },
     upazila: {
-      type: String,
-      
+      type: String
     },
     union: {
-      type: String,
-      
+      type: String
     },
     village: {
-      type: String,
-      
+      type: String
     },
     // orders: [{
     //     type: mongoose.Schema.Types.ObjectId,
