@@ -524,8 +524,6 @@ exports.deleteRestaurant = async(root, args, context) => {
 
 exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
-  // todo
-
   if(context.user.type !== 'admin'){
 
     let returnData = {
@@ -568,6 +566,120 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
 
   }
 }
+
+exports.getAllRestaurantsByAgent = async(root, args, context) => {
+
+    if(context.user.type !== 'agent'){
+  
+      let returnData = {
+          error: true,
+          msg: "Agent Login Required",
+          data: {}
+      }
+      return returnData
+  
+  }
+  
+    try{
+
+      let agent = await User.findById(context.user.user_id)
+      let sentAgentLevelData = {}
+      if(agent.agent_level === 'division'){
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division
+        }
+
+    } else if(agent.agent_level === 'district') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district
+        }
+
+    }else if(agent.agent_level === 'upazila') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district,
+            upazila: agent.upazila
+        }
+
+    }else if(agent.agent_level === 'union') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district,
+            upazila: agent.upazila,
+            union: agent.union
+        }
+
+    }else if(agent.agent_level === 'village') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district,
+            upazila: agent.upazila,
+            union: agent.union,
+            village: agent.village
+        }
+    }else if(agent.agent_level === 'municipal') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district,
+            municipal: agent.municipal
+        }
+
+    }else if(agent.agent_level === 'ward') {
+
+        sentAgentLevelData = {
+            ...sentAgentLevelData,
+            division: agent.division,
+            district: agent.district,
+            municipal: agent.municipal,
+            ward: agent.ward
+        }
+
+    }
+
+    let query = {
+        ...sentAgentLevelData
+    }
+
+      if(args.owner_id !== ""){
+          query.owner = args.owner_id
+      }
+  
+      if(args.status !== ""){
+          query.status = args.status
+      }
+  
+      let result = await Restaurant.find(query).populate('owner').populate('plan')
+  
+      let returnData = {
+          error: false,
+          msg: "Restaurant Get Successfully",
+          data: result
+      }
+      return returnData
+  
+    }catch(error){
+  
+      let returnData = {
+          error: true,
+          msg: "Restaurant Get Unsuccessful"
+      }
+      return returnData
+  
+    }
+  }
 
 exports.getAllRestaurantsByOwner = async(root, args, context) => {
   // todo

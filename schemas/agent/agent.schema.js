@@ -74,6 +74,13 @@ input AgentInput {
     owner_address: String
     trade_license_no: String
     agent_level: String
+    division: String
+    district: String
+    municipal: String
+    ward: String
+    upazila: String
+    union: String
+    village: String
   }
 `
 module.exports = typeDefs

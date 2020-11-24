@@ -40,6 +40,11 @@ const resolvers = {
         return results
      },
 
+     async getAllRestaurantsByAgent(root, args, context) {
+      let results = await RestaurantController.getAllRestaurantsByAgent(root, args, context)
+      return results
+   },
+
      async SearchRestaurants(root, args, context) {
       let results = await RestaurantController.SearchRestaurants(root, args, context)
       return results

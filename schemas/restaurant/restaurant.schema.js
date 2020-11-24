@@ -9,12 +9,23 @@ type Subscription {
 type Query {
   getAllRestaurantsByOwner(status: String): RestaurantsOutPut
   getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
+  getAllRestaurantsByAgent(areaInput: AreaInput): RestaurantsOutPut
   getOneRestaurant(_id: ID): RestaurantAddOutPut
   restaurantLogin(user: String, password: String): RestaurantAddOutPut
 
   SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
   verifyRestaurantToken(token: String): RestaurantAddOutPut
 
+}
+
+input AreaInput {
+  division: String
+  district: String
+  municipal: String
+  ward: String
+  upazila: String
+  union: String
+  village: String
 }
 
 type Mutation {
