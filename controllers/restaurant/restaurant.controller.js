@@ -38,6 +38,7 @@ exports.addRestaurant = async(root, args, context) => {
             price_type: args.restaurantInput.price_type,
             status: "pending",
             rejection_msg: "Your Request is in Pending Mode.......",
+            residential_or_municipal: args.restaurantInput.residential_or_municipal
         }
 
         let agent;

@@ -97,6 +97,9 @@ const RestaurantsSchema = new Schema({
     district: {
       type: String
     },
+    residential_or_municipal: {
+        type: String
+    },
     municipal: {
       type: String
     },

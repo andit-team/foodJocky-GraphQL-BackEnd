@@ -1,7 +1,6 @@
 const User = require('../../models/user.model')
 const Restaurant = require('../../models/restaurant.model')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const Order = require('../../models/order.model')
 
 exports.addOrder = async(root, args, context) => {
    
@@ -24,18 +23,36 @@ exports.addOrder = async(root, args, context) => {
             total: args.orderInput.total,
             restaurant: args.orderInput.restaurant,
             customer: context.user.user_id,
-            agent: restaurant.agent,
-            
+            agent: restaurant.agent
         }
 
-        let newRestaurant = new Restaurant(resData)
+        if(restaurant.residential_or_municipal === 'residential'){
+            order = {
+                ...order,
+                division: restaurant.division,
+                district: restaurant.district,
+                upazila: restaurant.upazila,
+                union: restaurant.union,
+                village: restaurant.village
+            }
+        }else{
+            order = {
+                ...order,
+                division: restaurant.division,
+                district: restaurant.district,
+                municipal: restaurant.municipal,
+                ward: restaurant.ward
+            }
+        }
 
-        let nRestaurant = await newRestaurant.save()
+        let newOrder = new Order(order)
+
+        let nOrder = await newOrder.save()
 
         let returnData = {
             error: false,
-            msg: "Restaurant Created Successfully",
-            data: nRestaurant
+            msg: "Order Placed Successfully",
+            data: nOrder
         }
         return returnData
 
@@ -43,7 +60,7 @@ exports.addOrder = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Restaurant Create Failed",
+            msg: "Order Place Failed",
             data: {}
         }
         return returnData

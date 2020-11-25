@@ -47,6 +47,10 @@ const resolvers = {
     async addOrder(root, args, context) {
       let result = await OrderController.addOrder(root, args, context)
       pubsub.publish(ORDER_ADDED, { orderAdded: result })
+      let agent_id = result.data.agent
+      pubsub.publish(ORDER_ADDED_SEEN_BY_AGENT, { orderAdded: result, agent_id })
+      let restaurant_id = result.data.restaurant
+      pubsub.publish(ORDER_ADDED_SEEN_BY_RESTAURANT, { orderAdded: result, restaurant_id })
       return result
     }
   },
