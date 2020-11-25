@@ -15,8 +15,17 @@ exports.addCustomer = async (root, args, context) => {
         })
 
         let data = await user.save()
+        const token = jwt.sign(
+            {
+                _id: data._id,
+                type: data.type
+            }, process.env.SECRET, 
+            {
+            expiresIn: "8h"
+        })
 
         let returnData = {
+            token: token,
             error: false,
             msg: 'Successfully Added Customer',
             data: data
@@ -258,8 +267,7 @@ exports.customerLogin = async(root, args, context) => {
             {
                 _id: customer._id,
                 type: customer.type
-            }
-            , process.env.SECRET, 
+            }, process.env.SECRET, 
             {
             expiresIn: "8h"
         })
