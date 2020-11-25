@@ -23,7 +23,8 @@ exports.addOrder = async(root, args, context) => {
             total: args.orderInput.total,
             restaurant: args.orderInput.restaurant,
             customer: context.user.user_id,
-            agent: restaurant.agent
+            agent: restaurant.agent,
+            status: 'pending'
         }
 
         if(restaurant.residential_or_municipal === 'residential'){
