@@ -1,5 +1,6 @@
 const { PubSub, withFilter} = require('apollo-server')
 const pubsub = new PubSub()
+const jwt = require("jsonwebtoken")
 
 const OrderController = require('../../controllers/order/order.controller')
 
@@ -47,10 +48,10 @@ const resolvers = {
     async addOrder(root, args, context) {
       let result = await OrderController.addOrder(root, args, context)
       pubsub.publish(ORDER_ADDED, { orderAdded: result })
-      let agent_id = result.data.agent
-      pubsub.publish(ORDER_ADDED_SEEN_BY_AGENT, { orderAdded: result, agent_id })
-      let restaurant_id = result.data.restaurant
-      pubsub.publish(ORDER_ADDED_SEEN_BY_RESTAURANT, { orderAdded: result, restaurant_id })
+      let agent_id = result.data.agent._id
+      pubsub.publish(ORDER_ADDED_SEEN_BY_AGENT, { orderAddedSeeByAgent: result, agent_id })
+      let restaurant_id = result.data.restaurant._id
+      pubsub.publish(ORDER_ADDED_SEEN_BY_RESTAURANT, { orderAddedSeeByRestaurant: result, restaurant_id })
       return result
     }
   },

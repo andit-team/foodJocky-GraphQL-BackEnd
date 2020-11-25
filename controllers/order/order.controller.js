@@ -49,10 +49,12 @@ exports.addOrder = async(root, args, context) => {
 
         let nOrder = await newOrder.save()
 
+        let newOrderData = await Order.findById(nOrder._id).populate('restaurant').populate('customer').populate('agent')
+
         let returnData = {
             error: false,
             msg: "Order Placed Successfully",
-            data: nOrder
+            data: newOrderData
         }
         return returnData
 
