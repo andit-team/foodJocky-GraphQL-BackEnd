@@ -7,9 +7,6 @@ type Subscription {
     orderAddedSeeByAgent(token: String!): OrderAddOutPut
 }
 
-type Query {
-}
-
 type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 }
