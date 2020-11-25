@@ -4,6 +4,7 @@ const OrdersSchema = new Schema({
     items: [
         {
             _id: mongoose.Schema.Types.ObjectId,
+            category_id: mongoose.Schema.Types.ObjectId,
             name: String,
             size: String,
             quantity: Number,

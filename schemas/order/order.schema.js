@@ -37,6 +37,7 @@ input OrderInput {
 
 input ItemInput {
     _id: ID
+    category_id: ID
     name: String
     size: String
     quantity: Int
