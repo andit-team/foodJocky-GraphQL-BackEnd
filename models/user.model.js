@@ -26,12 +26,33 @@ const userSchema = new Schema({
     coordinates: []
   },
   addresses: [{
-      address: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId
+    },
+    title: {
+      type: String
+    },
+    address: {
         type: String
     },
     location: {
-        lat: String,
-        lng: String
+      type: { type: String },
+      coordinates: []
+    },
+    reciver_mobile_no: {
+      type: String
+    },
+    reciver_name: {
+      type: String
+    },
+    house_no: {
+      type: String
+    },
+    floor_no: {
+      type: String
+    },
+    note_to_rider: {
+      type: String
     }
   }],
 //   orders: [{
