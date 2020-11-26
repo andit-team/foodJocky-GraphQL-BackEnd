@@ -5,10 +5,23 @@ type Subscription {
     orderAdded: OrderAddOutPut
     orderAddedSeeByRestaurant(token: String!): OrderAddOutPut
     orderAddedSeeByAgent(token: String!): OrderAddOutPut
+
+    orderUpdated(token: String!): OrderAddOutPut
+}
+
+type Query {
+    getAllOrdersByRestaurant(status: String): OrdersOutput
+    getAllOrdersByAgent(status: String): OrdersOutput
+    getAllOrdersByAdmin(status: String): OrdersOutput
+    getAllOrdersByCustomer(status: String): OrdersOutput
+
+    getOneOrder(_id: ID): OrderAddOutPut
 }
 
 type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
+
+    updateOrderStatus(_id: ID, status: String): OrderAddOutPut
 }
 
 type OrderAddOutPut {
