@@ -252,7 +252,14 @@ exports.getOneOrder = async(root, args, context) => {
 
     try{
         let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
-
+        if(!order){
+            let returnData = {
+                error: true,
+                msg: "Order Get UnSuccessful",
+                data: {}
+            }
+            return returnData
+        }
         let returnData = {
             error: false,
             msg: "Order Get Successfully",
