@@ -115,3 +115,197 @@ exports.getAllOrdersByRestaurant = async(root, args, context) => {
     }
 
 }
+
+exports.getAllOrdersByAgent = async(root, args, context) => {
+
+    if(context.user.type !== 'agent'){
+
+        let returnData = {
+            error: true,
+            msg: "Agent Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            agent: context.user.user_id
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let orders = await Order.find(query)
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
+exports.getAllOrdersByAdmin = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let orders = await Order.find(query)
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
+exports.getAllOrdersByCustomer = async(root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            customer: context.user.user_id
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let orders = await Order.find(query)
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
+exports.getOneOrder = async(root, args, context) => {
+
+    try{
+        let order = await Order.findById(args._id)
+
+        let returnData = {
+            error: false,
+            msg: "Order Get Successfully",
+            data: order
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Order Get UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+
+}
+
+exports.updateOrderStatus = async(root, args, context) => {
+
+    try{
+
+        let uOrder = await Order.updateOne({_id: args._id}, {status: args.status})
+        if(uOrder.n > 0){
+
+            let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
+
+            let returnData = {
+                error: false,
+                msg: "Order Status Updated Successfully",
+                data: order
+            }
+            return returnData
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Order Status Update UnSuccessful",
+                data: {}
+            }
+            return returnData
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Order Status Update UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+
+}
