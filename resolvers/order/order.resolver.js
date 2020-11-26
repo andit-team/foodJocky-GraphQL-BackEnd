@@ -43,6 +43,11 @@ const resolvers = {
     }
   },
   Query: {
+    async getAllOrdersByRestaurant(root, args, context) {
+       let results = await OrderController.getAllOrdersByRestaurant(root, args, context)
+       return results
+    },
+
   },
   Mutation: {
     async addOrder(root, args, context) {

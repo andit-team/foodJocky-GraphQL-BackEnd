@@ -71,3 +71,47 @@ exports.addOrder = async(root, args, context) => {
     
 
 }
+
+exports.getAllOrdersByRestaurant = async(root, args, context) => {
+
+    if(context.user.type !== 'restaurant'){
+
+        let returnData = {
+            error: true,
+            msg: "Restaurant Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            restaurant: context.user.user_id
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let orders = await Order.find(query)
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}

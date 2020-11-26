@@ -7,6 +7,10 @@ type Subscription {
     orderAddedSeeByAgent(token: String!): OrderAddOutPut
 }
 
+type Query {
+    getAllOrdersByRestaurant(status: String): OrdersOutput
+}
+
 type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 }
