@@ -19,6 +19,10 @@ const resolvers = {
       let result = await CustomerController.verifyCustomerToken(root, args, context)
       return result
     },
+    async getAllCustomerLocations(root, args, context) {
+      let result = await CustomerController.getAllCustomerLocations(root, args, context)
+      return result
+    },
   },
   Mutation: {
     async addCustomer(root, args, context) {

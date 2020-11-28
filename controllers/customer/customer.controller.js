@@ -224,7 +224,7 @@ exports.addCustomerLocation = async (root, args, context) => {
             floor_no: args.customerAddress.floor_no,
             note_to_rider: args.customerAddress.note_to_rider
         }
-        let cUpdate = await User.findOneAndUpdate({
+        let cUpdate = await User.updateOne({
             _id: context.user.user_id
         },
         {
@@ -233,7 +233,15 @@ exports.addCustomerLocation = async (root, args, context) => {
             }
         }
         )
+        if(cUpdate.n < 1){
 
+            let returnData = {
+                error: true,
+                msg: 'Problem in Adding Location'
+            }
+            return returnData
+
+        }
         let returnData = {
             error: false,
             msg: 'Successfully Added Location',
@@ -264,7 +272,7 @@ exports.deleteCustomerLocation = async (root, args, context) => {
     }
 
     try {
-        let cUpdate = await User.findOneAndUpdate({
+        let cUpdate = await User.updateOne({
             _id: context.user.user_id
         },
         {
@@ -276,6 +284,16 @@ exports.deleteCustomerLocation = async (root, args, context) => {
         }
         )
 
+        if(cUpdate.n < 1){
+
+            let returnData = {
+                error: true,
+                msg: 'Problem in Deleting Location'
+            }
+            return returnData
+
+        }
+
         let returnData = {
             error: false,
             msg: 'Successfully Deleted Location'
@@ -286,6 +304,39 @@ exports.deleteCustomerLocation = async (root, args, context) => {
         let returnData = {
             error: true,
             msg: 'Problem in Deleting Location'
+        }
+        return returnData
+    }
+}
+
+
+exports.getAllCustomerLocations = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: []
+        }
+        return returnData
+
+    }
+
+    try {
+        let customerLocation = await User.findOne({_id: context.user.user_id},{_id: 0, customer_addresses: 1})
+        let returnData = {
+            error: false,
+            msg: 'Successfully Get Location',
+            data: customerLocation.customer_addresses
+        }
+        return returnData
+
+    } catch (error) {
+        let returnData = {
+            error: true,
+            msg: 'Problem in getting Location',
+            data: []
         }
         return returnData
     }
