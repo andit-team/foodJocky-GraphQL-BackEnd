@@ -60,7 +60,7 @@ type Query {
     password: String
     first_name: String
     last_name: String
-    customer_address: [CustomerAddressType]
+    customer_addresses: [CustomerAddressType]
     type: String
 }
 
