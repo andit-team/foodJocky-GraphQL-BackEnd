@@ -12,7 +12,36 @@ type Query {
     addCustomer(customerInput: CustomerInput): customerAddOutPut
     updateCustomer(customerInput: CustomerInput): CustomerEditDeleteOutPut
     deleteCustomer(_id: ID): CustomerEditDeleteOutPut
-    updateCustomerLocation(address: Address): CustomerEditDeleteOutPut
+    addCustomerLocation(customerAddress: CustomerAddress): CustomerAddLocationData
+    deleteCustomerLocation(_id: ID): CustomerEditDeleteOutPut
+  }
+
+  input CustomerAddress {
+    _id: ID
+    title: String
+    address: Address
+    reciver_mobile_no: String
+    reciver_name: String
+    house_no: String
+    floor_no: String
+    note_to_rider: String
+  }
+
+  type CustomerAddLocationData {
+    error: Boolean
+    msg: String
+    data: CustomerAddressType
+  }
+
+  type CustomerAddressType {
+    _id: ID
+    title: String
+    address: AddressType
+    reciver_mobile_no: String
+    reciver_name: String
+    house_no: String
+    floor_no: String
+    note_to_rider: String
   }
 
   input CustomerInput {
@@ -31,7 +60,7 @@ type Query {
     password: String
     first_name: String
     last_name: String
-    address: AddressType
+    customer_address: [CustomerAddressType]
     type: String
 }
 

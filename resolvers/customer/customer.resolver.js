@@ -36,8 +36,13 @@ const resolvers = {
         return result
       },
 
-      async updateCustomerLocation(root, args, context) {
-        let result = await CustomerController.updateCustomerLocation(root, args, context)
+      async addCustomerLocation(root, args, context) {
+        let result = await CustomerController.addCustomerLocation(root, args, context)
+        return result
+      },
+
+      async deleteCustomerLocation(root, args, context) {
+        let result = await CustomerController.deleteCustomerLocation(root, args, context)
         return result
       },
   },

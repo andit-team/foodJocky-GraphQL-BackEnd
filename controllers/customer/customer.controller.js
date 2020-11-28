@@ -1,6 +1,7 @@
 const User = require('../../models/user.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID;
 
 exports.addCustomer = async (root, args, context) => {
     try {
@@ -199,35 +200,92 @@ exports.getOneCustomer = async (root, args, context) => {
     }
 }
 
-exports.updateCustomerLocation = async (root, args, context) => {
+exports.addCustomerLocation = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
     try {
+        let address = {
+            _id: new ObjectId(),
+            title: args.customerAddress.title,
+            address: args.customerAddress.address,
+            reciver_mobile_no: args.customerAddress.reciver_mobile_no,
+            reciver_name: args.customerAddress.reciver_name,
+            house_no: args.customerAddress.house_no,
+            floor_no: args.customerAddress.floor_no,
+            note_to_rider: args.customerAddress.note_to_rider
+        }
         let cUpdate = await User.findOneAndUpdate({
             _id: context.user.user_id
         },
         {
             $push: {
-                addresses: args.address
-            },
-            location: {
-                type: "Point",
-                coordinates: [
-                    args.address.location.lng,
-                    args.address.location.lat
-                ]
+                customer_addresses: address
             }
         }
         )
 
         let returnData = {
             error: false,
-            msg: 'Successfully Updated Location'
+            msg: 'Successfully Added Location',
+            data: address
         }
         return returnData
 
     } catch (error) {
         let returnData = {
             error: true,
-            msg: 'Problem in Updating Location'
+            msg: 'Problem in Adding Location'
+        }
+        return returnData
+    }
+}
+
+exports.deleteCustomerLocation = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try {
+        let cUpdate = await User.findOneAndUpdate({
+            _id: context.user.user_id
+        },
+        {
+            $pull: {
+                customer_addresses: {
+                    _id: args._id
+                }
+            }
+        }
+        )
+
+        let returnData = {
+            error: false,
+            msg: 'Successfully Deleted Location'
+        }
+        return returnData
+
+    } catch (error) {
+        let returnData = {
+            error: true,
+            msg: 'Problem in Deleting Location'
         }
         return returnData
     }

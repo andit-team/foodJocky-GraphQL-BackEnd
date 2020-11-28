@@ -25,7 +25,7 @@ const userSchema = new Schema({
     type: { type: String },
     coordinates: []
   },
-  addresses: [{
+  customer_addresses: [{
     _id: {
       type: mongoose.Schema.Types.ObjectId
     },
@@ -33,11 +33,13 @@ const userSchema = new Schema({
       type: String
     },
     address: {
-        type: String
-    },
-    location: {
-      type: { type: String },
-      coordinates: []
+      address: {
+          type: String
+      },
+      location: {
+          lat: String,
+          lng: String
+      }
     },
     reciver_mobile_no: {
       type: String
@@ -55,6 +57,9 @@ const userSchema = new Schema({
       type: String
     }
   }],
+  active_customer_address: {
+    type: mongoose.Schema.Types.ObjectId
+  },
 //   orders: [{
 //       type: mongoose.Schema.Types.ObjectId,
 //       ref: 'Orders',
