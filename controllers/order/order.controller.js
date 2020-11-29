@@ -24,7 +24,8 @@ exports.addOrder = async(root, args, context) => {
             restaurant: args.orderInput.restaurant,
             customer: context.user.user_id,
             agent: restaurant.agent,
-            status: 'pending'
+            status: 'pending',
+            delivery_info: args.orderInput.delivery_info
         }
 
         if(restaurant.residential_or_municipal === 'residential'){
@@ -49,6 +50,23 @@ exports.addOrder = async(root, args, context) => {
         let newOrder = new Order(order)
 
         let nOrder = await newOrder.save()
+
+        let updateCustomerLocationStatus = await User.updateOne(
+            {
+                _id: context.user.user_id
+            },
+            {
+                $set: {
+                    'customer_addresses.$[address].status': 1
+                }
+            },
+            {
+                arrayFilters: [
+                    {
+                        'address._id': args.orderInput.delivery_info._id
+                    }
+                ]
+            })
 
         let newOrderData = await Order.findById(nOrder._id).populate('restaurant').populate('customer').populate('agent')
 

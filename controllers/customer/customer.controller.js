@@ -234,7 +234,16 @@ exports.addCustomerLocation = async (root, args, context) => {
             }
         }
         )
-        if(cUpdate.n < 1){
+        if(cUpdate.n > 0){
+
+            let returnData = {
+                error: false,
+                msg: 'Successfully Added Location',
+                data: address
+            }
+            return returnData
+
+        }else{
 
             let returnData = {
                 error: true,
@@ -243,12 +252,6 @@ exports.addCustomerLocation = async (root, args, context) => {
             return returnData
 
         }
-        let returnData = {
-            error: false,
-            msg: 'Successfully Added Location',
-            data: address
-        }
-        return returnData
 
     } catch (error) {
         let returnData = {
@@ -285,7 +288,15 @@ exports.deleteCustomerLocation = async (root, args, context) => {
         }
         )
 
-        if(cUpdate.n < 1){
+        if(cUpdate.n > 0){
+
+            let returnData = {
+                error: false,
+                msg: 'Successfully Deleted Location'
+            }
+            return returnData
+            
+        }else{
 
             let returnData = {
                 error: true,
@@ -294,12 +305,6 @@ exports.deleteCustomerLocation = async (root, args, context) => {
             return returnData
 
         }
-
-        let returnData = {
-            error: false,
-            msg: 'Successfully Deleted Location'
-        }
-        return returnData
 
     } catch (error) {
         let returnData = {

@@ -55,6 +55,7 @@ input ItemInput {
     size: String
     quantity: Int
     price: Float
+    delivery_info: CustomerAddress
 }
 
 type ItemOutput {
@@ -73,6 +74,7 @@ type OrderData {
     restaurant: RestaurantData
     customer: CustomerData
     agent: AgentData
+    delivery_info: CustomerAddressType
 }
 `
 module.exports = typeDefs

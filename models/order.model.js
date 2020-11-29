@@ -79,6 +79,38 @@ const OrdersSchema = new Schema({
     village: {
       type: String,
     },
+    delivery_info: {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId
+        },
+        title: {
+          type: String
+        },
+        address: {
+          address: {
+              type: String
+          },
+          location: {
+              lat: String,
+              lng: String
+          }
+        },
+        reciver_mobile_no: {
+          type: String
+        },
+        reciver_name: {
+          type: String
+        },
+        house_no: {
+          type: String
+        },
+        floor_no: {
+          type: String
+        },
+        note_to_rider: {
+          type: String
+        }
+      }
 },
 {
     timestamps: true
