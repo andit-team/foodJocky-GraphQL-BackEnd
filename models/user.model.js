@@ -55,11 +55,11 @@ const userSchema = new Schema({
     },
     note_to_rider: {
       type: String
+    },
+    status: {
+      type: Number
     }
   }],
-  active_customer_address: {
-    type: mongoose.Schema.Types.ObjectId
-  },
 //   orders: [{
 //       type: mongoose.Schema.Types.ObjectId,
 //       ref: 'Orders',

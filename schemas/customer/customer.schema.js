@@ -49,6 +49,7 @@ type Query {
     house_no: String
     floor_no: String
     note_to_rider: String
+    status: Int
   }
 
   input CustomerInput {

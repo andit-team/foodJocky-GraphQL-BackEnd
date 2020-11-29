@@ -222,7 +222,8 @@ exports.addCustomerLocation = async (root, args, context) => {
             reciver_name: args.customerAddress.reciver_name,
             house_no: args.customerAddress.house_no,
             floor_no: args.customerAddress.floor_no,
-            note_to_rider: args.customerAddress.note_to_rider
+            note_to_rider: args.customerAddress.note_to_rider,
+            status: 0
         }
         let cUpdate = await User.updateOne({
             _id: context.user.user_id
