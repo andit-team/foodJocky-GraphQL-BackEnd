@@ -302,8 +302,16 @@ exports.getOneOrder = async(root, args, context) => {
 exports.updateOrderStatus = async(root, args, context) => {
 
     try{
-
-        let uOrder = await Order.updateOne({_id: args._id}, {status: args.status})
+        let udata = {
+            status: args.status 
+        }
+        if(args.delivery_time !== ''){
+            udata = {
+                ...udata,
+                delivery_time: args.delivery_time
+            }
+        }
+        let uOrder = await Order.updateOne({_id: args._id}, udata)
         if(uOrder.n > 0){
 
             let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')

@@ -21,7 +21,7 @@ type Query {
 type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 
-    updateOrderStatus(_id: ID, status: String): OrderAddOutPut
+    updateOrderStatus(_id: ID, status: String, delivery_time: String): OrderAddOutPut
 }
 
 type OrderAddOutPut {
@@ -75,6 +75,7 @@ type OrderData {
     customer: CustomerData
     agent: AgentData
     delivery_info: CustomerAddressType
+    delivery_time: String
 }
 `
 module.exports = typeDefs

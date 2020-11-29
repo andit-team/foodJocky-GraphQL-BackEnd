@@ -79,6 +79,9 @@ const OrdersSchema = new Schema({
     village: {
       type: String,
     },
+    delivery_time: {
+      type: String
+    },
     delivery_info: {
         _id: {
           type: mongoose.Schema.Types.ObjectId
