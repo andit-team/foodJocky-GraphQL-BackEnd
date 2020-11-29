@@ -354,7 +354,7 @@ exports.customerLogin = async(root, args, context) => {
 
         let customer = await User.findOne({
             mobile: args.mobile,
-        })
+        }).populate('last_order')
 
         if(!customer){
             let returnData = {
@@ -420,7 +420,7 @@ exports.verifyCustomerToken = async(root, args, context) => {
 
         if(decodedToken.type === 'customer'){
 
-            let customer = await User.findById(decodedToken._id)
+            let customer = await User.findById(decodedToken._id).populate('last_order')
 
             let returnData = {
                 error: false,
