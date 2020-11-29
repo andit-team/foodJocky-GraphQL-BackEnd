@@ -70,6 +70,7 @@ type Query {
     last_name: String
     customer_addresses: [CustomerAddressType]
     type: String
+    last_order: OrderData
 }
 
   type customerAddOutPut {
