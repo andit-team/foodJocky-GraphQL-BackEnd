@@ -46,6 +46,7 @@ input OrderInput {
     items: [ItemInput]
     total: Float
     restaurant: ID
+    delivery_info: CustomerAddress
 }
 
 input ItemInput {
@@ -55,7 +56,6 @@ input ItemInput {
     size: String
     quantity: Int
     price: Float
-    delivery_info: CustomerAddress
 }
 
 type ItemOutput {
