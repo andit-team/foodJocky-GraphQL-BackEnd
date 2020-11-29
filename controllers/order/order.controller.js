@@ -57,7 +57,8 @@ exports.addOrder = async(root, args, context) => {
             },
             {
                 $set: {
-                    'customer_addresses.$[address].status': 1
+                    'customer_addresses.$[address].status': 1,
+                    last_order: nOrder._id
                 }
             },
             {

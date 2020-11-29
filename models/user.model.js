@@ -60,10 +60,10 @@ const userSchema = new Schema({
       type: Number
     }
   }],
-//   orders: [{
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: 'Orders',
-//   }],
+  last_order: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Orders',
+  },
   // For Restaurant Owners ---------------------------
   owner_address: {
     type: String
