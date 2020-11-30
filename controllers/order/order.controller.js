@@ -18,6 +18,7 @@ exports.addOrder = async(root, args, context) => {
     try{
 
         let restaurant = await Restaurant.findById(args.orderInput.restaurant)
+        let pin = restaurant.user.substring(0,3) + Math.floor(1000 + Math.random() * 9000)
         let order = {
             items: args.orderInput.items,
             total: args.orderInput.total,
@@ -25,7 +26,8 @@ exports.addOrder = async(root, args, context) => {
             customer: context.user.user_id,
             agent: restaurant.agent,
             status: 'pending',
-            delivery_info: args.orderInput.delivery_info
+            delivery_info: args.orderInput.delivery_info,
+            pin: pin
         }
 
         if(restaurant.residential_or_municipal === 'residential'){

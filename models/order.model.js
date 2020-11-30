@@ -36,6 +36,9 @@ const OrdersSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,               //Rider will be assigned later
         ref: 'Users',
     },
+    pin: {
+      type: String
+    },
     sub_total: {
         type: Number
     },

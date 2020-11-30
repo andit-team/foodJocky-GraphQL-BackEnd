@@ -76,6 +76,7 @@ type OrderData {
     agent: AgentData
     delivery_info: CustomerAddressType
     delivery_time: String
+    pin: String
 }
 `
 module.exports = typeDefs
