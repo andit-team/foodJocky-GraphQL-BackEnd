@@ -21,7 +21,8 @@ type Query {
 type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 
-    updateOrderStatus(_id: ID, status: String, delivery_time: String): OrderAddOutPut
+    updateOrderStatus(_id: ID, status: String, delivery_time: String, pin: String): OrderAddOutPut
+    
 }
 
 type OrderAddOutPut {

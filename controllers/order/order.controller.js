@@ -313,11 +313,17 @@ exports.updateOrderStatus = async(root, args, context) => {
                 delivery_time: args.delivery_time
             }
         }
-        let uOrder = await Order.updateOne({_id: args._id}, udata)
+        let uOrder, order
+        if(args._id !== ''){
+            uOrder = await Order.updateOne({_id: args._id}, udata)
+            order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
+        }else{
+            uOrder = await Order.updateOne({pin: args.pin}, udata)
+            order = await Order.findOne(args.pin).populate('restaurant').populate('customer').populate('agent')
+        }
+        
         if(uOrder.n > 0){
-
-            let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
-
+            
             let returnData = {
                 error: false,
                 msg: "Order Status Updated Successfully",
