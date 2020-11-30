@@ -52,7 +52,7 @@ const resolvers = {
               token,
               process.env.SECRET
           )
-          return payload.customer_id == decodedToken._id
+          return payload.customer_id == decodedToken._id || payload.restaurant_id == decodedToken._id
         }
       )
     }
@@ -98,7 +98,8 @@ async getOneOrder(root, args, context) {
     async updateOrderStatus(root, args, context) {
       let result = await OrderController.updateOrderStatus(root, args, context)
       let customer_id = result.data.customer._id
-      pubsub.publish(ORDER_UPDATED, { orderUpdated: result, customer_id })
+      let restaurant_id = result.data.customer._id
+      pubsub.publish(ORDER_UPDATED, { orderUpdated: result, customer_id, restaurant_id })
       return result
     }
   },

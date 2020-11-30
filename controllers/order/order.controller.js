@@ -319,7 +319,7 @@ exports.updateOrderStatus = async(root, args, context) => {
             order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
         }else{
             uOrder = await Order.updateOne({pin: args.pin}, udata)
-            order = await Order.findOne(args.pin).populate('restaurant').populate('customer').populate('agent')
+            order = await Order.findOne({pin: args.pin}).populate('restaurant').populate('customer').populate('agent')
         }
         
         if(uOrder.n > 0){
