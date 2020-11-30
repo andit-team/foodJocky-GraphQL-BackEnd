@@ -98,7 +98,7 @@ async getOneOrder(root, args, context) {
     async updateOrderStatus(root, args, context) {
       let result = await OrderController.updateOrderStatus(root, args, context)
       let customer_id = result.data.customer._id
-      let restaurant_id = result.data.customer._id
+      let restaurant_id = result.data.restaurant._id
       pubsub.publish(ORDER_UPDATED, { orderUpdated: result, customer_id, restaurant_id })
       return result
     }
