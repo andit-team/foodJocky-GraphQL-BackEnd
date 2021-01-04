@@ -78,6 +78,8 @@ type OrderData {
     delivery_info: CustomerAddressType
     delivery_time: String
     pin: String
+    createdAt: String
+    updatedAt: String
 }
 `
 module.exports = typeDefs
