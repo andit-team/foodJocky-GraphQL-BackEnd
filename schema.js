@@ -15,6 +15,7 @@ const riderSchema = require('./schemas/rider/rider.schema')
 const agentSchema = require('./schemas/agent/agent.schema')
 const agentAreaPlanSchema = require('./schemas/admin/agent_area_plan.schema')
 const orderSchema = require('./schemas/order/order.schema')
+const settingsSchema = require('./schemas/admin/settings.schema')
 
 const categoryResolver = require('./resolvers/admin/category.resolver')
 const planResolver = require('./resolvers/admin/plan.resolver')
@@ -28,6 +29,7 @@ const riderResolver= require('./resolvers/rider/rider.resolver')
 const agentResolver= require('./resolvers/agent/agent.resolver')
 const agentAreaPlanResolver = require('./resolvers/admin/agent.area.plan.resolver')
 const orderResolver = require('./resolvers/order/order.resolver')
+const settingsResolver = require('./resolvers/admin/settings.resolver')
 
 const types = [
 	categorySchema,
@@ -42,6 +44,7 @@ const types = [
 	agentSchema,
 	agentAreaPlanSchema,
 	orderSchema,
+	settingsSchema,
 ]
 
 const typeDefs = mergeTypeDefs(types)
@@ -58,7 +61,8 @@ const resolvers = [
 	riderResolver,
 	agentResolver,
 	agentAreaPlanResolver,
-	orderResolver
+	orderResolver,
+	settingsResolver
   ]
 
 const graphQlResolvers = mergeResolvers(resolvers)
