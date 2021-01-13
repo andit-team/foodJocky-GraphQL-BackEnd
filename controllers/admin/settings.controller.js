@@ -1,6 +1,17 @@
 const Settings = require('../../models/settings.model')
 
 exports.addDeliveryCharge = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 
@@ -53,6 +64,17 @@ exports.addDeliveryCharge = async(root, args, context) => {
 }
 
 exports.getSettings = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
     
     try{
 

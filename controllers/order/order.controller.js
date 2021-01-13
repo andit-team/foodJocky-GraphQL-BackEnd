@@ -1,6 +1,7 @@
 const User = require('../../models/user.model')
 const Restaurant = require('../../models/restaurant.model')
 const Order = require('../../models/order.model')
+const mongoose = require('mongoose')
 
 exports.addOrder = async(root, args, context) => {
    
@@ -345,6 +346,85 @@ exports.updateOrderStatus = async(root, args, context) => {
         let returnData = {
             error: true,
             msg: "Order Status Update UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+
+}
+
+exports.getReportByAdmin = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+
+        let startDate = new Date()
+        startDate.setHours(0,0,0,0)
+        
+
+        let endDate = new Date()
+        endDate.setHours(23,59,59,999)
+
+        if(args.end_date !== ''){
+            startDate = new Date(args.start_date)
+            startDate.setHours(0,0,0,0)
+        }
+
+        if(args.end_date !== ''){
+            endDate = new Date(args.end_date)
+            endDate.setHours(23,59,59,999)
+        }
+
+        let restaurantId = mongoose.Types.ObjectId(args.restaurat_id)
+
+        let data = await Order.aggregate([
+            {
+                $match: {
+                    status: 'paid',
+                    restaurant: restaurantId,
+                    createdAt: {
+                        $gte:startDate,
+                        $lte:endDate
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    data: "$$ROOT",
+                    total: {
+                        $sum: "$total"
+                    }
+                }
+            }
+        ])
+        console.log(data[0].data)
+        let returnData = {
+            error: false,
+            msg: "Report Get Successfully",
+            data: {
+                orders: data[0].data,
+                total: 50
+            }
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Report Get UnSuccessful",
             data: {}
         }
         return returnData

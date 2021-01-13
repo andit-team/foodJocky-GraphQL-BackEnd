@@ -83,6 +83,11 @@ async getOneOrder(root, args, context) {
   return result
 },
 
+async getReportByAdmin(root, args, context) {
+  let result = await OrderController.getReportByAdmin(root, args, context)
+  return result
+},
+
   },
   Mutation: {
     async addOrder(root, args, context) {

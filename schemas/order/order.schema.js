@@ -15,6 +15,8 @@ type Query {
     getAllOrdersByAdmin(status: String): OrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
 
+    getReportByAdmin(start_date: String, end_date: String, restaurat_id: ID): ReportsOutput
+
     getOneOrder(_id: ID): OrderAddOutPut
 }
 
@@ -40,6 +42,17 @@ type OrdersOutput {
     error: Boolean
     msg: String
     data: [OrderData]
+}
+
+type ReportsOutput {
+    error: Boolean
+    msg: String
+    data: ReportData
+}
+
+type ReportData {
+    orders: [OrderData]
+    total: Int
 }
 
 input OrderInput {
