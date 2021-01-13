@@ -51,3 +51,38 @@ exports.addDeliveryCharge = async(root, args, context) => {
     
 
 }
+
+exports.getSettings = async(root, args, context) => {
+    
+    try{
+
+        let delivery_charge = await Settings.findOne({},{delivery_charge: 1})
+        if(delivery_charge){
+            let returnData = {
+                error: false,
+                msg: 'Settings Get Successfully',
+                data: delivery_charge
+            }
+            return returnData
+        }else{
+            let returnData = {
+                error: true,
+                msg: 'No Data Available',
+                data: delivery_charge
+            }
+            return returnData
+        }
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Delivery Charge Get UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
