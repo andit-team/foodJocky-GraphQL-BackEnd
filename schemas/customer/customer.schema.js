@@ -71,6 +71,7 @@ type Query {
     customer_addresses: [CustomerAddressType]
     type: String
     last_order: OrderData
+    delivery_charge: Int
 }
 
   type customerAddOutPut {

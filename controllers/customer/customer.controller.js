@@ -1,4 +1,5 @@
 const User = require('../../models/user.model')
+const Settings = require('../../models/settings.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID;
@@ -421,12 +422,15 @@ exports.verifyCustomerToken = async(root, args, context) => {
         if(decodedToken.type === 'customer'){
 
             let customer = await User.findById(decodedToken._id).populate('last_order')
-
+            let delivery_charge = await Settings.findOne({},{delivery_charge: 1})
+            customer.delivery_charge = delivery_charge.delivery_charge
+            
             let returnData = {
                 error: false,
                 msg: "Token Verified Successfully",
                 data: customer
             }
+            console.log(returnData)
             return returnData
 
         }else{
