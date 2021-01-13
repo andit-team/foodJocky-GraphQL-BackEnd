@@ -430,7 +430,6 @@ exports.verifyCustomerToken = async(root, args, context) => {
                 msg: "Token Verified Successfully",
                 data: customer
             }
-            console.log(returnData)
             return returnData
 
         }else{
