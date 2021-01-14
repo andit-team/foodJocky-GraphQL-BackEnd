@@ -388,7 +388,19 @@ exports.getReportByAdmin = async(root, args, context) => {
 
         let restaurantId = mongoose.Types.ObjectId(args.restaurat_id)
 
-        let data = await Order.aggregate([
+        let nData = await Order.aggregate([
+            {
+                $match: {
+                    status: 'paid',
+                    restaurant: restaurantId,
+                    createdAt: {
+                        $gte:startDate,
+                        $lte:endDate
+                    }
+                }
+            }
+        ])
+        let total = await Order.aggregate([
             {
                 $match: {
                     status: 'paid',
@@ -400,22 +412,21 @@ exports.getReportByAdmin = async(root, args, context) => {
                 }
             },
             {
-                $project: {
-                    _id: 0,
-                    data: "$$ROOT",
-                    total: {
-                        $sum: "$total"
+                $group: {
+                    _id: null,
+                    totalSum: {
+                        $sum: '$total'
                     }
                 }
             }
         ])
-        console.log(data[0].data)
+
         let returnData = {
             error: false,
             msg: "Report Get Successfully",
             data: {
-                orders: data[0].data,
-                total: 50
+                orders: nData,
+                total: total[0].totalSum
             }
         }
         return returnData
