@@ -59,6 +59,8 @@ input OrderInput {
     _id: ID
     items: [ItemInput]
     total: Float
+    sub_total: Float
+    delivery_charge: Int
     restaurant: ID
     delivery_info: CustomerAddress
 }
@@ -84,6 +86,8 @@ type OrderData {
     _id: ID
     items: [ItemOutput]
     total: Float
+    sub_total: Float
+    delivery_charge: Int
     status: String
     restaurant: RestaurantData
     customer: CustomerData

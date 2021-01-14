@@ -23,6 +23,8 @@ exports.addOrder = async(root, args, context) => {
         let order = {
             items: args.orderInput.items,
             total: args.orderInput.total,
+            sub_total: args.orderInput.sub_total,
+            delivery_charge: args.orderInput.delivery_charge,
             restaurant: args.orderInput.restaurant,
             customer: context.user.user_id,
             agent: restaurant.agent,

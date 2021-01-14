@@ -42,7 +42,7 @@ const OrdersSchema = new Schema({
     sub_total: {
         type: Number
     },
-    delivery_fee: {
+    delivery_charge: {
         type: Number
     },
     order_type: {
