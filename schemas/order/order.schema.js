@@ -15,7 +15,7 @@ type Query {
     getAllOrdersByAdmin(status: String): OrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
 
-    getReportByAdmin(start_date: String, end_date: String, restaurat_id: ID): ReportsOutput
+    getReportByAdmin(start_date: String, end_date: String, restaurant_id: ID): ReportsOutput
 
     getOneOrder(_id: ID): OrderAddOutPut
 }

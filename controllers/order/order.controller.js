@@ -388,20 +388,16 @@ exports.getReportByAdmin = async(root, args, context) => {
             endDate.setHours(23,59,59,999)
         }
 
-        let restaurantId = mongoose.Types.ObjectId(args.restaurat_id)
-
-        let nData = await Order.aggregate([
-            {
-                $match: {
-                    status: 'paid',
-                    restaurant: restaurantId,
-                    createdAt: {
-                        $gte:startDate,
-                        $lte:endDate
-                    }
-                }
+        let restaurantId = mongoose.Types.ObjectId(args.restaurant_id)
+        let nData = await Order.find({
+            status: 'paid',
+            restaurant: restaurantId,
+            createdAt: {
+                $gte:startDate,
+                $lte:endDate
             }
-        ])
+        }).populate('restaurant').populate('customer').populate('agent')
+
         let total = await Order.aggregate([
             {
                 $match: {
