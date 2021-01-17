@@ -51,6 +51,7 @@ type ReportsOutput {
 }
 
 type ReportData {
+    restaurant: RestaurantData
     orders: [OrderData]
     total: Int
 }

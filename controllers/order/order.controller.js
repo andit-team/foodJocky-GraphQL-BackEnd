@@ -396,7 +396,7 @@ exports.getReportByAdmin = async(root, args, context) => {
                 $gte:startDate,
                 $lte:endDate
             }
-        }).populate('restaurant').populate('customer').populate('agent')
+        }).populate('customer')
 
         let total = await Order.aggregate([
             {
@@ -418,11 +418,12 @@ exports.getReportByAdmin = async(root, args, context) => {
                 }
             }
         ])
-
+        let restaurantData = await Restaurant.findById(args.restaurant_id)
         let returnData = {
             error: false,
             msg: "Report Get Successfully",
             data: {
+                restaurant: restaurantData,
                 orders: nData,
                 total: total[0].totalSum
             }
