@@ -418,7 +418,7 @@ exports.getReportByAdmin = async(root, args, context) => {
                 }
             }
         ])
-        let restaurantData = await Restaurant.findById(args.restaurant_id)
+        let restaurantData = await Restaurant.findById(args.restaurant_id).populate('owner')
         let returnData = {
             error: false,
             msg: "Report Get Successfully",
