@@ -55,7 +55,7 @@ exports.agencyLogin = async(root, args, context) => {
             let returnData = {
                 token: '',
                 error: true,
-                msg: "Rider Not Found",
+                msg: "Agency Not Found",
                 data: {}
             }
             return returnData

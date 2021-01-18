@@ -14,6 +14,7 @@ type Query {
     getAllOrdersByAgent(status: String): OrdersOutput
     getAllOrdersByAdmin(status: String): OrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
+    getAllOrdersByAgency(status: String): OrdersOutput
 
     getReportByAdmin(start_date: String, end_date: String, restaurant_id: ID): ReportsOutput
 

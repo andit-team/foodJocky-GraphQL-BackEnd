@@ -77,6 +77,10 @@ const resolvers = {
   let results = await OrderController.getAllOrdersByCustomer(root, args, context)
   return results
 },
+ async getAllOrdersByAgency(root, args, context) {
+  let results = await OrderController.getAllOrdersByAgency(root, args, context)
+  return results
+},
 
 async getOneOrder(root, args, context) {
   let result = await OrderController.getOneOrder(root, args, context)

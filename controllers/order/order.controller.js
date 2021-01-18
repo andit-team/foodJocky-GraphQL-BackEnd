@@ -227,6 +227,45 @@ exports.getAllOrdersByAdmin = async(root, args, context) => {
     }
 
 }
+exports.getAllOrdersByAgency = async(root, args, context) => {
+
+    if(context.user.type !== 'agency'){
+
+        let returnData = {
+            error: true,
+            msg: "Agency Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            status : args.status
+        }
+
+        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
 
 exports.getAllOrdersByCustomer = async(root, args, context) => {
 
