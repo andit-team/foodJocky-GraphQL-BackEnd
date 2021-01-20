@@ -12,9 +12,31 @@ exports.addAgency = async(root, args, context) => {
             last_name: args.agencyInput.last_name,
             mobile: args.agencyInput.mobile,
             email: args.agencyInput.email,
+            national_id: args.agencyInput.national_id,
+            agency_level: args.agencyInput.agency_level,
             type: 'agency',
             password: hash,
-            status: "approved",
+            status: "pending",
+            rejection_msg: "Your Request is in Pending Mode.......",
+        }
+
+        if(args.agencyInput.agency_level === 'residential'){
+            agency = {
+                ...agency,
+                division: args.agencyInput.division,
+                district: args.agencyInput.district,
+                upazila: args.agencyInput.upazila,
+                union: args.agencyInput.union,
+                agency_areas: args.agencyInput.agency_areas
+            }
+        }else{
+            agency = {
+                ...agency,
+                division: args.agencyInput.division,
+                district: args.agencyInput.district,
+                municipal: args.agencyInput.municipal,
+                agency_areas: args.agencyInput.agency_areas
+            }
         }
 
         let newAgency = new User(agency);
@@ -56,6 +78,16 @@ exports.agencyLogin = async(root, args, context) => {
                 token: '',
                 error: true,
                 msg: "Agency Not Found",
+                data: {}
+            }
+            return returnData
+        }
+
+        if(rider.status !== 'approved' ){
+            let returnData = {
+                token: '',
+                error: true,
+                msg: rider.rejection_msg,
                 data: {}
             }
             return returnData
@@ -142,6 +174,72 @@ exports.verifyAgencyToken = async(root, args, context) => {
             error: true,
             msg: "Token Not Verified",
             data: {}
+        }
+        return returnData
+
+    }
+
+
+}
+
+exports.updateAgencyWithStatus = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+
+        let updateArgs = {
+            _id: args.agencyInput._id
+        }
+
+        let upRider = {
+            first_name: args.agencyInput.first_name,
+            last_name: args.agencyInput.last_name,
+            mobile: args.agencyInput.mobile,
+            email: args.agencyInput.email,
+            national_id: args.agencyInput.national_id,
+            status: args.agencyInput.status,
+            rejection_msg: args.agencyInput.rejection_msg
+        }
+
+        if(args.agencyInput.password !== ''){
+            const hash = bcrypt.hashSync(args.agencyInput.password, 8)
+            upRider.password = hash
+        }
+
+        let uRider = await User.updateOne(updateArgs,upRider)
+
+        if(uRider.n > 0){
+
+            let returnData = {
+                error: false,
+                msg: "Agency Status Updated Successfully"
+            }
+            return returnData
+
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Agency Status Update Unsuccessful"
+            }
+            return returnData
+        }
+
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Agency Status Update Unsuccessful"
         }
         return returnData
 

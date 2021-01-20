@@ -8,6 +8,7 @@ type Query {
 
 type Mutation {
     addAgency(agencyInput: AgencyInput): AgencyAddOutPut
+    updateAgencyWithStatus(agencyInput: AgencyInput): AgencyEditDeleteOutput
 }
 
 type AgencyAddOutPut {
@@ -29,6 +30,14 @@ input AgencyInput {
     mobile: String
     password: String
     email: String
+    national_id: String
+    agency_level: String
+    division: String
+    district: String
+    municipal: String
+    upazila: String
+    union: String
+    agency_areas: [String]
 }
 
 type AgencyData {
@@ -38,6 +47,14 @@ type AgencyData {
     mobile: String
     password: String
     email: String
+    national_id: String
+    agency_level: String
+    division: String
+    district: String
+    municipal: String
+    upazila: String
+    union: String
+    agency_areas: [String]
 }
 `
 module.exports = typeDefs

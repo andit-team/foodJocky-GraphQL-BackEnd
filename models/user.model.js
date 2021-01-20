@@ -155,7 +155,17 @@ const userSchema = new Schema({
   },
   agent_level: {
     type: String
-  }
+  },
+
+  // For Agency----------------------------
+  agency_level: {
+    type: String
+  },
+  agency_areas: [
+    {
+      type: String
+    }
+  ],
 },
 {
     timestamps: true

@@ -22,6 +22,11 @@ const resolvers = {
     async addAgency(root, args, context) {
       let result = await AgencyController.addAgency(root, args, context)
       return result
+    },
+
+    async updateAgencyWithStatus(root, args, context) {
+      let result = await AgencyController.updateAgencyWithStatus(root, args, context)
+      return result
     }
   },
 }
