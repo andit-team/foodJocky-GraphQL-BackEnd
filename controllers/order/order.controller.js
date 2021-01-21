@@ -2,6 +2,7 @@ const User = require('../../models/user.model')
 const Restaurant = require('../../models/restaurant.model')
 const Order = require('../../models/order.model')
 const mongoose = require('mongoose')
+const axios = require('axios')
 
 exports.addOrder = async(root, args, context) => {
    
@@ -343,9 +344,51 @@ exports.getOneOrder = async(root, args, context) => {
 
 }
 
+exports.checkOrderRelatedApi = async(root, args, context) => {
+    try{
+
+        let order = await Order.findById('60092365d94acea4b7cd2a96').populate('restaurant').populate('customer').populate('agent')
+        let deliveryAddress = order.customer.customer_addresses.find((element) => {
+            return element.status === 1
+        })
+
+        const deliveryLocation = deliveryAddress.address.location
+        const restaurntLocation = order.restaurant.address.location
+
+        const riderTime = 10
+        const restaurantTime = 5
+        const apiKey = process.env.MAP_API_KEY
+        
+        let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${restaurntLocation.lat},${restaurntLocation.lng}&destinations=${deliveryLocation.lat},${deliveryLocation.lng}&key=${apiKey}`)
+        let getTime = Math.round(result.data.rows[0].elements[0].duration.value / 60)
+        let calculateTime = getTime + riderTime + restaurantTime
+
+        let dt = new Date()
+        dt.setMinutes(dt.getMinutes() + calculateTime)
+
+        let returnData = {
+            error: false,
+            msg: "Message........",
+            data: {
+                check: dt.toLocaleTimeString()
+            }
+        }
+        return returnData
+
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Message..........",
+            data: {}
+        }
+        return returnData
+    }
+}
+
 exports.updateOrderStatus = async(root, args, context) => {
 
     try{
+
         let udata = {
             status: args.status 
         }

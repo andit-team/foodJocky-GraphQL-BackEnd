@@ -110,6 +110,11 @@ async getReportByAdmin(root, args, context) {
       let restaurant_id = result.data.restaurant._id
       pubsub.publish(ORDER_UPDATED, { orderUpdated: result, customer_id, restaurant_id })
       return result
+    },
+
+    async checkOrderRelatedApi(root, args, context) {
+      let result = await OrderController.checkOrderRelatedApi(root, args, context)
+      return result
     }
   },
 }

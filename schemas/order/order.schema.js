@@ -25,7 +25,19 @@ type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 
     updateOrderStatus(_id: ID, status: String, delivery_time: String, pin: String): OrderAddOutPut
+
+    checkOrderRelatedApi: OrderApiCheck
     
+}
+
+type OrderApiCheck {
+    error: Boolean
+    msg: String
+    data: OrderApiData
+}
+
+type OrderApiData {
+    check: String
 }
 
 type OrderAddOutPut {
