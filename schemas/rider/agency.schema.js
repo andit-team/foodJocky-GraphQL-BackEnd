@@ -1,6 +1,10 @@
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
+type Subscription {
+  agencyAdded: AgencyAddOutPut
+}
+
 type Query {
     agencyLogin(mobile: String , password: String): AgencyAddOutPut
     verifyAgencyToken(token: String): AgencyAddOutPut

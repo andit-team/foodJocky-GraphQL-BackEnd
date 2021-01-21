@@ -110,8 +110,7 @@ exports.riderLogin = async(root, args, context) => {
             {
                 _id: rider._id,
                 type: rider.type
-            }
-            , process.env.SECRET,
+            }, process.env.SECRET,
             {
             expiresIn: "8h"
         })
