@@ -15,7 +15,7 @@ const OrdersSchema = new Schema({
         type: Number
     },
     status: {
-        type: String    // pending,accepted,delivered
+        type: String    // pending,accepted,delivered,paid,cancelled,agency_accepted
     },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
@@ -32,12 +32,20 @@ const OrdersSchema = new Schema({
     rej_reason: {
         type: String
     },
+    agencies: [
+      {
+         _id: {
+           type: mongoose.Schema.Types.ObjectId,
+           ref: 'Users',
+         },
+         status: {
+           type: Boolean
+         }
+      }
+    ],
     rider: {
         type: mongoose.Schema.Types.ObjectId,               //Rider will be assigned later
         ref: 'Users',
-    },
-    pin: {
-      type: String
     },
     sub_total: {
         type: Number
@@ -116,7 +124,10 @@ const OrdersSchema = new Schema({
         note_to_rider: {
           type: String
         }
-      }
+    },
+    residential_or_municipal: {
+      type: String
+    }
 },
 {
     timestamps: true

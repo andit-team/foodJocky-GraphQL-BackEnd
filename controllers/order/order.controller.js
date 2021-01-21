@@ -20,7 +20,6 @@ exports.addOrder = async(root, args, context) => {
     try{
 
         let restaurant = await Restaurant.findById(args.orderInput.restaurant)
-        let pin = restaurant.user.substring(0,3) + Math.floor(1000 + Math.random() * 9000)
         let order = {
             items: args.orderInput.items,
             total: args.orderInput.total,
@@ -31,7 +30,7 @@ exports.addOrder = async(root, args, context) => {
             agent: restaurant.agent,
             status: 'pending',
             delivery_info: args.orderInput.delivery_info,
-            pin: pin
+            residential_or_municipal: restaurant.residential_or_municipal
         }
 
         if(restaurant.residential_or_municipal === 'residential'){
@@ -347,30 +346,11 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let order = await Order.findById('60092365d94acea4b7cd2a96').populate('restaurant').populate('customer').populate('agent')
-        let deliveryAddress = order.customer.customer_addresses.find((element) => {
-            return element.status === 1
-        })
-
-        const deliveryLocation = deliveryAddress.address.location
-        const restaurntLocation = order.restaurant.address.location
-
-        const riderTime = 10
-        const restaurantTime = 5
-        const apiKey = process.env.MAP_API_KEY
-        
-        let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${restaurntLocation.lat},${restaurntLocation.lng}&destinations=${deliveryLocation.lat},${deliveryLocation.lng}&key=${apiKey}`)
-        let getTime = Math.round(result.data.rows[0].elements[0].duration.value / 60)
-        let calculateTime = getTime + riderTime + restaurantTime
-
-        let dt = new Date()
-        dt.setMinutes(dt.getMinutes() + calculateTime)
-
         let returnData = {
             error: false,
             msg: "Message........",
             data: {
-                check: dt.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true })
+                check: "hello"
             }
         }
         return returnData
@@ -392,21 +372,37 @@ exports.updateOrderStatus = async(root, args, context) => {
         let udata = {
             status: args.status 
         }
-        if(args.delivery_time !== ''){
+        if(args.status === 'accepted'){
+
+            let order = await Order.findById(args._id)
+            let agencies
+            if(order.residential_or_municipal === 'residential'){
+                agencies = await User.find({agency_level: order.residential_or_municipal, agency_areas: order.village},{_id: 1})
+            }else{
+                agencies = await User.find({agency_level: order.residential_or_municipal, agency_areas: order.ward},{_id: 1})
+            }
+
+            let newAgencies = []
+            for(let i=0; i<agencies.length; i++){
+                let njson = {
+                    _id: agencies[i]._id,
+                    status: false
+                }
+
+                newAgencies.push(njson)
+            }
+
             udata = {
                 ...udata,
-                delivery_time: args.delivery_time
+                agencies: newAgencies,
+                delivery_time: await getDeliveryTime(args._id)
             }
+
         }
-        let uOrder, order
-        if(args._id !== ''){
-            uOrder = await Order.updateOne({_id: args._id}, udata)
-            order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
-        }else{
-            uOrder = await Order.updateOne({pin: args.pin}, udata)
-            order = await Order.findOne({pin: args.pin}).populate('restaurant').populate('customer').populate('agent')
-        }
-        
+
+        let uOrder = await Order.updateOne({_id: args._id}, udata)
+        let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
+
         if(uOrder.n > 0){
             
             let returnData = {
@@ -434,6 +430,30 @@ exports.updateOrderStatus = async(root, args, context) => {
         }
         return returnData
 
+    }
+
+
+    async function getDeliveryTime(_id){
+        let order = await Order.findById(_id).populate('restaurant').populate('customer').populate('agent')
+        let deliveryAddress = order.customer.customer_addresses.find((element) => {
+            return element.status === 1
+        })
+
+        const deliveryLocation = deliveryAddress.address.location
+        const restaurntLocation = order.restaurant.address.location
+
+        const riderTime = 10
+        const restaurantTime = 5
+        const apiKey = process.env.MAP_API_KEY
+        
+        let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${restaurntLocation.lat},${restaurntLocation.lng}&destinations=${deliveryLocation.lat},${deliveryLocation.lng}&key=${apiKey}`)
+        let getTime = Math.round(result.data.rows[0].elements[0].duration.value / 60)
+        let calculateTime = getTime + riderTime + restaurantTime
+
+        let dt = new Date()
+        dt.setMinutes(dt.getMinutes() + calculateTime)
+
+        return dt.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true })
     }
 
 }

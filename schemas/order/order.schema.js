@@ -5,6 +5,7 @@ type Subscription {
     orderAdded: OrderAddOutPut
     orderAddedSeeByRestaurant(token: String!): OrderAddOutPut
     orderAddedSeeByAgent(token: String!): OrderAddOutPut
+    orderGetByAgency(token: String!): OrderAddOutPut
 
     orderUpdated(token: String!): OrderAddOutPut
 }
