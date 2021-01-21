@@ -370,7 +370,7 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
             error: false,
             msg: "Message........",
             data: {
-                check: dt.toLocaleTimeString()
+                check: dt.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true })
             }
         }
         return returnData
