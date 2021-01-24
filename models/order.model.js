@@ -15,7 +15,7 @@ const OrdersSchema = new Schema({
         type: Number
     },
     status: {
-        type: String    // pending,accepted,delivered,paid,cancelled,agency_accepted
+        type: String    // pending,accepted,delivered,paid,cancelled
     },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,

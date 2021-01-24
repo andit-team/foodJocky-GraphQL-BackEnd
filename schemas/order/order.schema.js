@@ -26,8 +26,9 @@ type Mutation {
     addOrder(orderInput: OrderInput): OrderAddOutPut
 
     updateOrderStatus(_id: ID, status: String, delivery_time: String, pin: String): OrderAddOutPut
+    updateOrderByAgency(agency_status: String, _id: ID, rider: ID): OrderAddOutPut
 
-    checkOrderRelatedApi: OrderApiCheck
+    checkOrderRelatedApi(agency_status: String, _id: ID): OrderApiCheck
     
 }
 

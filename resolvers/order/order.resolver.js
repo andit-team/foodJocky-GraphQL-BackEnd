@@ -138,6 +138,11 @@ async getReportByAdmin(root, args, context) {
       return result
     },
 
+    async updateOrderByAgency(root, args, context) {
+      let result = await OrderController.updateOrderByAgency(root, args, context)
+      return result
+    },
+
     async checkOrderRelatedApi(root, args, context) {
       let result = await OrderController.checkOrderRelatedApi(root, args, context)
       return result

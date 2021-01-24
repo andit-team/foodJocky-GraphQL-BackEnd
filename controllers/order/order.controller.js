@@ -242,7 +242,8 @@ exports.getAllOrdersByAgency = async(root, args, context) => {
 
     try{
         let query = {
-            status : args.status
+            status : args.status,
+            'agencies._id': context.user.user_id
         }
 
         let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
@@ -346,16 +347,51 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let returnData = {
-            error: false,
-            msg: "Message........",
-            data: {
-                check: "hello"
-            }
+        let updateAgencyIntoOrder
+        if(args.agency_status === 'accept'){
+            updateAgencyIntoOrder = await Order.updateOne(
+                {
+                    _id: args._id
+                },
+                {
+                    $set: {
+                        'agencies.$[agency].status': true
+                    }
+                },
+                {
+                    arrayFilters: [
+                        {
+                            'agency._id': context.user.user_id
+                        }
+                    ]
+                })
+        }else{
+            updateAgencyIntoOrder = await Order.updateOne(
+                {
+                    _id: args._id
+                },
+                {
+                    $pull: {
+                        agencies: {
+                            _id: context.user.user_id
+                        }
+                    }
+                })
         }
-        return returnData
+        if(updateAgencyIntoOrder.n > 0){
+            let returnData = {
+                error: false,
+                msg: "Message........",
+                data: {
+                    check: "hello"
+                }
+            }
+            return returnData
+        }
+        
 
     }catch(error){
+        console.log(error)
         let returnData = {
             error: true,
             msg: "Message..........",
@@ -432,7 +468,6 @@ exports.updateOrderStatus = async(root, args, context) => {
 
     }
 
-
     async function getDeliveryTime(_id){
         let order = await Order.findById(_id).populate('restaurant').populate('customer').populate('agent')
         let deliveryAddress = order.customer.customer_addresses.find((element) => {
@@ -454,6 +489,98 @@ exports.updateOrderStatus = async(root, args, context) => {
         dt.setMinutes(dt.getMinutes() + calculateTime)
 
         return dt.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: true })
+    }
+
+}
+
+exports.updateOrderByAgency = async(root, args, context) => {
+
+    if(context.user.type !== 'agency'){
+
+        let returnData = {
+            error: true,
+            msg: "Agency Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+
+        let uOrder
+        if(args.agency_status === 'accept'){
+            uOrder = await Order.updateOne(
+                {
+                    _id: args._id
+                },
+                {
+                    $set: {
+                        'agencies.$[agency].status': true,
+                        rider: args.rider
+                    }
+                },
+                {
+                    arrayFilters: [
+                        {
+                            'agency._id': context.user.user_id
+                        }
+                    ]
+                })
+        }else{
+            uOrder = await Order.updateOne(
+                {
+                    _id: args._id
+                },
+                {
+                    $pull: {
+                        agencies: {
+                            _id: context.user.user_id
+                        }
+                    }
+                })
+        }
+
+        let agarinUpdate = await Order.updateOne({
+            _id: args._id,
+            agencies: {
+                $size: 0
+            }
+        },{
+            status: 'cancelled',
+            rej_reason: 'All Rider Reject This Order'
+        })
+
+        let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
+
+        if(uOrder.n > 0){
+            
+            let returnData = {
+                error: false,
+                msg: "Order Status Updated Successfully",
+                data: order
+            }
+            return returnData
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Order Status Update UnSuccessful",
+                data: {}
+            }
+            return returnData
+        }
+        
+
+    }catch(error){
+
+        console.log(error)
+        let returnData = {
+            error: true,
+            msg: "Order Status Update UnSuccessful",
+            data: {}
+        }
+        return returnData
+
     }
 
 }
