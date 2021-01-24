@@ -97,6 +97,10 @@ const userSchema = new Schema({
     }
   }],
   // For Riders-----------------------------------------
+  agency: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+  },
   national_id: {
       type: String
   },

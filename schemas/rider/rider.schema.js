@@ -1,12 +1,8 @@
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
-type Subscription {
-  riderAdded: RiderAddOutPut
-}
-
 type Query {
-    getAllRiders(status: String): RidersOutput
+    getAllRiders: RidersOutput
     getOneRider(_id: ID): RiderAddOutPut
     riderLogin(mobile: String , password: String): RiderAddOutPut
     verifyRiderToken(token: String): RiderAddOutPut
@@ -46,15 +42,6 @@ input RiderInput {
     email: String
     type: String
     national_id: String
-    owner_address: String
-    residential_or_municipal: String
-    division: String
-    district: String
-    municipal: String
-    ward: String
-    upazila: String
-    union: String
-    village: String
     status: String
     rejection_msg: String
 }
@@ -69,7 +56,6 @@ input RiderInput {
     national_id: String
     status: String
     rejection_msg: String
-    owner_address: String
   }
 `
 module.exports = typeDefs

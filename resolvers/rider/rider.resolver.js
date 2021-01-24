@@ -6,11 +6,7 @@ const RiderController = require('../../controllers/rider/rider.controller')
 const RIDER_ADDED = "RIDER_ADDED"
 
 const resolvers = {
-  Subscription: {
-    riderAdded: {
-      subscribe: () => pubsub.asyncIterator(RIDER_ADDED),
-    }
-  },
+
   Query: {
     async getAllRiders(root, args, context) {
        let results = await RiderController.getAllRiders(root, args, context)
@@ -36,7 +32,6 @@ const resolvers = {
   Mutation: {
     async addRider(root, args, context) {
       let result = await RiderController.addRider(root, args, context)
-      pubsub.publish(RIDER_ADDED, { riderAdded: result })
       return result
     },
 
