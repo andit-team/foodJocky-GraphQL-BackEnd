@@ -6,6 +6,7 @@ type Subscription {
     orderAddedSeeByRestaurant(token: String!): OrderAddOutPut
     orderAddedSeeByAgent(token: String!): OrderAddOutPut
     orderGetByAgency(token: String!): OrderAddOutPut
+    orderGetByRider(token: String!): OrderAddOutPut
 
     orderUpdated(token: String!): OrderAddOutPut
 }
@@ -16,6 +17,7 @@ type Query {
     getAllOrdersByAdmin(status: String): OrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
     getAllOrdersByAgency(status: String): OrdersOutput
+    getAllOrdersByRider(status: String): OrdersOutput
 
     getReportByAdmin(start_date: String, end_date: String, restaurant_id: ID): ReportsOutput
 

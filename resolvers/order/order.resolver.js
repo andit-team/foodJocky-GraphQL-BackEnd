@@ -9,6 +9,7 @@ const ORDER_ADDED_SEEN_BY_RESTAURANT = "ORDER_ADDED_SEEN_BY_RESTAURANT"
 const ORDER_ADDED_SEEN_BY_AGENT = "ORDER_ADDED_SEEN_BY_AGENT"
 const ORDER_UPDATED = "ORDER_UPDATED"
 const ORDER_GET_BY_AGENCY = "ORDER_GET_BY_AGENCY"
+const ORDER_GET_BY_RIDER = "ORDER_GET_BY_RIDER"
 
 const resolvers = {
   Subscription: {
@@ -77,7 +78,20 @@ const resolvers = {
           return returnBoolean
         }
       )
-    }
+    },
+    orderGetByRider: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(ORDER_GET_BY_RIDER),
+        (payload, variables) => {
+          const token = variables.token
+          const decodedToken = jwt.verify(
+              token,
+              process.env.SECRET
+          )
+          return payload.rider_id == decodedToken._id
+        }
+      )
+    },
   },
   Query: {
     async getAllOrdersByRestaurant(root, args, context) {
@@ -101,6 +115,10 @@ const resolvers = {
 },
  async getAllOrdersByAgency(root, args, context) {
   let results = await OrderController.getAllOrdersByAgency(root, args, context)
+  return results
+},
+ async getAllOrdersByRider(root, args, context) {
+  let results = await OrderController.getAllOrdersByRider(root, args, context)
   return results
 },
 
@@ -140,6 +158,13 @@ async getReportByAdmin(root, args, context) {
 
     async updateOrderByAgency(root, args, context) {
       let result = await OrderController.updateOrderByAgency(root, args, context)
+      if(args.agency_status === 'accept'){
+        let rider_id = result.data.rider
+        pubsub.publish(ORDER_GET_BY_RIDER, { orderGetByRider: result, rider_id })
+      }else{
+        let agencies = result.data.agencies
+        pubsub.publish(ORDER_GET_BY_AGENCY, { orderGetByAgency: result, agencies })
+      }
       return result
     },
 

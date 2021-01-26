@@ -312,6 +312,50 @@ exports.getAllOrdersByCustomer = async(root, args, context) => {
 
 }
 
+exports.getAllOrdersByRider = async(root, args, context) => {
+
+    if(context.user.type !== 'rider'){
+
+        let returnData = {
+            error: true,
+            msg: "Rider Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            rider: context.user.user_id
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: orders
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
 exports.getOneOrder = async(root, args, context) => {
 
     try{
@@ -347,49 +391,19 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let updateAgencyIntoOrder
-        if(args.agency_status === 'accept'){
-            updateAgencyIntoOrder = await Order.updateOne(
-                {
-                    _id: args._id
-                },
-                {
-                    $set: {
-                        'agencies.$[agency].status': true
-                    }
-                },
-                {
-                    arrayFilters: [
-                        {
-                            'agency._id': context.user.user_id
-                        }
-                    ]
-                })
-        }else{
-            updateAgencyIntoOrder = await Order.updateOne(
-                {
-                    _id: args._id
-                },
-                {
-                    $pull: {
-                        agencies: {
-                            _id: context.user.user_id
-                        }
-                    }
-                })
+        let orderFind = await Order.findOne({_id: args._id, 'agencies.status': true})
+        if(orderFind){
+            console.log(orderFind)
         }
-        if(updateAgencyIntoOrder.n > 0){
-            let returnData = {
-                error: false,
-                msg: "Message........",
-                data: {
-                    check: "hello"
-                }
+        let returnData = {
+            error: false,
+            msg: "Message........",
+            data: {
+                check: "hello"
             }
-            return returnData
         }
+        return returnData
         
-
     }catch(error){
         console.log(error)
         let returnData = {
@@ -510,6 +524,17 @@ exports.updateOrderByAgency = async(root, args, context) => {
 
         let uOrder
         if(args.agency_status === 'accept'){
+
+            let orderFind = await Order.findOne({_id: args._id, 'agencies.status': true})
+            if(orderFind){
+                let returnData = {
+                    error: true,
+                    msg: "Order Already Accepted By Another Agency...",
+                    data: {}
+                }
+                return returnData
+            }
+
             uOrder = await Order.updateOne(
                 {
                     _id: args._id
