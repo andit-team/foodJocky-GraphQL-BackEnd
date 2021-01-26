@@ -283,6 +283,7 @@ exports.getAllAcceptedOrdersByAgency = async(root, args, context) => {
 
     try{
         let query = {
+            status: 'accepted',
             'agencies._id': context.user.user_id,
             'agencies.status': true
         }
