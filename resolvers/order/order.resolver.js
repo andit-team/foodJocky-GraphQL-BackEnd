@@ -117,6 +117,10 @@ const resolvers = {
   let results = await OrderController.getAllOrdersByAgency(root, args, context)
   return results
 },
+async getAllAcceptedOrdersByAgency(root, args, context) {
+  let results = await OrderController.getAllAcceptedOrdersByAgency(root, args, context)
+  return results
+},
  async getAllOrdersByRider(root, args, context) {
   let results = await OrderController.getAllOrdersByRider(root, args, context)
   return results

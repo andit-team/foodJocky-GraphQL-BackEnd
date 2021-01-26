@@ -17,6 +17,7 @@ type Query {
     getAllOrdersByAdmin(status: String): OrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
     getAllOrdersByAgency(status: String): OrdersOutput
+    getAllAcceptedOrdersByAgency: OrdersOutput
     getAllOrdersByRider(status: String): OrdersOutput
 
     getReportByAdmin(start_date: String, end_date: String, restaurant_id: ID): ReportsOutput
@@ -110,6 +111,7 @@ type OrderData {
     restaurant: RestaurantData
     customer: CustomerData
     agent: AgentData
+    rider: RiderData
     delivery_info: CustomerAddressType
     delivery_time: String
     pin: String
