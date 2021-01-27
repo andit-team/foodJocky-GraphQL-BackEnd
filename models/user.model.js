@@ -173,6 +173,14 @@ const userSchema = new Schema({
       type: String
     }
   ],
+
+  // For Wallet ------------------------------
+  balance: {
+    type: Number
+  },
+  cashback: {
+    type: Number
+  }
 },
 {
     timestamps: true

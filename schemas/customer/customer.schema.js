@@ -72,6 +72,7 @@ type Query {
     customer_addresses: [CustomerAddressType]
     type: String
     last_order: OrderData
+    profile_picture: String
 }
 
   type customerAddOutPut {
