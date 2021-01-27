@@ -17,6 +17,9 @@ const userSchema = new Schema({
   last_name:{
       type: String,
   },
+  profile_picture: {
+    type: String
+  },
   type: {
     type: String, // owner, rider, customer, agent, admin
     required: true

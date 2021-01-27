@@ -15,6 +15,7 @@ type Query {
     deleteCustomer(_id: ID): CustomerEditDeleteOutPut
     addCustomerLocation(customerAddress: CustomerAddress): CustomerAddLocationData
     deleteCustomerLocation(_id: ID): CustomerEditDeleteOutPut
+    updateCustomerProfilePicture(profile_picture: String): CustomerEditDeleteOutPut
   }
 
   input CustomerAddress {

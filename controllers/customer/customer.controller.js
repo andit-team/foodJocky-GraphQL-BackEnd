@@ -45,13 +45,28 @@ exports.addCustomer = async (root, args, context) => {
 }
 
 exports.updateCustomer = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
     try {
         let updateArgs = {
-            mobile: args.customerInput.mobile,
             email: args.customerInput.email,
-            password: args.customerInput.password,
             first_name: args.customerInput.first_name,
             last_name: args.customerInput.last_name,
+        }
+
+        if(args.customerInput.password !== ''){
+            const hash = bcrypt.hashSync(args.customerInput.password, 8)
+            updateArgs.password = hash
         }
 
         let query = {
@@ -83,6 +98,56 @@ exports.updateCustomer = async (root, args, context) => {
         let returnData = {
             error: true,
             msg: 'Problem in Updating Customer'
+        }
+        return returnData
+    }
+}
+
+exports.updateCustomerProfilePicture = async (root, args, context) => {
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    try {
+        let updateArgs = {
+            profile_picture: args.profile_picture
+        }
+
+        let query = {
+            _id: context.user.user_id
+        }
+
+        let nUser = await User.updateOne(query,updateArgs)
+
+        if(nUser.n > 0){
+
+            let returnData = {
+                error: false,
+                msg: 'Successfully Updated Customer Profile Picture'
+            }
+            return returnData
+
+        }else {
+
+            let returnData = {
+                error: true,
+                msg: 'Problem in Updating Customer Profile Picture'
+            }
+            return returnData
+
+        }
+
+    } catch (error) {
+
+        let returnData = {
+            error: true,
+            msg: 'Problem in Updating Customer Profile Picture'
         }
         return returnData
     }

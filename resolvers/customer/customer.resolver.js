@@ -49,6 +49,10 @@ const resolvers = {
         let result = await CustomerController.deleteCustomerLocation(root, args, context)
         return result
       },
+      async updateCustomerProfilePicture(root, args, context) {
+        let result = await CustomerController.updateCustomerProfilePicture(root, args, context)
+        return result
+      },
   },
 }
 
