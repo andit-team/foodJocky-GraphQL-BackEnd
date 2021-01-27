@@ -420,6 +420,7 @@ exports.customerLogin = async(root, args, context) => {
 
         let customer = await User.findOne({
             mobile: args.mobile,
+            type: 'customer'
         }).populate('last_order')
 
         if(!customer){
