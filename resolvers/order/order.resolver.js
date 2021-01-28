@@ -166,8 +166,10 @@ async getReportByAdmin(root, args, context) {
         let rider_id = result.data.rider
         pubsub.publish(ORDER_GET_BY_RIDER, { orderGetByRider: result, rider_id })
       }else{
-        let agencies = result.data.agencies
-        pubsub.publish(ORDER_GET_BY_AGENCY, { orderGetByAgency: result, agencies })
+        if(result.error === false){
+          let agencies = result.data.agencies
+          pubsub.publish(ORDER_GET_BY_AGENCY, { orderGetByAgency: result, agencies })
+        }
       }
       return result
     },
