@@ -3,6 +3,7 @@ const Settings = require('../../models/settings.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID;
+const Order = require('../../models/order.model')
 
 exports.addCustomer = async (root, args, context) => {
     try {
@@ -412,6 +413,58 @@ exports.getAllCustomerLocations = async (root, args, context) => {
         }
         return returnData
     }
+}
+
+exports.getCustomerDashboardData = async(root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            customer: context.user.user_id
+        }
+
+        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let totalOrders = await Order.count(query)
+        query = {
+            ...query,
+            status: 'pending'
+        }
+        let pendingOrders = await Order.count(query)
+
+        let nData = {
+            totalOrders: totalOrders,
+            pendingOrders: pendingOrders,
+            orders: orders
+        }
+
+        let returnData = {
+            error: false,
+            msg: "Orders Get Successfully",
+            data: nData
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Orders Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
 }
 
 exports.customerLogin = async(root, args, context) => {

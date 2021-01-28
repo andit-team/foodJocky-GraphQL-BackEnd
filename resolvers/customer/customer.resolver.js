@@ -23,6 +23,10 @@ const resolvers = {
       let result = await CustomerController.getAllCustomerLocations(root, args, context)
       return result
     },
+    async getCustomerDashboardData(root, args, context) {
+      let result = await CustomerController.getCustomerDashboardData(root, args, context)
+      return result
+    },
   },
   Mutation: {
     async addCustomer(root, args, context) {

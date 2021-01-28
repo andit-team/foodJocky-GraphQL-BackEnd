@@ -7,6 +7,7 @@ type Query {
     customerLogin(mobile: String, password: String): customerAddOutPut
     verifyCustomerToken(token: String): customerAddOutPut
     getAllCustomerLocations: AllCustomerLocationData
+    getCustomerDashboardData: CustomerDashboardData
   }
 
   type Mutation {
@@ -33,6 +34,18 @@ type Query {
     error: Boolean
     msg: String
     data: CustomerAddressType
+  }
+
+  type CustomerDashboardData {
+    error: Boolean
+    msg: String
+    data: CustomerDashboard
+  }
+
+  type CustomerDashboard {
+    totalOrders: Int
+    pendingOrders: Int
+    orders: [OrderData]
   }
 
   type AllCustomerLocationData {
