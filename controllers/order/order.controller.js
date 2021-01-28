@@ -603,7 +603,7 @@ exports.updateOrderByAgency = async(root, args, context) => {
 
             let orderFind = await Order.findOne({_id: args._id})
             let acceptedtime = orderFind.updatedAt
-            acceptedtime.setMinutes(acceptedtime.getMinutes() + 1)
+            acceptedtime.setMinutes(acceptedtime.getMinutes() + 2)
             let currentTime   = new Date()
             
             if(acceptedtime < currentTime){
