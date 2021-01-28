@@ -433,10 +433,15 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let orderFind = await Order.findOne({_id: args._id, 'agencies.status': true})
-        if(orderFind){
-            console.log(orderFind)
-        }
+        let orderFind = await Order.findOne({_id: args._id})
+            let acceptedtime = orderFind.updatedAt
+            acceptedtime.setMinutes(acceptedtime.getMinutes() + 2)
+            let currentTime   = new Date()
+            
+            if(acceptedtime < currentTime){
+                console.log('rejected')
+            }
+        
         let returnData = {
             error: false,
             msg: "Message........",
@@ -595,6 +600,21 @@ exports.updateOrderByAgency = async(root, args, context) => {
                     ]
                 })
         }else{
+
+            let orderFind = await Order.findOne({_id: args._id})
+            let acceptedtime = orderFind.updatedAt
+            acceptedtime.setMinutes(acceptedtime.getMinutes() + 2)
+            let currentTime   = new Date()
+            
+            if(acceptedtime < currentTime){
+                let returnData = {
+                    error: true,
+                    msg: "Your Rejection Time is over....",
+                    data: {}
+                }
+                return returnData
+            }
+
             uOrder = await Order.updateOne(
                 {
                     _id: args._id
