@@ -162,7 +162,7 @@ async getReportByAdmin(root, args, context) {
 
     async updateOrderByAgency(root, args, context) {
       let result = await OrderController.updateOrderByAgency(root, args, context)
-      if(args.agency_status === 'accept' && result.error === false){
+      if(args.agency_status === 'accept'){
         let rider_id = result.data.rider
         pubsub.publish(ORDER_GET_BY_RIDER, { orderGetByRider: result, rider_id })
       }else{
