@@ -182,6 +182,76 @@ exports.verifyAgencyToken = async(root, args, context) => {
 
 }
 
+exports.getAllAgencies = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try{
+        let query = {
+            type: 'agency'
+        }
+
+        if(args.status !== ""){
+            query.status = args.status
+        }
+
+        let agencies = await User.find(query)
+
+        let returnData = {
+            error: false,
+            msg: "Agency Get Successfully",
+            data: agencies
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Agency Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
+exports.getOneAgency = async(root, args, context) => {
+
+    try{
+
+        let agency = await User.findById(args._id)
+
+        let returnData = {
+            error: false,
+            msg: "Agency Get Successfully",
+            data: agency
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Agency Get UnSuccessful",
+            data: []
+        }
+        return returnData
+
+    }
+
+}
+
 exports.updateAgencyWithStatus = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){

@@ -22,7 +22,17 @@ const resolvers = {
   async verifyAgencyToken(root, args, context) {
     let result = await AgencyController.verifyAgencyToken(root, args, context)
     return result
-  }
+  },
+
+  async getAllAgencies(root, args, context) {
+    let results = await AgencyController.getAllAgencies(root, args, context)
+    return results
+  },
+  
+  async getOneAgency(root, args, context) {
+    let result = await AgencyController.getOneAgency(root, args, context)
+    return result
+  },
 
   },
   Mutation: {

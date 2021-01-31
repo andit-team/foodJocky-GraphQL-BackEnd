@@ -8,6 +8,8 @@ type Subscription {
 type Query {
     agencyLogin(mobile: String , password: String): AgencyAddOutPut
     verifyAgencyToken(token: String): AgencyAddOutPut
+    getAllAgencies(status: String): AgenciesOutPut
+    getOneAgency(_id: String): AgencyAddOutPut
 }
 
 type Mutation {
@@ -20,6 +22,12 @@ type AgencyAddOutPut {
     error: Boolean
     msg: String
     data: AgencyData
+}
+
+type AgenciesOutPut {
+    error: Boolean
+    msg: String
+    data: [AgencyData]
 }
 
 type AgencyEditDeleteOutput {
