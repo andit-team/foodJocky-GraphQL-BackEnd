@@ -50,6 +50,7 @@ input AgencyInput {
     upazila: String
     union: String
     agency_areas: [String]
+    status: String
 }
 
 type AgencyData {

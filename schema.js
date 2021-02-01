@@ -10,6 +10,7 @@ const adminSchema = require('./schemas/admin/admin.schema')
 const restaurantSchema = require('./schemas/restaurant/restaurant.schema')
 const foodSchema = require('./schemas/food/food.schema')
 const customerSchema = require('./schemas/customer/customer.schema')
+const customerWalletSchema = require('./schemas/customer/wallet.schema')
 const geoSchema = require('./schemas/geo/geo.schema')
 const riderSchema = require('./schemas/rider/rider.schema')
 const agentSchema = require('./schemas/agent/agent.schema')
@@ -25,6 +26,7 @@ const adminResolver= require('./resolvers/admin/admin.resolver')
 const restaurantResolver= require('./resolvers/restaurant/restaurant.resolver')
 const foodResolver= require('./resolvers/food/food.resolver')
 const customerResolver= require('./resolvers/customer/customer.resolver')
+const customerWalletResolver= require('./resolvers/customer/wallet.resolver')
 const geoResolver= require('./resolvers/geo/geo.resolver')
 const riderResolver= require('./resolvers/rider/rider.resolver')
 const agentResolver= require('./resolvers/agent/agent.resolver')
@@ -41,6 +43,7 @@ const types = [
 	restaurantSchema,
 	foodSchema,
 	customerSchema,
+	customerWalletSchema,
 	geoSchema,
 	riderSchema,
 	agentSchema,
@@ -60,6 +63,7 @@ const resolvers = [
 	restaurantResolver,
 	foodResolver,
 	customerResolver,
+	customerWalletResolver,
 	geoResolver,
 	riderResolver,
 	agentResolver,

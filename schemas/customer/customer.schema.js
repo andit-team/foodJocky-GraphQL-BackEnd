@@ -86,6 +86,8 @@ type Query {
     type: String
     last_order: OrderData
     profile_picture: String
+    balance: Float
+    cashback: Float
 }
 
   type customerAddOutPut {
