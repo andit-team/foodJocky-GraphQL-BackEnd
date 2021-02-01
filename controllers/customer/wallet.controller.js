@@ -24,8 +24,29 @@ exports.addBalance = async (root, args, context) => {
             address = customer.customer_addresses[0].address.address
         }
         let cashback = (args.amount * cashbackPercentange)/100
+        let amount = args.amount
+        let totalAmount = cashback + amount
         
-        console.log(cashback)
+        
+        if(customer.balance !== undefined){
+            previous_balance = customer.balance
+            current_balance = current_balance + totalAmount
+        }else{
+            previous_balance = 0
+            current_balance = totalAmount
+        }
+
+        let user = new User({
+            current_balance: current_balance,
+            previous_balance: previous_balance,
+            amount: amount,
+            cashback: cashback,
+            cashback_percentange: cashbackPercentange,
+            debit_or_credit: 'debit',
+            reason: 'Add Balance to Wallet',
+            status: 'pending',
+            user: context.user.user_id
+        })
         
         
         let returnData = {

@@ -51,6 +51,7 @@ input AgencyInput {
     union: String
     agency_areas: [String]
     status: String
+    rejection_msg: String
 }
 
 type AgencyData {
@@ -69,6 +70,7 @@ type AgencyData {
     union: String
     agency_areas: [String]
     status: String
+    rejection_msg: String
 }
 `
 module.exports = typeDefs
