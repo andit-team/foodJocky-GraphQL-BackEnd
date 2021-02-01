@@ -67,6 +67,7 @@ type AgencyData {
     upazila: String
     union: String
     agency_areas: [String]
+    status: String
 }
 `
 module.exports = typeDefs
