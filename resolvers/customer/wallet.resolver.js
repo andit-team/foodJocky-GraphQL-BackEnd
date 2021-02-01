@@ -13,6 +13,11 @@ const resolvers = {
       let result = await WalletController.addBalance(root, args, context)
       return result
     },
+
+    async trackTransaction(root, args, context) {
+        let result = await WalletController.trackTransaction(root, args, context)
+        return result
+      },
   },
 }
 

@@ -6,12 +6,29 @@ type Query {
 }
 
 type Mutation {
-    addBalance(amount: Int): BanalceAddOutput
+    addBalance(amount: Int): BalanceAddOutput
+    trackTransaction(_id: ID): TrackTransactionOutput
 }
 
-type BanalceAddOutput {
+type TrackTransactionOutput {
     error: Boolean
     msg: String
+    data: TrackTransactionData
+}
+
+type TrackTransactionData {
+    status: String
+}
+
+type BalanceAddOutput {
+    error: Boolean
+    msg: String
+    data: AddBalanceData
+}
+
+type AddBalanceData {
+    transaction_id: ID
+    GatewayPageURL: String
 }
 
 type WalletPageOutput {

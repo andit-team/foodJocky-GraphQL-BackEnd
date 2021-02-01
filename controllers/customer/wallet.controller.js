@@ -1,6 +1,8 @@
 const User = require('../../models/user.model')
 const Settings = require('../../models/settings.model')
 const Transaction = require('../../models/transaction.model')
+const axios = require('axios')
+const FormData = require('form-data')
 
 exports.addBalance = async (root, args, context) => {
 
@@ -17,6 +19,7 @@ exports.addBalance = async (root, args, context) => {
 
     try {
         let customer = await User.findById(context.user.user_id)
+        
         let address = ""
         let current_balance,previous_balance
         let cashbackPercentange = 20
@@ -30,37 +33,142 @@ exports.addBalance = async (root, args, context) => {
         
         if(customer.balance !== undefined){
             previous_balance = customer.balance
-            current_balance = current_balance + totalAmount
+            current_balance = customer.balance + totalAmount
         }else{
             previous_balance = 0
             current_balance = totalAmount
         }
-
-        let user = new User({
+        
+        let transaction = new Transaction({
             current_balance: current_balance,
             previous_balance: previous_balance,
             amount: amount,
             cashback: cashback,
             cashback_percentange: cashbackPercentange,
-            debit_or_credit: 'debit',
+            debit_or_credit: 'credit',
             reason: 'Add Balance to Wallet',
             status: 'pending',
             user: context.user.user_id
         })
         
-        
+        let nTransaction = await transaction.save()
+
+        const formData = new FormData()
+        formData.append('store_id', 'andit6005251ccc8ad')
+        formData.append('store_passwd', 'andit6005251ccc8ad@ssl')
+        formData.append('total_amount', args.amount)
+        formData.append('currency', 'BDT')
+        formData.append('tran_id', nTransaction._id.toString())
+        formData.append('success_url', 'http://yoursite.com/success.php')
+        formData.append('fail_url', 'http://yoursite.com/fail.php')
+        formData.append('cancel_url', 'http://yoursite.com/cancel.php')
+        formData.append('cus_name', customer.first_name + customer.last_name)
+        formData.append('cus_email', customer.email !== ""? customer.email: "notgiven@gmail.com" )
+        formData.append('cus_add1', address)
+        formData.append('cus_city', 'Khulna')
+        formData.append('cus_country', 'Bangladesh')
+        formData.append('cus_phone', customer.mobile)
+        formData.append('shipping_method', 'NO')
+        formData.append('product_name', 'Food')
+        formData.append('product_category', 'food')
+        formData.append('product_profile', 'general')
+
+        let sslData = await axios.post('https://sandbox.sslcommerz.com/gwprocess/v4/api.php', formData, {headers: formData.getHeaders()})
+        let rData = {
+            transaction_id: nTransaction._id,
+            GatewayPageURL: sslData.data.GatewayPageURL
+        }
+
         let returnData = {
             error: false,
             msg: 'Successfully Added Balance',
-            data: {}
+            data: rData
         }
         return returnData
 
     } catch (error) {
+        console.log(error)
         let returnData = {
             error: true,
             msg: 'Problem in adding Balance',
             data: {}
+        }
+        return returnData
+    }
+}
+
+exports.trackTransaction = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try {
+
+        let store_id = 'andit6005251ccc8ad'
+        let store_passwd = 'andit6005251ccc8ad@ssl'
+        let tran_id =  args._id.toString()
+        let returnData
+
+        let sslData = await axios.get(`https://sandbox.sslcommerz.com/validator/api/merchantTransIDvalidationAPI.php?tran_id=${tran_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`)
+        if(sslData.data.APIConnect === 'DONE'){
+
+            if(sslData.data.element[0].status === 'VALID' ||  sslData.data.element[0].status === 'VALIDATED'){
+                let transaction = await Transaction.findByIdAndUpdate({_id: args._id}, {status: 'success'})
+                let user = await User.updateOne({_id: transaction.user}, {balance: transaction.current_balance, cashback: transaction.cashback})
+                if(user.n > 0 && transaction){
+                    returnData = {
+                        error: false,
+                        msg: 'Successfully Validated',
+                        data: {
+                            status: sslData.data.element[0].status
+                        }
+                    }
+                    
+                }else {
+                    returnData = {
+                        error: true,
+                        msg: 'Problem in Updating Data',
+                        data: {
+                            status: sslData.data.element[0].status
+                        }
+                    }
+                    
+                }
+        
+            }else{
+                returnData = {
+                    error: true,
+                    msg: 'Not Validated',
+                    data: {
+                        status: sslData.data.element[0].status
+                    }
+                }
+                
+            }
+        }else{
+            returnData = {
+                error: true,
+                msg: 'SSL Api Not Connected',
+                data: {}
+            }
+            
+        }
+        
+        return returnData
+        
+    } catch (error) {
+        console.log(error)
+        let returnData = {
+            error: true,
+            msg: 'Problem in Updating'
         }
         return returnData
     }
