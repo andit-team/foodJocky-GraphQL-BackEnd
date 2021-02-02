@@ -205,12 +205,11 @@ exports.getWalletPageData = async (root, args, context) => {
                 totalCredit = total[i].totalSum
             }
         }
-        
         let returnData = {
             error: false,
             msg: 'Wallet Page data Get Successfully',
             data: {
-                balance: customer.balance,
+                balance: customer.balance === undefined ? 0: customer.balance,
                 totalDebit: totalDebit,
                 totalCredit: totalCredit,
                 transactions: transactions
