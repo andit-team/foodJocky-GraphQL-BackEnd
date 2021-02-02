@@ -88,7 +88,7 @@ exports.addBalance = async (root, args, context) => {
         return returnData
 
     } catch (error) {
-        console.log(error)
+        
         let returnData = {
             error: true,
             msg: 'Problem in adding Balance',
@@ -99,17 +99,6 @@ exports.addBalance = async (root, args, context) => {
 }
 
 exports.trackTransaction = async (root, args, context) => {
-
-    if(context.user.type !== 'customer'){
-
-        let returnData = {
-            error: true,
-            msg: "Customer Login Required",
-            data: {}
-        }
-        return returnData
-
-    }
 
     try {
 
@@ -166,7 +155,7 @@ exports.trackTransaction = async (root, args, context) => {
         return returnData
         
     } catch (error) {
-        console.log(error)
+        
         let returnData = {
             error: true,
             msg: 'Problem in Updating'
@@ -207,7 +196,7 @@ exports.getWalletPageData = async (root, args, context) => {
             }
         ])
         let transactions = await Transaction.find({user: context.user.user_id})
-        let totalDebit, totalCredit
+        let totalDebit = 0, totalCredit = 0
         for(let i=0; i<total.length; i++){
             if(total[i]._id === 'debit'){
                 totalDebit = total[i].totalSum
@@ -231,7 +220,7 @@ exports.getWalletPageData = async (root, args, context) => {
         return returnData
         
     } catch (error) {
-        console.log(error)
+        
         let returnData = {
             error: true,
             msg: 'Problem in Getting Data'

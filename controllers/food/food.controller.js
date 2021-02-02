@@ -296,7 +296,7 @@ exports.getOneFood = async(root, args, context) => {
                 },
             },
             {
-                'food_categories.$.foods': 1 
+                'food_categories.foods.$': 1 
             })
             if(foods !== null){
 
@@ -317,7 +317,6 @@ exports.getOneFood = async(root, args, context) => {
                 return returnData
 
             }else {
-
                 let returnData = {
                     error: true,
                     msg: "Food Get UnSuccessfully",
