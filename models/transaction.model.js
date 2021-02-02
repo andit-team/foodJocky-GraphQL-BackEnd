@@ -28,6 +28,9 @@ const TransactionsSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users'
+    },
+    validate_response: {
+        type: Object
     }
 },
 {
