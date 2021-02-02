@@ -6,7 +6,7 @@ type Query {
 }
 
 type Mutation {
-    addBalance(amount: Int): BalanceAddOutput
+    addBalance(amount: Int, url: String): BalanceAddOutput
     trackTransaction(_id: ID): TrackTransactionOutput
 }
 
