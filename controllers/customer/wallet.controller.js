@@ -3,6 +3,7 @@ const Settings = require('../../models/settings.model')
 const Transaction = require('../../models/transaction.model')
 const axios = require('axios')
 const FormData = require('form-data')
+const mongoose = require('mongoose')
 
 exports.addBalance = async (root, args, context) => {
 
@@ -169,6 +170,71 @@ exports.trackTransaction = async (root, args, context) => {
         let returnData = {
             error: true,
             msg: 'Problem in Updating'
+        }
+        return returnData
+    }
+}
+
+exports.getWalletPageData = async (root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+
+    try {
+        let customer = await User.findById(context.user.user_id)
+        let total = await Transaction.aggregate([
+            {
+                $match: {
+                    status: 'success',
+                    user: mongoose.Types.ObjectId(context.user.user_id),
+                }
+            },
+            {
+                $group: {
+                    _id: '$debit_or_credit',
+                    totalSum: {
+                        $sum: '$amount'
+                    }
+                }
+            }
+        ])
+        let transactions = await Transaction.find({user: context.user.user_id})
+        let totalDebit, totalCredit
+        for(let i=0; i<total.length; i++){
+            if(total[i]._id === 'debit'){
+                totalDebit = total[i].totalSum
+            }
+            if(total[i]._id === 'credit'){
+                totalCredit = total[i].totalSum
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: 'Wallet Page data Get Successfully',
+            data: {
+                balance: customer.balance,
+                totalDebit: totalDebit,
+                totalCredit: totalCredit,
+                transactions: transactions
+            }
+        }
+
+        return returnData
+        
+    } catch (error) {
+        console.log(error)
+        let returnData = {
+            error: true,
+            msg: 'Problem in Getting Data'
         }
         return returnData
     }

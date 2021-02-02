@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
 type Query {
-    getWalletPageData: WalletPageData
+    getWalletPageData: WalletPageOutput
 }
 
 type Mutation {
@@ -41,7 +41,7 @@ type WalletPageData {
     balance: Float
     totalCredit: Float
     totalDebit: Float
-    transactions: CustomerTransactionData
+    transactions: [CustomerTransactionData]
 }
 
 type CustomerTransactionData {
@@ -55,8 +55,8 @@ type CustomerTransactionData {
     reason: String
     status: String
     user: CustomerData
-    createdAt: Int
-    updatedAt: Int
+    createdAt: String
+    updatedAt: String
 }
 `
 module.exports = typeDefs
