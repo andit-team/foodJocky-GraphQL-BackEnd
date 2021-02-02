@@ -46,7 +46,7 @@ exports.addBalance = async (root, args, context) => {
             amount: amount,
             cashback: cashback,
             cashback_percentange: cashbackPercentange,
-            debit_or_credit: 'credit',
+            debit_or_credit: 'debit',
             reason: 'Add Balance to Wallet',
             status: 'pending',
             user: context.user.user_id
