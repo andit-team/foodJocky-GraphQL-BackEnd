@@ -74,6 +74,25 @@ exports.addOrder = async(root, args, context) => {
                 ]
             })
 
+            let updateCustomerLocationStatusSetFalse = await User.updateMany(
+                {
+                    _id: context.user.user_id
+                },
+                {
+                    $set: {
+                        'customer_addresses.$[address].status': 0
+                    }
+                },
+                {
+                    arrayFilters: [
+                        {
+                            'address._id': {
+                                $ne: args.orderInput.delivery_info._id
+                            }
+                        }
+                    ]
+                })
+
         let newOrderData = await Order.findById(nOrder._id).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
@@ -433,14 +452,41 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let orderFind = await Order.findOne({_id: args._id})
-            let acceptedtime = orderFind.updatedAt
-            acceptedtime.setMinutes(acceptedtime.getMinutes() + 2)
-            let currentTime   = new Date()
-            
-            if(acceptedtime < currentTime){
-                console.log('rejected')
-            }
+        let updateCustomerLocationStatus = await User.updateOne(
+            {
+                _id: args.user_id
+            },
+            {
+                $set: {
+                    'customer_addresses.$[address].status': 1
+                }
+            },
+            {
+                arrayFilters: [
+                    {
+                        'address._id': args.address_id
+                    }
+                ]
+            })
+
+            let updateCustomerLocationStatusSetFalse = await User.updateMany(
+                {
+                    _id: args.user_id
+                },
+                {
+                    $set: {
+                        'customer_addresses.$[address].status': 0
+                    }
+                },
+                {
+                    arrayFilters: [
+                        {
+                            'address._id': {
+                                $ne: args.address_id
+                            }
+                        }
+                    ]
+                })
         
         let returnData = {
             error: false,

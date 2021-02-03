@@ -31,7 +31,7 @@ type Mutation {
     updateOrderStatus(_id: ID, status: String): OrderAddOutPut
     updateOrderByAgency(agency_status: String, _id: ID, rider: ID): OrderAddOutPut
 
-    checkOrderRelatedApi(agency_status: String, _id: ID): OrderApiCheck
+    checkOrderRelatedApi(user_id: ID, address_id: ID): OrderApiCheck
     
 }
 
