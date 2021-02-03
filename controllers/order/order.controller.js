@@ -531,11 +531,8 @@ exports.updateOrderStatus = async(root, args, context) => {
 
     async function getDeliveryTime(_id){
         let order = await Order.findById(_id).populate('restaurant').populate('customer').populate('agent')
-        let deliveryAddress = order.customer.customer_addresses.find((element) => {
-            return element.status === 1
-        })
 
-        const deliveryLocation = deliveryAddress.address.location
+        const deliveryLocation = order.delivery_info.address.location
         const restaurntLocation = order.restaurant.address.location
 
         const riderTime = 10
