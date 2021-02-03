@@ -104,16 +104,16 @@ exports.addCustomerCashbackPercentange = async(root, args, context) => {
             let newCustomerCashBackPercentange = new Settings({
                 customer_cashback_percentange: args.customer_cashback_percentange
             })
-            data = await newDeliveryCharge.save()
-            message = "Delivery Charge Added Successfully"
+            data = await newCustomerCashBackPercentange.save()
+            message = "Customer Cashback Percentange Added Successfully"
         }else{
 
-            let updateDeliveryCharge = await Settings.updateOne({},{delivery_charge: args.amount})
-            if(updateDeliveryCharge.n > 0){
-                data = await Settings.findOne({},{delivery_charge: 1})
-                message = "Delivery Charge Updated Successfully"
+            let updateCustomerCashBackPercentange = await Settings.updateOne({},{customer_cashback_percentange: args.customer_cashback_percentange})
+            if(updateCustomerCashBackPercentange.n > 0){
+                data = await Settings.findOne({},{customer_cashback_percentange: 1})
+                message = "Customer Cashback Percentange Updated Successfully"
             }else{
-                message = "Delivery Charge Update Unsuccessful"
+                message = "Customer Cashback Percentange Update Unsuccessful"
                 let returnData = {
                     error: true,
                     msg: message,
@@ -134,7 +134,270 @@ exports.addCustomerCashbackPercentange = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Delivery Charge Creation UnSuccessful",
+            msg: "Customer Cashback Percentange Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addGoogleMapApiKey = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let googleMapApiKey = await Settings.findOne({},{google_map_api_key: 1})
+        let data = {}
+        let message = ''
+        if(!googleMapApiKey){
+
+            let newGoogleMapApiKey = new Settings({
+                google_map_api_key: args.google_map_api_key
+            })
+            data = await newGoogleMapApiKey.save()
+            message = "Google Map Api Key Added Successfully"
+        }else{
+
+            let updateGoogleMapApiKey = await Settings.updateOne({},{google_map_api_key: args.google_map_api_key})
+            if(updateGoogleMapApiKey.n > 0){
+                data = await Settings.findOne({},{google_map_api_key: 1})
+                message = "Google Map Api Key Updated Successfully"
+            }else{
+                message = "Google Map Api Key Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Google Map Api Key Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addRiderAndRestaurantExtraTime = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let settings = await Settings.findOne({},{rider_extra_time: 1, restaurant_extra_time: 1})
+        let data = {}
+        let message = ''
+        if(!settings){
+
+            let newsettings = new Settings({
+                rider_extra_time: args.rider_extra_time,
+                restaurant_extra_time: args.restaurant_extra_time
+            })
+            data = await newsettings.save()
+            message = "Rider and Restaurant Extra Time Added Successfully"
+        }else{
+
+            let updateSettings = await Settings.updateOne({},{rider_extra_time: args.rider_extra_time, restaurant_extra_time: args.restaurant_extra_time})
+            if(updateSettings.n > 0){
+                data = await Settings.findOne({},{rider_extra_time: 1, restaurant_extra_time: 1})
+                message = "Rider and Restaurant Extra Time Updated Successfully"
+            }else{
+                message = "Rider and Restaurant Extra Time Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Rider and Restaurant Extra Time Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addSSLCommerezInformation = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let settings = await Settings.findOne({},{ssl_commerez_store_id: 1, ssl_commerez_store_password: 1, ssl_commerez_currency: 1, ssl_commerez_cus_city: 1, ssl_commerez_cus_country: 1})
+        let data = {}
+        let message = ''
+        if(!settings){
+
+            let newsettings = new Settings({
+                ssl_commerez_store_id: args.sslInput.ssl_commerez_store_id,
+                ssl_commerez_store_password: args.sslInput.ssl_commerez_store_password,
+                ssl_commerez_currency: args.sslInput.ssl_commerez_currency,
+                ssl_commerez_cus_city: args.sslInput.ssl_commerez_cus_city,
+                ssl_commerez_cus_country: args.sslInput.ssl_commerez_cus_country,
+            })
+            data = await newsettings.save()
+            message = "SSL Information Added Successfully"
+        }else{
+
+            let updateSettings = await Settings.updateOne({},{
+                ssl_commerez_store_id: args.sslInput.ssl_commerez_store_id,
+                ssl_commerez_store_password: args.sslInput.ssl_commerez_store_password,
+                ssl_commerez_currency: args.sslInput.ssl_commerez_currency,
+                ssl_commerez_cus_city: args.sslInput.ssl_commerez_cus_city,
+                ssl_commerez_cus_country: args.sslInput.ssl_commerez_cus_country,
+            })
+            if(updateSettings.n > 0){
+                data = await Settings.findOne({},{ssl_commerez_store_id: 1, ssl_commerez_store_password: 1, ssl_commerez_currency: 1, ssl_commerez_cus_city: 1, ssl_commerez_cus_country: 1})
+                message = "SSL Information Updated Successfully"
+            }else{
+                message = "SSL Information Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "SSL Information Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addCustomerVat = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let settings = await Settings.findOne({},{customer_vat: 1})
+        let data = {}
+        let message = ''
+        if(!settings){
+
+            let newsettings = new Settings({
+                customer_vat: args.customer_vat
+            })
+            data = await newsettings.save()
+            message = "Customer Vat Added Successfully"
+        }else{
+
+            let updateSettings = await Settings.updateOne({},{customer_vat: args.customer_vat})
+            if(updateSettings.n > 0){
+                data = await Settings.findOne({},{customer_vat: 1})
+                message = "Customer Vat Updated Successfully"
+            }else{
+                message = "Customer Vat Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Vat Creation UnSuccessful",
             data: {}
         }
         return returnData
@@ -148,7 +411,7 @@ exports.getSettings = async(root, args, context) => {
     
     try{
 
-        let delivery_charge = await Settings.findOne({},{delivery_charge: 1})
+        let delivery_charge = await Settings.findOne({})
         if(delivery_charge){
             let returnData = {
                 error: false,
