@@ -1,5 +1,23 @@
 const Settings = require('../../models/settings.model')
 
+/**
+ * Which Settings We Have Used In this Project Are Given Below
+ * 
+ * Delivery Charge
+ * Customer Cashback Percentange When Add Balance to Wallet
+ * Google Map API KEY
+ * Rider Extra Time
+ * Restaurant Extra Time
+ * SSL Commerez => store_id
+ * SSL Commerez => store_passwd
+ * SSL Commerez => currency
+ * SSL Commerez => cus_city
+ * SSL Commerez => cus_country
+ * Customer Vat
+ * 
+ * 
+ */
+
 exports.addDeliveryCharge = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){
@@ -22,6 +40,69 @@ exports.addDeliveryCharge = async(root, args, context) => {
 
             let newDeliveryCharge = new Settings({
                 delivery_charge: args.amount
+            })
+            data = await newDeliveryCharge.save()
+            message = "Delivery Charge Added Successfully"
+        }else{
+
+            let updateDeliveryCharge = await Settings.updateOne({},{delivery_charge: args.amount})
+            if(updateDeliveryCharge.n > 0){
+                data = await Settings.findOne({},{delivery_charge: 1})
+                message = "Delivery Charge Updated Successfully"
+            }else{
+                message = "Delivery Charge Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Delivery Charge Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addCustomerCashbackPercentange = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let customerCashBackPercentange = await Settings.findOne({},{customer_cashback_percentange: 1})
+        let data = {}
+        let message = ''
+        if(!customerCashBackPercentange){
+
+            let newCustomerCashBackPercentange = new Settings({
+                customer_cashback_percentange: args.customer_cashback_percentange
             })
             data = await newDeliveryCharge.save()
             message = "Delivery Charge Added Successfully"
