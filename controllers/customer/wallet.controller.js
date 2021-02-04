@@ -20,10 +20,11 @@ exports.addBalance = async (root, args, context) => {
 
     try {
         let customer = await User.findById(context.user.user_id)
+        let setting = await Settings.findOne({})
         
         let address = ""
         let current_balance,previous_balance
-        let cashbackPercentange = 20
+        let cashbackPercentange = setting.customer_cashback_percentange
         if(customer.customer_addresses.length > 0){
             address = customer.customer_addresses[0].address.address
         }
@@ -55,10 +56,10 @@ exports.addBalance = async (root, args, context) => {
         let nTransaction = await transaction.save()
 
         const formData = new FormData()
-        formData.append('store_id', 'andit6005251ccc8ad')
-        formData.append('store_passwd', 'andit6005251ccc8ad@ssl')
+        formData.append('store_id', setting.ssl_commerez_store_id)
+        formData.append('store_passwd', setting.ssl_commerez_store_password)
         formData.append('total_amount', args.amount)
-        formData.append('currency', 'BDT')
+        formData.append('currency', setting.ssl_commerez_currency)
         formData.append('tran_id', nTransaction._id.toString())
         formData.append('success_url', args.url)
         formData.append('fail_url', args.url)
@@ -66,8 +67,8 @@ exports.addBalance = async (root, args, context) => {
         formData.append('cus_name', customer.first_name + customer.last_name)
         formData.append('cus_email', customer.email !== ""? customer.email: "notgiven@gmail.com" )
         formData.append('cus_add1', address)
-        formData.append('cus_city', 'Khulna')
-        formData.append('cus_country', 'Bangladesh')
+        formData.append('cus_city', setting.ssl_commerez_cus_city)
+        formData.append('cus_country', setting.ssl_commerez_cus_country)
         formData.append('cus_phone', customer.mobile)
         formData.append('shipping_method', 'NO')
         formData.append('product_name', 'Food')
@@ -102,8 +103,9 @@ exports.trackTransaction = async (root, args, context) => {
 
     try {
 
-        let store_id = 'andit6005251ccc8ad'
-        let store_passwd = 'andit6005251ccc8ad@ssl'
+        let setting = await Settings.findOne({})
+        let store_id = setting.ssl_commerez_store_id
+        let store_passwd = setting.ssl_commerez_store_password
         let tran_id =  args._id.toString()
         let returnData
 

@@ -1,4 +1,5 @@
 const User = require('../../models/user.model')
+const Settings = require('../../models/settings.model')
 const Restaurant = require('../../models/restaurant.model')
 const Order = require('../../models/order.model')
 const mongoose = require('mongoose')
@@ -576,14 +577,15 @@ exports.updateOrderStatus = async(root, args, context) => {
     }
 
     async function getDeliveryTime(_id){
+        let setting = await Settings.findOne({})
         let order = await Order.findById(_id).populate('restaurant').populate('customer').populate('agent')
 
         const deliveryLocation = order.delivery_info.address.location
         const restaurntLocation = order.restaurant.address.location
 
-        const riderTime = 10
-        const restaurantTime = 5
-        const apiKey = process.env.MAP_API_KEY
+        const riderTime = setting.rider_extra_time
+        const restaurantTime = setting.restaurant_extra_time
+        const apiKey = setting.google_map_api_key
         
         let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${restaurntLocation.lat},${restaurntLocation.lng}&destinations=${deliveryLocation.lat},${deliveryLocation.lng}&key=${apiKey}`)
         let getTime = Math.round(result.data.rows[0].elements[0].duration.value / 60)
