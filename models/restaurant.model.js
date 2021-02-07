@@ -27,14 +27,12 @@ const RestaurantsSchema = new Schema({
     description:{
         type: String
     },
-    // offer:{
-    //     type: mongoose.Schema.Types.ObjectId,          // 20% Off + GOROM60
-    //     ref: 'offers',
-    // },
-    // voucher: {
-    //     type: mongoose.Schema.Types.ObjectId,          // Vouchers up to Tk 100 off
-    //     ref: 'vouchers',
-    // },
+    discount_given_by_restaurant: {
+        type: Number
+    },
+    discount_given_by_admin: {
+        type: Number
+    },
     cover_img: {
         type: String
     },
@@ -115,13 +113,9 @@ const RestaurantsSchema = new Schema({
     village: {
       type: String
     },
-    // orders: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'orders',
-    // }],
-    // earned_amount: {
-    //     type: Number
-    // },
+    balance: {
+        type: Number
+    },
     agent: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',

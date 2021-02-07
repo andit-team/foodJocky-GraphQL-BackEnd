@@ -83,6 +83,9 @@ input RestaurantInput {
   upazila: String
   union: String
   village: String
+  discount_given_by_restaurant: Int
+  discount_given_by_admin: Int
+  balance: Float
 }
 
 input InputFoodCategories {
@@ -96,8 +99,8 @@ type RestaurantData {
   password: String
   name: String
   restaurant_or_homemade: String
-  owner: Owner
-  plan: Plan
+  owner: OwnerData
+  plan: PlanData
   tags: [String]
   description: String
   cover_img: String
@@ -108,6 +111,9 @@ type RestaurantData {
   status: String
   active: Boolean
   rejection_msg: String
+  discount_given_by_restaurant: Int
+  discount_given_by_admin: Int
+  balance: Float
 }
 
 type FoodCategory {
@@ -130,26 +136,6 @@ type Food {
 type PriceAndSize {
   size: String
   price: Float
-}
-
-type Owner {
-  _id: ID
-  first_name: String
-  last_name: String
-  mobile: String
-  password: String
-  email: String
-  type: String
-  owner_address: String
-}
-
-type Plan {
-  _id: ID
-  title: String
-  price: Int
-  commision: Int
-  duration: String
-  feature: Boolean
 }
 
 input Address {

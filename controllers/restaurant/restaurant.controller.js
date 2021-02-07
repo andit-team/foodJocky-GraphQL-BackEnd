@@ -38,7 +38,9 @@ exports.addRestaurant = async(root, args, context) => {
             price_type: args.restaurantInput.price_type,
             status: "pending",
             rejection_msg: "Your Request is in Pending Mode.......",
-            residential_or_municipal: args.restaurantInput.residential_or_municipal
+            residential_or_municipal: args.restaurantInput.residential_or_municipal,
+            discount_given_by_restaurant: args.restaurantInput.discount_given_by_restaurant,
+            discount_given_by_admin: args.restaurantInput.discount_given_by_admin,
         }
 
         let agent;
@@ -327,8 +329,10 @@ exports.updateRestaurant = async(root, args, context) => {
         let upRestaurant = {
             user: args.restaurantInput.user,
             name: args.restaurantInput.name,
-            restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
-            plan: args.restaurantInput.plan,
+            //restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
+            // plan: args.restaurantInput.plan,
+            // discount_given_by_restaurant: args.restaurantInput.discount_given_by_restaurant,
+            // discount_given_by_admin: args.restaurantInput.discount_given_by_admin,
             tags: args.restaurantInput.tags,
             description: args.restaurantInput.description,
             cover_img: args.restaurantInput.cover_img,
@@ -758,8 +762,10 @@ exports.updateRestaurantStatus = async(root, args, context) => {
         let upRestaurant = {
             user: args.restaurantInput.user,
             name: args.restaurantInput.name,
-            // restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
-            // plan: args.restaurantInput.plan,
+            plan: args.restaurantInput.plan,
+            discount_given_by_restaurant: args.restaurantInput.discount_given_by_restaurant,
+            discount_given_by_admin: args.restaurantInput.discount_given_by_admin,
+            restaurant_or_homemade: args.restaurantInput.restaurant_or_homemade,
             // tags: args.restaurantInput.tags,
             // description: args.restaurantInput.description,
             // cover_img: args.restaurantInput.cover_img,
