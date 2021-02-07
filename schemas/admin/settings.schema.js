@@ -9,7 +9,8 @@ const typeDefs = gql`
     addGoogleMapApiKey(google_map_api_key: String): settingsOutPut
     addRiderAndRestaurantExtraTime(rider_extra_time: Int, restaurant_extra_time: Int): settingsOutPut
     addSSLCommerezInformation(sslInput: SSLInput): settingsOutPut
-    addCustomerVat(customer_vat: Int): settingsOutPut
+    addVat(customer_vat: Int,restaurant_vat: Int): settingsOutPut
+    addRiderCost(rider_cost: Int): settingsOutPut
   }
 
   input SSLInput {
@@ -39,6 +40,8 @@ const typeDefs = gql`
     ssl_commerez_cus_city: String
     ssl_commerez_cus_country: String
     customer_vat: Int
+    restaurant_vat: Int
+    rider_cost: Int
   }
 `
 module.exports = typeDefs

@@ -34,6 +34,12 @@ const SettingSchema = new Schema({
     customer_vat: {
         type: Number
     },
+    restaurant_vat: {
+        type: Number
+    },
+    rider_cost: {
+        type: Number
+    }
 },
 {
     timestamps: true

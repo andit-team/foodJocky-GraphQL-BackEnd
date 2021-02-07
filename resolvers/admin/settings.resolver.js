@@ -28,8 +28,12 @@ const resolvers = {
       let result = await SettingsController.addSSLCommerezInformation(root, args, context)
       return result
     },
-    async addCustomerVat(root, args, context) {
-      let result = await SettingsController.addCustomerVat(root, args, context)
+    async addVat(root, args, context) {
+      let result = await SettingsController.addVat(root, args, context)
+      return result
+    },
+    async addRiderCost(root, args, context) {
+      let result = await SettingsController.addRiderCost(root, args, context)
       return result
     },
   },

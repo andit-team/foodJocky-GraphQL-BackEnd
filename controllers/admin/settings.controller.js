@@ -14,7 +14,7 @@ const Settings = require('../../models/settings.model')
  * SSL Commerez => cus_city
  * SSL Commerez => cus_country
  * Customer Vat
- * 
+ * Restaurant Vat
  * 
  */
 
@@ -344,7 +344,7 @@ exports.addSSLCommerezInformation = async(root, args, context) => {
 
 }
 
-exports.addCustomerVat = async(root, args, context) => {
+exports.addVat = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){
 
@@ -359,24 +359,25 @@ exports.addCustomerVat = async(root, args, context) => {
     
     try{
 
-        let settings = await Settings.findOne({},{customer_vat: 1})
+        let settings = await Settings.findOne({},{customer_vat: 1, restaurant_vat: 1})
         let data = {}
         let message = ''
         if(!settings){
 
             let newsettings = new Settings({
-                customer_vat: args.customer_vat
+                customer_vat: args.customer_vat,
+                restaurant_vat: args.restaurant_vat
             })
             data = await newsettings.save()
-            message = "Customer Vat Added Successfully"
+            message = "Vat Added Successfully"
         }else{
 
-            let updateSettings = await Settings.updateOne({},{customer_vat: args.customer_vat})
+            let updateSettings = await Settings.updateOne({},{customer_vat: args.customer_vat, restaurant_vat: args.restaurant_vat})
             if(updateSettings.n > 0){
-                data = await Settings.findOne({},{customer_vat: 1})
-                message = "Customer Vat Updated Successfully"
+                data = await Settings.findOne({},{customer_vat: 1, restaurant_vat: 1})
+                message = "Vat Updated Successfully"
             }else{
-                message = "Customer Vat Update Unsuccessful"
+                message = "Vat Update Unsuccessful"
                 let returnData = {
                     error: true,
                     msg: message,
@@ -397,7 +398,70 @@ exports.addCustomerVat = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Customer Vat Creation UnSuccessful",
+            msg: "Vat Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addRiderCost = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let settings = await Settings.findOne({},{rider_cost: 1})
+        let data = {}
+        let message = ''
+        if(!settings){
+
+            let newsettings = new Settings({
+                rider_cost: args.rider_cost
+            })
+            data = await newsettings.save()
+            message = "Rider Cost Added Successfully"
+        }else{
+
+            let updateSettings = await Settings.updateOne({},{rider_cost: args.rider_cost})
+            if(updateSettings.n > 0){
+                data = await Settings.findOne({},{rider_cost: 1})
+                message = "Rider Cost Updated Successfully"
+            }else{
+                message = "Rider Cost Update Unsuccessful"
+                let returnData = {
+                    error: true,
+                    msg: message,
+                    data: data
+                }
+                return returnData
+            }
+        }
+        
+        let returnData = {
+            error: false,
+            msg: message,
+            data: data
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Rider Cost Creation UnSuccessful",
             data: {}
         }
         return returnData
