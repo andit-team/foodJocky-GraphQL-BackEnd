@@ -17,9 +17,7 @@ exports.addPlan = async(root, args, context) => {
 
         let newPlan = new Plan({
             title: args.planInput.title,
-            price: +args.planInput.price,
             commision: +args.planInput.commision,
-            duration: args.planInput.duration,
             feature: args.planInput.feature
         })
 
@@ -114,9 +112,7 @@ exports.updatePlan = async(root, args, context) => {
 
         let updateArgs = {
             title: args.updatePlanInput.title,
-            price: +args.updatePlanInput.price,
             commision: +args.updatePlanInput.commision,
-            duration: args.updatePlanInput.duration,
             feature: args.updatePlanInput.feature
         }
 

@@ -30,28 +30,22 @@ type PlansOutPut {
 
 input PlanInput {
     title: String
-    price: Int
     commision: Int
-    duration: String
-    feature: Boolean
+    feature: String
 }
 
 input UpdatePlanInput {
     _id: ID
     title: String
-    price: Int
     commision: Int
-    duration: String
-    feature: Boolean
+    feature: String
   }
 
   type PlanData {
     _id: ID
     title: String
-    price: Int
     commision: Int
-    duration: String
-    feature: Boolean
+    feature: String
   }
 `
 module.exports = typeDefs

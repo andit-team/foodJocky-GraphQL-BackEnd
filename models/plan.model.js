@@ -4,17 +4,11 @@ const PlanSchema = new Schema({
     title: {
         type: String,
     },
-    price: {
-        type: Number,
-    },
     commision: {
         type: Number,
     },
-    duration: {
-        type: String,
-    },
     feature: {
-        type: Boolean,
+        type: String,
     }
 },
 {
