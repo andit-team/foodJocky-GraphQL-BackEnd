@@ -6,13 +6,23 @@ exports.addOwner = async(root, args, context) => {
     
     try{
 
+        let checkOwner = await User.findOne({mobile: args.ownerInput.mobile})
+        if(checkOwner){
+            let returnData = {
+                error: true,
+                msg: "Mobile Number Already Taken",
+                data: {}
+            }
+            return returnData
+        }
+
         const hash = bcrypt.hashSync(args.ownerInput.password, 8)
         let newOwner = new User({
             first_name: args.ownerInput.first_name,
             last_name: args.ownerInput.last_name,
             mobile: args.ownerInput.mobile,
             email: args.ownerInput.email,
-            type: args.ownerInput.type,
+            type: 'owner',
             owner_address: args.ownerInput.owner_address,
             password: hash,
             status: "pending",
