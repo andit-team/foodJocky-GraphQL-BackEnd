@@ -478,6 +478,8 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         let settings = await Settings.findOne()
         let restaurant = await Restaurant.findById('601fced6059da3e1e5f43a86').populate('plan')
 
+        console.log(restaurant.vat)
+
         let basePrice = price
         let marginCommission = 20
         let commission = restaurant.plan.commision
@@ -487,8 +489,6 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         let cashbackPercentage = settings.customer_cashback_percentange
         let restaurnatVat = settings.restaurant_vat
         let customertVat = settings.customer_vat
-
-        //Website Live Price------------------------------------
 
         // Increase Price giving Wallet Cashback
         price = price + ((basePrice * cashbackPercentage)/100)
