@@ -474,16 +474,19 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         return returnData
     }
 
-    function calculatePrice(price){
+    async function calculatePrice(price){
+        let settings = await Settings.findOne()
+        let restaurant = await Restaurant.findById('601fced6059da3e1e5f43a86').populate('plan')
+
         let basePrice = price
         let marginCommission = 20
-        let commission = 15
-        let discount_given_by_restaurant = 10
-        let discount_given_by_admin = 10
-        let riderCost = 10
-        let cashbackPercentage = 20
-        let restaurnatVat = 4
-        let customertVat = 4
+        let commission = restaurant.plan.commision
+        let discount_given_by_restaurant = restaurant.discount_given_by_restauran
+        let discount_given_by_admin = restaurant.discount_given_by_admin
+        let riderCost = settings.rider_cost
+        let cashbackPercentage = settings.customer_cashback_percentange
+        let restaurnatVat = settings.restaurant_vat
+        let customertVat = settings.customer_vat
 
         //Website Live Price------------------------------------
 
@@ -500,23 +503,17 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         }
 
         // Increase Price from restaurnat vat
-        if(restaurnatVat > 0){
+        if(!restaurant.vat){
             price = price + ((basePrice * restaurnatVat)/100)
         }
 
         // Increase Price from Rider Cost
-        if(riderCost > 0){
+        if(!restaurant.rider_cost){
             price = price + riderCost
         }
 
-        
-        //Website Live Price------------------------------------
-
-        // Decrease cost if restaurant Give Discount
-        let totalDiscount = discount_given_by_restaurant + discount_given_by_admin
-        
-        price = price - ((price * totalDiscount)/100)
         console.log(price)
+
         
     }
 }

@@ -43,6 +43,8 @@ exports.addRestaurant = async(root, args, context) => {
             residential_or_municipal: args.restaurantInput.residential_or_municipal,
             discount_given_by_restaurant: args.restaurantInput.discount_given_by_restaurant,
             discount_given_by_admin: args.restaurantInput.discount_given_by_admin,
+            vat: args.restaurantInput.vat,
+            rider_cost: args.restaurantInput.rider_cost
         }
 
         let agent;
@@ -209,30 +211,6 @@ exports.addRestaurant = async(root, args, context) => {
             }
 
 
-        }
-
-        if(args.restaurantInput.vat){
-            resData = {
-                ...resData,
-                vat: setting.restaurant_vat
-            }
-        }else{
-            resData = {
-                ...resData,
-                vat: 0
-            }
-        }
-
-        if(args.restaurantInput.rider_cost){
-            resData = {
-                ...resData,
-                rider_cost: setting.rider_cost
-            }
-        }else{
-            resData = {
-                ...resData,
-                rider_cost: 0
-            }
         }
 
         let newRestaurant = new Restaurant(resData)
@@ -800,36 +778,14 @@ exports.updateRestaurantStatus = async(root, args, context) => {
             // food_categories: args.restaurantInput.food_categories,
             // price_type: args.restaurantInput.price_type,
             status: args.restaurantInput.status,
-            rejection_msg: args.restaurantInput.rejection_msg
+            rejection_msg: args.restaurantInput.rejection_msg,
+            vat: args.restaurantInput.vat,
+            rider_cost: args.restaurantInput.rider_cost
         }
 
         if(args.restaurantInput.password !== ''){
             const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
             upRestaurant.password = hash
-        }
-
-        if(args.restaurantInput.vat){
-            upRestaurant = {
-                ...upRestaurant,
-                vat: setting.restaurant_vat
-            }
-        }else{
-            upRestaurant = {
-                ...upRestaurant,
-                vat: 0
-            }
-        }
-
-        if(args.restaurantInput.rider_cost){
-            upRestaurant = {
-                ...upRestaurant,
-                rider_cost: setting.rider_cost
-            }
-        }else{
-            upRestaurant = {
-                ...upRestaurant,
-                rider_cost: 0
-            }
         }
 
         let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)

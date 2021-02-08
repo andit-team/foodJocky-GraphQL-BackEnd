@@ -155,10 +155,10 @@ const RestaurantsSchema = new Schema({
         type: String
     },
     vat: {
-        type: Number
+        type: Boolean
     },
     rider_cost: {
-        type: Number
+        type: Boolean
     }
     
 },

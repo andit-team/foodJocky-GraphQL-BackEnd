@@ -116,8 +116,8 @@ type RestaurantData {
   discount_given_by_restaurant: Int
   discount_given_by_admin: Int
   balance: Float
-  vat: Int
-  rider_cost: Int
+  vat: Boolean
+  rider_cost: Boolean
 }
 
 type FoodCategory {
