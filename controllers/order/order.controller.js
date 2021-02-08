@@ -476,14 +476,16 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
 
     async function calculatePrice(price){
         let settings = await Settings.findOne()
-        let restaurant = await Restaurant.findById('601fced6059da3e1e5f43a86').populate('plan')
+        let restaurant = await Restaurant.findById('5fc8be7278070b00982039ce').populate('plan')
 
-        console.log(restaurant.vat)
+        for(let i = 0; i<restaurant.food_categories.length; i++){
+            console.log(restaurant.food_categories[i].foods)
+        }
 
         let basePrice = price
         let marginCommission = 20
         let commission = restaurant.plan.commision
-        let discount_given_by_restaurant = restaurant.discount_given_by_restauran
+        let discount_given_by_restaurant = restaurant.discount_given_by_restaurant
         let discount_given_by_admin = restaurant.discount_given_by_admin
         let riderCost = settings.rider_cost
         let cashbackPercentage = settings.customer_cashback_percentange
@@ -511,8 +513,6 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         if(!restaurant.rider_cost){
             price = price + riderCost
         }
-
-        console.log(price)
 
         
     }
