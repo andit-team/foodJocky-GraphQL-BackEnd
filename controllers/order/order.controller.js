@@ -453,41 +453,7 @@ exports.getOneOrder = async(root, args, context) => {
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
 
-        let updateCustomerLocationStatus = await User.updateOne(
-            {
-                _id: args.user_id
-            },
-            {
-                $set: {
-                    'customer_addresses.$[address].status': 1
-                }
-            },
-            {
-                arrayFilters: [
-                    {
-                        'address._id': args.address_id
-                    }
-                ]
-            })
-
-            let updateCustomerLocationStatusSetFalse = await User.updateMany(
-                {
-                    _id: args.user_id
-                },
-                {
-                    $set: {
-                        'customer_addresses.$[address].status': 0
-                    }
-                },
-                {
-                    arrayFilters: [
-                        {
-                            'address._id': {
-                                $ne: args.address_id
-                            }
-                        }
-                    ]
-                })
+        calculatePrice(100)
         
         let returnData = {
             error: false,
@@ -506,6 +472,52 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
             data: {}
         }
         return returnData
+    }
+
+    function calculatePrice(price){
+        let basePrice = price
+        let marginCommission = 20
+        let commission = 15
+        let discount_given_by_restaurant = 10
+        let discount_given_by_admin = 10
+        let riderCost = 10
+        let cashbackPercentage = 20
+        let restaurnatVat = 4
+        let customertVat = 4
+
+        //Website Live Price------------------------------------
+
+        // Increase Price giving Wallet Cashback
+        price = price + ((basePrice * cashbackPercentage)/100)
+
+        // Increase Price giving discount by admin
+        price = price + ((basePrice * discount_given_by_admin)/100)
+
+        // Increase Price from restaurnat commission
+        let commissionAddOrNot = marginCommission - commission
+        if(commissionAddOrNot > 0){
+            price = price + ((basePrice * commissionAddOrNot)/100)
+        }
+
+        // Increase Price from restaurnat vat
+        if(restaurnatVat > 0){
+            price = price + ((basePrice * restaurnatVat)/100)
+        }
+
+        // Increase Price from Rider Cost
+        if(riderCost > 0){
+            price = price + riderCost
+        }
+
+        
+        //Website Live Price------------------------------------
+
+        // Decrease cost if restaurant Give Discount
+        let totalDiscount = discount_given_by_restaurant + discount_given_by_admin
+        
+        price = price - ((price * totalDiscount)/100)
+        console.log(price)
+        
     }
 }
 

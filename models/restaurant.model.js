@@ -154,6 +154,12 @@ const RestaurantsSchema = new Schema({
     rejection_msg:{
         type: String
     },
+    vat: {
+        type: Number
+    },
+    rider_cost: {
+        type: Number
+    }
     
 },
 {

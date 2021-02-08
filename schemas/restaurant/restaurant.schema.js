@@ -86,6 +86,8 @@ input RestaurantInput {
   discount_given_by_restaurant: Int
   discount_given_by_admin: Int
   balance: Float
+  vat: Boolean
+  rider_cost: Boolean
 }
 
 input InputFoodCategories {
@@ -114,6 +116,8 @@ type RestaurantData {
   discount_given_by_restaurant: Int
   discount_given_by_admin: Int
   balance: Float
+  vat: Int
+  rider_cost: Int
 }
 
 type FoodCategory {

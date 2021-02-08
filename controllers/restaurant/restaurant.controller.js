@@ -2,6 +2,7 @@ const User = require('../../models/user.model')
 const Restaurant = require('../../models/restaurant.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Setting = require('../../models/settings.model')
 
 exports.addRestaurant = async(root, args, context) => {
    
@@ -17,6 +18,7 @@ exports.addRestaurant = async(root, args, context) => {
     }
 
     try{
+        let setting = await Setting.findOne()
         const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
         let resData = {
             user: args.restaurantInput.user,
@@ -207,6 +209,30 @@ exports.addRestaurant = async(root, args, context) => {
             }
 
 
+        }
+
+        if(args.restaurantInput.vat){
+            resData = {
+                ...resData,
+                vat: setting.restaurant_vat
+            }
+        }else{
+            resData = {
+                ...resData,
+                vat: 0
+            }
+        }
+
+        if(args.restaurantInput.rider_cost){
+            resData = {
+                ...resData,
+                rider_cost: setting.rider_cost
+            }
+        }else{
+            resData = {
+                ...resData,
+                vat: 0
+            }
         }
 
         let newRestaurant = new Restaurant(resData)
@@ -780,6 +806,30 @@ exports.updateRestaurantStatus = async(root, args, context) => {
         if(args.restaurantInput.password !== ''){
             const hash = bcrypt.hashSync(args.restaurantInput.password, 8)
             upRestaurant.password = hash
+        }
+
+        if(args.restaurantInput.vat){
+            resData = {
+                ...resData,
+                vat: setting.restaurant_vat
+            }
+        }else{
+            resData = {
+                ...resData,
+                vat: 0
+            }
+        }
+
+        if(args.restaurantInput.rider_cost){
+            resData = {
+                ...resData,
+                rider_cost: setting.rider_cost
+            }
+        }else{
+            resData = {
+                ...resData,
+                vat: 0
+            }
         }
 
         let uRestaurant = await Restaurant.updateOne(updateArgs,upRestaurant)
