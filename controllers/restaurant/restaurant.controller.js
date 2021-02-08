@@ -780,7 +780,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
     }
     
     try{
-
+        let setting = await Setting.findOne()
         let updateArgs = {
             _id: args.restaurantInput._id
         }
@@ -828,7 +828,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
         }else{
             upRestaurant = {
                 ...upRestaurant,
-                vat: 0
+                rider_cost: 0
             }
         }
 
@@ -853,6 +853,7 @@ exports.updateRestaurantStatus = async(root, args, context) => {
 
     }catch(error){
 
+        console.log(error)
         let returnData = {
             error: true,
             msg: "Restaurant Update Unsuccessful"
