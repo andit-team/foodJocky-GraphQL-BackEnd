@@ -231,7 +231,7 @@ exports.addRestaurant = async(root, args, context) => {
         }else{
             resData = {
                 ...resData,
-                vat: 0
+                rider_cost: 0
             }
         }
 
