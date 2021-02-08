@@ -809,25 +809,25 @@ exports.updateRestaurantStatus = async(root, args, context) => {
         }
 
         if(args.restaurantInput.vat){
-            resData = {
-                ...resData,
+            upRestaurant = {
+                ...upRestaurant,
                 vat: setting.restaurant_vat
             }
         }else{
-            resData = {
-                ...resData,
+            upRestaurant = {
+                ...upRestaurant,
                 vat: 0
             }
         }
 
         if(args.restaurantInput.rider_cost){
-            resData = {
-                ...resData,
+            upRestaurant = {
+                ...upRestaurant,
                 rider_cost: setting.rider_cost
             }
         }else{
-            resData = {
-                ...resData,
+            upRestaurant = {
+                ...upRestaurant,
                 vat: 0
             }
         }
