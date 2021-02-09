@@ -8,6 +8,7 @@ type Query {
     verifyCustomerToken(token: String): customerAddOutPut
     getAllCustomerLocations: AllCustomerLocationData
     getCustomerDashboardData: CustomerDashboardData
+    getDistanceFromLatLng(customer_lat: Float, customer_lng: Float, restaurant_lat: Float, restaurant_lng: Float): DistanceOutputData
   }
 
   type Mutation {
@@ -34,6 +35,16 @@ type Query {
     error: Boolean
     msg: String
     data: CustomerAddressType
+  }
+
+  type DistanceOutputData {
+    error: Boolean
+    msg: String
+    data: DistanceData
+  }
+
+  type DistanceData {
+    distance: Int
   }
 
   type CustomerDashboardData {

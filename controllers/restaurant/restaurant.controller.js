@@ -742,8 +742,6 @@ exports.getOneRestaurant = async(root, args, context) => {
             restaurant_vat_boolean: restaurant.vat,
             restaurant_rider_cost_boolean: restaurant.rider_cost
         }
-
-        console.log(object)
         
         let foodCategories = restaurant.food_categories.map((element) => {
             let newFood = element.foods.map((food) => {
@@ -769,6 +767,8 @@ exports.getOneRestaurant = async(root, args, context) => {
         return returnData
 
     }catch(error){
+
+        console.log(error)
 
         let returnData = {
             error: true,

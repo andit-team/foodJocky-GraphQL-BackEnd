@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID;
 const Order = require('../../models/order.model')
+const axios = require('axios')
 
 exports.addCustomer = async (root, args, context) => {
     try {
@@ -566,6 +567,59 @@ exports.verifyCustomerToken = async(root, args, context) => {
         let returnData = {
             error: true,
             msg: "Token Not Verified",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.getDistanceFromLatLng = async(root, args, context) => {
+    
+    try{
+
+        let setting = await Settings.findOne({})
+
+        const apiKey = setting.google_map_api_key
+        
+        let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${args.customer_lat},${args.customer_lng}&destinations=${args.restaurant_lat},${args.restaurant_lng}&key=${apiKey}`)
+        
+        if(result.data.status === 'OK'){
+            if(result.data.rows[0].elements[0].status === 'OK'){
+                let returnData = {
+                    error: false,
+                    msg: "Distance get successfully",
+                    data: {
+                        distance: Math.ceil(result.data.rows[0].elements[0].distance.value / 1000)
+                    }
+                }
+                return returnData
+            }else{
+                let returnData = {
+                    error: true,
+                    msg: "Distance data get unsuccessful",
+                    data: {}
+                }
+                return returnData
+            }
+            
+        }else{
+            let returnData = {
+                error: true,
+                msg: "Distance data get unsuccessful",
+                data: {}
+            }
+            return returnData
+        }
+        
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Distance data get unsuccessful",
             data: {}
         }
         return returnData
