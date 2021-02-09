@@ -478,20 +478,44 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         let settings = await Settings.findOne()
         let restaurant = await Restaurant.findById('5fc8be7278070b00982039ce').populate('plan')
 
-        for(let i = 0; i<restaurant.food_categories.length; i++){
-            console.log(restaurant.food_categories[i].foods)
-        }
-
-        let basePrice = price
         let marginCommission = 20
         let commission = restaurant.plan.commision
-        let discount_given_by_restaurant = restaurant.discount_given_by_restaurant
         let discount_given_by_admin = restaurant.discount_given_by_admin
         let riderCost = settings.rider_cost
         let cashbackPercentage = settings.customer_cashback_percentange
         let restaurnatVat = settings.restaurant_vat
-        let customertVat = settings.customer_vat
 
+        let object = {
+            marginCommission,
+            commission,
+            discount_given_by_admin,
+            riderCost,
+            cashbackPercentage,
+            restaurnatVat,
+            restaurant_vat_boolean: restaurant.vat,
+            restaurant_rider_cost_boolean: restaurant.rider_cost
+        }
+        
+        let foodCategories = restaurant.food_categories.map((element) => {
+            let newFood = element.foods.map((food) => {
+                food.price = businessLogic(food.price, object)
+                if(food.price_and_size.length !== 0){
+                    food.price_and_size.map((price_size) => {
+                        price_size.price = businessLogic(price_size.price, object)
+                        return price_size
+                    })
+                }
+                return food
+            })
+            element.foods = newFood
+            return element
+        })
+        restaurant.food_categories = foodCategories 
+    }
+
+    function businessLogic(price,{marginCommission,commission,discount_given_by_admin,riderCost,cashbackPercentage,restaurnatVat,restaurant_vat_boolean,restaurant_rider_cost_boolean}){
+
+        let basePrice = price
         // Increase Price giving Wallet Cashback
         price = price + ((basePrice * cashbackPercentage)/100)
 
@@ -505,16 +529,17 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
         }
 
         // Increase Price from restaurnat vat
-        if(!restaurant.vat){
+        if(!restaurant_vat_boolean){
             price = price + ((basePrice * restaurnatVat)/100)
         }
 
         // Increase Price from Rider Cost
-        if(!restaurant.rider_cost){
+        if(!restaurant_rider_cost_boolean){
             price = price + riderCost
         }
 
-        
+        return price
+
     }
 }
 
