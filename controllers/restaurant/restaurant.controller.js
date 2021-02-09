@@ -2,7 +2,7 @@ const User = require('../../models/user.model')
 const Restaurant = require('../../models/restaurant.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Setting = require('../../models/settings.model')
+const Settings = require('../../models/settings.model')
 
 exports.addRestaurant = async(root, args, context) => {
    
@@ -722,12 +722,49 @@ exports.getOneRestaurant = async(root, args, context) => {
 
     try{
 
-        let result = await Restaurant.findById(args._id).populate('owner').populate('plan')
+        let restaurant = await Restaurant.findById(args._id).populate('owner').populate('plan')
+        let settings = await Settings.findOne()
+
+        let marginCommission = 20
+        let commission = restaurant.plan.commision
+        let discount_given_by_admin = restaurant.discount_given_by_admin
+        let riderCost = settings.rider_cost
+        let cashbackPercentage = settings.customer_cashback_percentange
+        let restaurnatVat = settings.restaurant_vat
+
+        let object = {
+            marginCommission,
+            commission,
+            discount_given_by_admin,
+            riderCost,
+            cashbackPercentage,
+            restaurnatVat,
+            restaurant_vat_boolean: restaurant.vat,
+            restaurant_rider_cost_boolean: restaurant.rider_cost
+        }
+
+        console.log(object)
+        
+        let foodCategories = restaurant.food_categories.map((element) => {
+            let newFood = element.foods.map((food) => {
+                food.price = businessLogic(food.price, object)
+                if(food.price_and_size.length !== 0){
+                    food.price_and_size.map((price_size) => {
+                        price_size.price = businessLogic(price_size.price, object)
+                        return price_size
+                    })
+                }
+                return food
+            })
+            element.foods = newFood
+            return element
+        })
+        restaurant.food_categories = foodCategories
 
         let returnData = {
             error: false,
             msg: "Restaurant Get Successfully",
-            data: result
+            data: restaurant
         }
         return returnData
 
@@ -738,6 +775,35 @@ exports.getOneRestaurant = async(root, args, context) => {
             msg: "Restaurant Get Unsuccessful"
         }
         return returnData
+
+    }
+
+    function businessLogic(price,{marginCommission,commission,discount_given_by_admin,riderCost,cashbackPercentage,restaurnatVat,restaurant_vat_boolean,restaurant_rider_cost_boolean}){
+
+        let basePrice = price
+        // Increase Price giving Wallet Cashback
+        price = price + ((basePrice * cashbackPercentage)/100)
+
+        // Increase Price giving discount by admin
+        price = price + ((basePrice * discount_given_by_admin)/100)
+
+        // Increase Price from restaurnat commission
+        let commissionAddOrNot = marginCommission - commission
+        if(commissionAddOrNot > 0){
+            price = price + ((basePrice * commissionAddOrNot)/100)
+        }
+
+        // Increase Price from restaurnat vat
+        if(!restaurant_vat_boolean){
+            price = price + ((basePrice * restaurnatVat)/100)
+        }
+
+        // Increase Price from Rider Cost
+        if(!restaurant_rider_cost_boolean){
+            price = price + riderCost
+        }
+
+        return price
 
     }
 
