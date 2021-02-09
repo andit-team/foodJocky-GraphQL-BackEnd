@@ -599,7 +599,7 @@ exports.getDistanceFromLatLng = async(root, args, context) => {
             }else{
                 let returnData = {
                     error: true,
-                    msg: "Distance data get unsuccessful",
+                    msg: "Distance data get unsuccessful Error From 1",
                     data: {}
                 }
                 return returnData
@@ -608,7 +608,7 @@ exports.getDistanceFromLatLng = async(root, args, context) => {
         }else{
             let returnData = {
                 error: true,
-                msg: "Distance data get unsuccessful",
+                msg: "Distance data get unsuccessful Error From 2",
                 data: {}
             }
             return returnData
@@ -619,7 +619,7 @@ exports.getDistanceFromLatLng = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Distance data get unsuccessful",
+            msg: "Distance data get unsuccessful Error From Catch",
             data: {}
         }
         return returnData
