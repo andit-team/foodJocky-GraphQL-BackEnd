@@ -8,10 +8,23 @@ const OrdersSchema = new Schema({
             name: String,
             size: String,
             quantity: Number,
-            price: Number
+            price: Number,
+            base_price: Number
         }
     ],
+    base_price_total: {
+      type: Number
+    },
     total: {
+        type: Number
+    },
+    base_price_sub_total: {
+      type: Number
+    },
+    sub_total: {
+      type: Number
+    },
+    delivery_charge: {
         type: Number
     },
     status: {
@@ -46,12 +59,6 @@ const OrdersSchema = new Schema({
     rider: {
         type: mongoose.Schema.Types.ObjectId,               //Rider will be assigned later
         ref: 'Users',
-    },
-    sub_total: {
-        type: Number
-    },
-    delivery_charge: {
-        type: Number
     },
     order_type: {
         type: String
