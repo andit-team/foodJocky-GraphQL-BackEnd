@@ -58,7 +58,7 @@ exports.addOrder = async(root, args, context) => {
         let nTransaction
         if(args.orderInput.payment_type === 'wallet'){
 
-            if(previous_balance > amount){
+            if(amount > previous_balance){
                 let returnData = {
                     error: true,
                     msg: "Insufficient Balance In Wallet",
