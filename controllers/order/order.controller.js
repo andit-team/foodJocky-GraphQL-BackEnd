@@ -45,7 +45,7 @@ exports.addOrder = async(root, args, context) => {
             
         })
 
-        let base_price_sub_total = items.map( v => v.base_price ).reduce( (sum, current) => sum + current, 0 )
+        let base_price_sub_total = items.map( v => v.base_price * v.quantity ).reduce( (sum, current) => sum + current, 0 )
         let base_price_total = base_price_sub_total - (base_price_sub_total * restaurant.discount_given_by_restaurant) / 100
 
         let order = {
