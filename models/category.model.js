@@ -3,10 +3,12 @@ const Schema = mongoose.Schema
 const CategorySchema = new Schema({
     name: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
     }, 
     image_url: {
-        type: String
+        type: String,
+        required: true
     }, 
 },
 {
