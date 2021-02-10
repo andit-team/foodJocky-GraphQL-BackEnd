@@ -40,7 +40,7 @@ const OrdersSchema = new Schema({
       type: Number
     },
     payment_type: {
-      type: String        //COD,wallet
+      type: String        //cod,wallet
     },
     status: {
         type: String    // pending,accepted,delivered,paid,cancelled
