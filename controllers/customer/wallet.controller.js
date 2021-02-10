@@ -66,7 +66,7 @@ exports.addBalance = async (root, args, context) => {
         formData.append('cancel_url', args.url)
         formData.append('cus_name', customer.first_name + customer.last_name)
         formData.append('cus_email', customer.email !== ""? customer.email: "notgiven@gmail.com" )
-        formData.append('cus_add1', address)
+        formData.append('cus_add1', address === ""? "Khulna" : address)
         formData.append('cus_city', setting.ssl_commerez_cus_city)
         formData.append('cus_country', setting.ssl_commerez_cus_country)
         formData.append('cus_phone', customer.mobile)
