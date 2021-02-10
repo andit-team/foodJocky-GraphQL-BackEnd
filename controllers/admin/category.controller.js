@@ -17,7 +17,8 @@ exports.addCategory = async(root, args, context) => {
     try{
 
         let newCategoy = new Category({
-            name: args.name
+            name: args.name,
+            image_url: args.image_url
         })
 
         let nCategoy = await newCategoy.save()

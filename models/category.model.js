@@ -5,6 +5,9 @@ const CategorySchema = new Schema({
         type: String,
         unique: true
     }, 
+    image_url: {
+        type: String
+    }, 
 },
 {
     timestamps: true

@@ -5,7 +5,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addCategory(name: String): AddOutPut
+    addCategory(name: String, image_url: String): AddOutPut
     deleteCategory(_id: ID): DeleteOutPut
   }
 
@@ -29,6 +29,7 @@ type CategoriesOutPut {
   type CategoryData {
     _id: ID
     name: String
+    image_url: String
   }
 `
 module.exports = typeDefs
