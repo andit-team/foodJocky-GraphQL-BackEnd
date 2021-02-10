@@ -4,6 +4,7 @@ const Restaurant = require('../../models/restaurant.model')
 const Order = require('../../models/order.model')
 const mongoose = require('mongoose')
 const axios = require('axios')
+const Transaction = require('../../models/transaction.model')
 
 exports.addOrder = async(root, args, context) => {
    
@@ -21,6 +22,8 @@ exports.addOrder = async(root, args, context) => {
     try{
 
         let restaurant = await Restaurant.findById(args.orderInput.restaurant)
+        let customer = await User.findById(context.user.user_id)
+        let setting = await Settings.findOne({})
 
         let items = args.orderInput.items.map((item) => {
             let cat = restaurant.food_categories.filter((category) => {
@@ -48,6 +51,41 @@ exports.addOrder = async(root, args, context) => {
         let base_price_sub_total = items.map( v => v.base_price * v.quantity ).reduce( (sum, current) => sum + current, 0 )
         let base_price_total = base_price_sub_total - (base_price_sub_total * restaurant.discount_given_by_restaurant) / 100
 
+        let amount = args.orderInput.total
+        let previous_balance = customer.balance
+        let current_balance
+        let cashback 
+        let nTransaction
+        if(args.orderInput.payment_type === 'wallet'){
+
+            if(previous_balance > amount){
+                let returnData = {
+                    error: true,
+                    msg: "Insufficient Balance In Wallet",
+                    data: {}
+                }
+                return returnData
+            }
+
+            cashback = (args.orderInput.sub_total * setting.customer_cashback_percentange)/100
+            current_balance = (customer.balance - amount) + cashback
+
+            let transaction = new Transaction({
+                current_balance: current_balance,
+                previous_balance: previous_balance,
+                amount: amount,
+                cashback: cashback,
+                cashback_percentange: setting.customer_cashback_percentange,
+                debit_or_credit: 'credit',
+                reason: 'Cut Balance From Wallet for Placing Order',
+                status: 'success',
+                user: context.user.user_id
+            })
+            
+            nTransaction = await transaction.save()
+
+        }
+        
         let order = {
             items: items,
             base_price_sub_total: base_price_sub_total,
@@ -65,7 +103,16 @@ exports.addOrder = async(root, args, context) => {
             agent: restaurant.agent,
             status: 'pending',
             delivery_info: args.orderInput.delivery_info,
-            residential_or_municipal: restaurant.residential_or_municipal
+            residential_or_municipal: restaurant.residential_or_municipal,
+            cashback: cashback,
+            cashback_percentange: setting.customer_cashback_percentange
+        }
+
+        if(nTransaction){
+            order = {
+                ...order,
+                transaction: nTransaction._id
+            }
         }
 
         if(restaurant.residential_or_municipal === 'residential'){
@@ -90,16 +137,25 @@ exports.addOrder = async(root, args, context) => {
         let newOrder = new Order(order)
 
         let nOrder = await newOrder.save()
+        let setValue = {
+            'customer_addresses.$[address].status': 1,
+            last_order: nOrder._id
+        }
+
+        if(nTransaction){
+            setValue = {
+                ...setValue,
+                balance: current_balance,
+                cashback: cashback
+            }
+        }
 
         let updateCustomerLocationStatus = await User.updateOne(
             {
                 _id: context.user.user_id
             },
             {
-                $set: {
-                    'customer_addresses.$[address].status': 1,
-                    last_order: nOrder._id
-                }
+                $set: setValue
             },
             {
                 arrayFilters: [
@@ -139,7 +195,6 @@ exports.addOrder = async(root, args, context) => {
 
     }catch(error){
 
-        console.log(error)
         let returnData = {
             error: true,
             msg: "Order Place Failed",

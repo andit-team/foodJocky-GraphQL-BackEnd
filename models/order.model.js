@@ -45,6 +45,12 @@ const OrdersSchema = new Schema({
     status: {
         type: String    // pending,accepted,delivered,paid,cancelled
     },
+    cashback: {
+      type: Number
+    },
+    cashback_percentange: {
+      type: Number
+    },
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurants',
@@ -149,7 +155,11 @@ const OrdersSchema = new Schema({
     },
     residential_or_municipal: {
       type: String
-    }
+    },
+    transaction: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Transactions',
+  },
 },
 {
     timestamps: true
