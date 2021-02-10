@@ -79,6 +79,9 @@ input OrderInput {
     items: [ItemInput]
     total: Float
     sub_total: Float
+    customer_discount_amount: Float
+    vat: Int
+    payment_type: String
     delivery_charge: Int
     restaurant: ID
     delivery_info: CustomerAddress
@@ -114,7 +117,9 @@ type OrderData {
     rider: RiderData
     delivery_info: CustomerAddressType
     delivery_time: String
-    pin: String
+    customer_discount_amount: Float
+    vat: Int
+    payment_type: String
     createdAt: String
     updatedAt: String
 }

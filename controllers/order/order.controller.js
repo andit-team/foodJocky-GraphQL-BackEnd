@@ -21,10 +21,44 @@ exports.addOrder = async(root, args, context) => {
     try{
 
         let restaurant = await Restaurant.findById(args.orderInput.restaurant)
+
+        let items = args.orderInput.items.map((item) => {
+            let cat = restaurant.food_categories.filter((category) => {
+                return category._id == item.category_id
+            })
+            let food = cat[0].foods.filter((food) => {
+                return food._id == item._id
+            })
+            if(food[0].price_and_size.length > 0){
+
+                let price_and_size = food[0].price_and_size.filter((p_and_s) => {
+                    return p_and_s.size == item.size
+                })
+
+                item.base_price = price_and_size[0].price
+
+            }else{
+                item.base_price = food[0].price
+            }
+
+            return item
+            
+        })
+
+        let base_price_sub_total = items.map( v => v.base_price ).reduce( (sum, current) => sum + current, 0 )
+        let base_price_total = base_price_sub_total - (base_price_sub_total * restaurant.discount_given_by_restaurant) / 100
+
         let order = {
-            items: args.orderInput.items,
+            items: items,
+            base_price_sub_total: base_price_sub_total,
+            base_price_total: base_price_total,
             total: args.orderInput.total,
             sub_total: args.orderInput.sub_total,
+            discount_given_by_admin: restaurant.discount_given_by_admin,
+            discount_given_by_restaurant: restaurant.discount_given_by_restaurant,
+            customer_discount_amount: args.orderInput.customer_discount_amount,
+            vat: args.orderInput.vat,
+            payment_type: args.orderInput.payment_type,
             delivery_charge: args.orderInput.delivery_charge,
             restaurant: args.orderInput.restaurant,
             customer: context.user.user_id,
@@ -105,6 +139,7 @@ exports.addOrder = async(root, args, context) => {
 
     }catch(error){
 
+        console.log(error)
         let returnData = {
             error: true,
             msg: "Order Place Failed",

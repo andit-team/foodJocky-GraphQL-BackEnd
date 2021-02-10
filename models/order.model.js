@@ -24,8 +24,23 @@ const OrdersSchema = new Schema({
     sub_total: {
       type: Number
     },
+    customer_discount_amount: {
+      type: Number
+    },
+    discount_given_by_restaurant: {
+      type: Number
+    },
+    discount_given_by_admin: {
+      type: Number
+    },
     delivery_charge: {
         type: Number
+    },
+    vat: {
+      type: Number
+    },
+    payment_type: {
+      type: String        //COD,wallet
     },
     status: {
         type: String    // pending,accepted,delivered,paid,cancelled
