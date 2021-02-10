@@ -80,7 +80,7 @@ input OrderInput {
     total: Float
     sub_total: Float
     customer_discount_amount: Float
-    vat: Int
+    vat: Float
     payment_type: String
     delivery_charge: Int
     restaurant: ID
