@@ -102,6 +102,7 @@ type ItemOutput {
     size: String
     quantity: Int
     price: Float
+    base_price: Float
 }
 
 type OrderData {
