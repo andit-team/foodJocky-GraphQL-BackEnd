@@ -6,7 +6,7 @@ const typeDefs = gql`
 
   type Mutation {
     addCategory(name: String, image_url: String): AddOutPut
-    deleteCategory(_id: ID): DeleteOutPut
+    updateCategory(_id: ID, name: String, image_url: String): DeleteOutPut
   }
 
   type AddOutPut {

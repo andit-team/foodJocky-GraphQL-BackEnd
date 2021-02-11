@@ -43,7 +43,7 @@ exports.addCategory = async(root, args, context) => {
 
 }
 
-exports.deleteCategory = async(root, args, context) => {
+exports.updateCategory = async(root, args, context) => {
 
     if(context.user.type !== 'admin'){
 
@@ -57,15 +57,13 @@ exports.deleteCategory = async(root, args, context) => {
     }
 
     try{
-        let deleteArgs = {
-            _id: args._id
-        }
-        let categoryDelete = await Category.deleteOne(deleteArgs)
-        if((categoryDelete).n > 0){
+
+        let categoryUpdate = await Category.updateOne({_id: args._id},{name: args.name, image_url: args.image_url})
+        if(categoryUpdate.n > 0){
 
             let returnData = {
                 error: false,
-                msg: "Category Deletion Successful"
+                msg: "Category Update Successfully"
             }
             return returnData
 
@@ -73,7 +71,7 @@ exports.deleteCategory = async(root, args, context) => {
 
             let returnData = {
                 error: true,
-                msg: "Category Deletion UnSuccessful"
+                msg: "Category Not Deleted"
             }
             return returnData
 
@@ -83,7 +81,7 @@ exports.deleteCategory = async(root, args, context) => {
 
         let returnData = {
             error: true,
-            msg: "Category Deletion UnSuccessful"
+            msg: "Category Not Deleted"
         }
         return returnData
 

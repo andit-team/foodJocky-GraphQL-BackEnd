@@ -13,8 +13,8 @@ const resolvers = {
       return result
     },
 
-    async deleteCategory(root, args, context) {
-        let result = await CategoryController.deleteCategory(root, args, context)
+    async updateCategory(root, args, context) {
+        let result = await CategoryController.updateCategory(root, args, context)
         return result
       },
   },
