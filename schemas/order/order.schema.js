@@ -107,6 +107,8 @@ type ItemOutput {
 type OrderData {
     _id: ID
     items: [ItemOutput]
+    base_price_sub_total: Float
+    base_price_total: Float
     total: Float
     sub_total: Float
     delivery_charge: Int
