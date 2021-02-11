@@ -625,6 +625,15 @@ exports.updateOrderStatus = async(root, args, context) => {
         let uOrder = await Order.updateOne({_id: args._id}, udata)
         let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
 
+        if(args.status === 'paid'){
+            let restaurant = await Restaurant.findById(order.restaurant)
+            if(restaurant.balance !== undefined){
+                let updateRestautanBalance = await Restaurant.updateOne({_id: restaurant._id},{balance: restaurant.balance + order.base_price_total})
+            }else{
+                let updateRestautanBalance = await Restaurant.updateOne({_id: restaurant._id},{balance: 0 + order.base_price_total})
+            }
+        }
+
         if(uOrder.n > 0){
             
             let returnData = {
