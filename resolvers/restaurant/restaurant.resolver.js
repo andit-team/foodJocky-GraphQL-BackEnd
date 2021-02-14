@@ -102,6 +102,15 @@ const resolvers = {
         let result = await RestaurantController.updateRestaurantStatus(root, args, context)
         return result
       },
+
+      async transferBalanceFromRestaurant(root, args, context) {
+        let result = await RestaurantController.transferBalanceFromRestaurant(root, args, context)
+        return result
+      },
+      async transferBalanceFromAllRestaurant(root, args, context) {
+        let result = await RestaurantController.transferBalanceFromAllRestaurant(root, args, context)
+        return result
+      },
   },
 }
 

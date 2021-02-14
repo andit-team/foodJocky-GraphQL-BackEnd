@@ -37,6 +37,9 @@ type Mutation {
 
   updateRestaurantActivityByOwner(status: Boolean, rest_id: ID ): RestaurantEditDeleteOutPut
   updateRestaurantActivityBySelf(status: Boolean): RestaurantEditDeleteOutPut
+
+  transferBalanceFromRestaurant(restaurant_id: ID, amount: Float): RestaurantEditDeleteOutPut
+  transferBalanceFromAllRestaurant: RestaurantEditDeleteOutPut
 }
 
 type RestaurantAddOutPut {
