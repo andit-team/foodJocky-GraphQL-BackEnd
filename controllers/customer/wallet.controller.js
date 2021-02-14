@@ -110,19 +110,12 @@ exports.trackTransaction = async (root, args, context) => {
         let returnData
 
         let sslData = await axios.get(`https://securepay.sslcommerz.com/validator/api/merchantTransIDvalidationAPI.php?tran_id=${tran_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`)
-        
+
         if(sslData.data.APIConnect === 'DONE'){
 
-            //if(sslData.data.element[0].status === 'VALID' ||  sslData.data.element[0].status === 'VALIDATED'){
+            if(sslData.data.element[0].status === 'VALID' ||  sslData.data.element[0].status === 'VALIDATED'){
                 let transaction = await Transaction.findByIdAndUpdate({_id: args._id}, {status: 'success', validate_response: sslData.data})
                 let user = await User.updateOne({_id: transaction.user}, {balance: transaction.current_balance, cashback: transaction.cashback})
-                return {
-                    error: false,
-                    msg: JSON.stringify(sslData.data),
-                    data: {
-                        status: sslData.data.element[0].status
-                    }
-                }
                 if(user.n > 0 && transaction){
                     returnData = {
                         error: false,
@@ -143,16 +136,16 @@ exports.trackTransaction = async (root, args, context) => {
                     
                 }
         
-            // }else{
-            //     returnData = {
-            //         error: true,
-            //         msg: 'Not Validated',
-            //         data: {
-            //             status: sslData.data.element[0].status
-            //         }
-            //     }
+            }else{
+                returnData = {
+                    error: true,
+                    msg: 'Not Validated',
+                    data: {
+                        status: sslData.data.element[0].status
+                    }
+                }
                 
-            // }
+            }
         }else{
             returnData = {
                 error: true,
