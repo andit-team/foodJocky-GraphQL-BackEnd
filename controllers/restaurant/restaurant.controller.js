@@ -1124,16 +1124,20 @@ exports.transferBalanceFromRestaurant = async(root, args, context) => {
     try{
 
         let restaurants = await Restaurant.find({owner: context.user.user_id},{_id: 1})
-        
+        let successfullyTransferred = 0
         for(let i=0; i<restaurants.length; i++){
-            await transferOneRestaurantBalance(restaurants[i]._id)
+            let data = await transferOneRestaurantBalance(restaurants[i]._id)
+            if(data.error){
+                continue
+            }
+            successfullyTransferred++
         }
   
-      let returnData = {
-          error: false,
-          msg: "Balance transferred successfully"
-      }
-      return returnData
+        let returnData = {
+            error: false,
+            msg: `Balance transferred successfully From ${successfullyTransferred} Restaurants`
+        }
+        return returnData
   
     }catch(error){
   
@@ -1147,7 +1151,7 @@ exports.transferBalanceFromRestaurant = async(root, args, context) => {
 
     async function transferOneRestaurantBalance(restaurant_id){
         try{
-            
+
         let restaurant = await Restaurant.findById(restaurant_id)
 
         if(restaurant.balance === undefined){
