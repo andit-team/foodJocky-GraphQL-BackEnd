@@ -75,7 +75,7 @@ exports.addBalance = async (root, args, context) => {
         formData.append('product_category', 'food')
         formData.append('product_profile', 'general')
 
-        let sslData = await axios.post('https://sandbox.sslcommerz.com/gwprocess/v4/api.php', formData, {headers: formData.getHeaders()})
+        let sslData = await axios.post('https://securepay.sslcommerz.com/gwprocess/v4/api.php', formData, {headers: formData.getHeaders()})
         let rData = {
             transaction_id: nTransaction._id,
             GatewayPageURL: sslData.data.GatewayPageURL
