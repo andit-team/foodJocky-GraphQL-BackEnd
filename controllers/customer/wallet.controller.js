@@ -109,7 +109,7 @@ exports.trackTransaction = async (root, args, context) => {
         let tran_id =  args._id.toString()
         let returnData
 
-        let sslData = await axios.get(`https://securepay.sslcommerz.com/validator/api/validationserverAPI.php?tran_id=${tran_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`)
+        let sslData = await axios.get(`https://securepay.sslcommerz.com/validator/api/merchantTransIDvalidationAPI.php?tran_id=${tran_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`)
         if(sslData.data.APIConnect === 'DONE'){
 
             if(sslData.data.element[0].status === 'VALID' ||  sslData.data.element[0].status === 'VALIDATED'){
