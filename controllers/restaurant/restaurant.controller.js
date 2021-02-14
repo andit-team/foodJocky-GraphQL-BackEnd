@@ -1146,78 +1146,87 @@ exports.transferBalanceFromRestaurant = async(root, args, context) => {
     }
 
     async function transferOneRestaurantBalance(restaurant_id){
-      let restaurant = await Restaurant.findById(restaurant_id)
+        try{
+            
+        let restaurant = await Restaurant.findById(restaurant_id)
 
-      if(restaurant.balance === undefined){
-        restaurant.balance = 0
+        if(restaurant.balance === undefined){
+            restaurant.balance = 0
+            await restaurant.save()
+            
+            let returnData = {
+                error: true
+            }
+            return returnData
+        }
+
+        if(restaurant.balance <= 0){
+            let returnData = {
+                error: true
+            }
+            return returnData
+        }
+
+        let owner = await User.findById(restaurant.owner)
+        let ownerPreviousBalance = owner.balance ? owner.balance : 0
+        let ownerCurrentBalance = ownerPreviousBalance + restaurant.balance
+        owner.balance = ownerCurrentBalance
+        await owner.save()
+
+        let ownerGlobalTransactionData = {
+            current_balance: ownerCurrentBalance,
+            previous_balance: ownerPreviousBalance,
+            amount: restaurant.balance,
+            debit_or_credit: 'debit',
+            reason: 'Transfer balance from restaurant',
+            status: 'success',
+            user_or_restaurant: owner._id,
+            onModel:'Users',
+        }
+        let newOwnerGlobalTransaction = new GlobalTransaction(ownerGlobalTransactionData)
+        let nOwnerGlobalTransaction = await newOwnerGlobalTransaction.save()
+
+        if(!nOwnerGlobalTransaction){
+            let returnData = {
+                error: true
+            }
+            return returnData
+        }
+
+        let restaurantPreviousBalance = restaurant.balance ? restaurant.balance : 0
+        let restaurantCurrentBalance = restaurantPreviousBalance - restaurantPreviousBalance
+        restaurant.balance = restaurantCurrentBalance
         await restaurant.save()
-        
+
+        let restaurantGlobalTransactionData = {
+            current_balance: restaurantCurrentBalance,
+            previous_balance: restaurantPreviousBalance,
+            amount: restaurantPreviousBalance,
+            debit_or_credit: 'credit',
+            reason: 'Transfer balance to owner account',
+            status: 'success',
+            user_or_restaurant: restaurant._id,
+            onModel:'Restaurants',
+        }
+        let newRestaurantGlobalTransaction = new GlobalTransaction(restaurantGlobalTransactionData)
+        let nRestaurantGlobalTransaction = await newRestaurantGlobalTransaction.save()
+
+        if(!nRestaurantGlobalTransaction){
+            let returnData = {
+                error: true
+            }
+            return returnData
+        }
+
+        return {
+            error: false
+        }
+
+    }catch(error){
         let returnData = {
             error: true
         }
         return returnData
-      }
-
-      if(restaurant.balance <= 0){
-        let returnData = {
-            error: true
-        }
-        return returnData
-      }
-
-      let owner = await User.findById(restaurant.owner)
-      let ownerPreviousBalance = owner.balance ? owner.balance : 0
-      let ownerCurrentBalance = ownerPreviousBalance + restaurant.balance
-      owner.balance = ownerCurrentBalance
-      await owner.save()
-
-      let ownerGlobalTransactionData = {
-        current_balance: ownerCurrentBalance,
-        previous_balance: ownerPreviousBalance,
-        amount: restaurant.balance,
-        debit_or_credit: 'debit',
-        reason: 'Transfer balance from restaurant',
-        status: 'success',
-        user_or_restaurant: owner._id,
-        onModel:'Users',
-      }
-      let newOwnerGlobalTransaction = new GlobalTransaction(ownerGlobalTransactionData)
-      let nOwnerGlobalTransaction = await newOwnerGlobalTransaction.save()
-
-      if(!nOwnerGlobalTransaction){
-        let returnData = {
-            error: true
-        }
-        return returnData
-      }
-
-      let restaurantPreviousBalance = restaurant.balance ? restaurant.balance : 0
-      let restaurantCurrentBalance = restaurantPreviousBalance - restaurantPreviousBalance
-      restaurant.balance = restaurantCurrentBalance
-      await restaurant.save()
-
-      let restaurantGlobalTransactionData = {
-        current_balance: restaurantCurrentBalance,
-        previous_balance: restaurantPreviousBalance,
-        amount: restaurantPreviousBalance,
-        debit_or_credit: 'credit',
-        reason: 'Transfer balance to owner account',
-        status: 'success',
-        user_or_restaurant: restaurant._id,
-        onModel:'Restaurants',
-      }
-      let newRestaurantGlobalTransaction = new GlobalTransaction(restaurantGlobalTransactionData)
-      let nRestaurantGlobalTransaction = await newRestaurantGlobalTransaction.save()
-
-      if(!nRestaurantGlobalTransaction){
-        let returnData = {
-            error: true
-        }
-        return returnData
-      }
-
-      return {
-          error: false
-      }
     }
-  }
+    }
+}
