@@ -18,6 +18,7 @@ const agentAreaPlanSchema = require('./schemas/admin/agent_area_plan.schema')
 const orderSchema = require('./schemas/order/order.schema')
 const settingsSchema = require('./schemas/admin/settings.schema')
 const agencySchema = require('./schemas/rider/agency.schema')
+const globalTransactionSchema = require('./schemas/transaction/transaction.schema')
 
 const categoryResolver = require('./resolvers/admin/category.resolver')
 const planResolver = require('./resolvers/admin/plan.resolver')
@@ -34,6 +35,7 @@ const agentAreaPlanResolver = require('./resolvers/admin/agent.area.plan.resolve
 const orderResolver = require('./resolvers/order/order.resolver')
 const settingsResolver = require('./resolvers/admin/settings.resolver')
 const agencyResolver = require('./resolvers/rider/agency.resolver')
+const globalTransactionResolver = require('./resolvers/transaction/transaction.resolver')
 
 const types = [
 	categorySchema,
@@ -51,6 +53,7 @@ const types = [
 	orderSchema,
 	settingsSchema,
 	agencySchema,
+	globalTransactionSchema
 ]
 
 const typeDefs = mergeTypeDefs(types)
@@ -70,7 +73,8 @@ const resolvers = [
 	agentAreaPlanResolver,
 	orderResolver,
 	settingsResolver,
-	agencyResolver
+	agencyResolver,
+	globalTransactionResolver
   ]
 
 const graphQlResolvers = mergeResolvers(resolvers)

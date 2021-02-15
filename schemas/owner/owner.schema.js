@@ -87,6 +87,7 @@ input OwnerInput {
   }
 
   type GlobalTransactionDataForOwner {
+    _id: ID
     current_balance: Float
     previous_balance: Float
     amount: Float
