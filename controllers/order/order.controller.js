@@ -652,6 +652,7 @@ exports.updateOrderStatus = async(root, args, context) => {
 
             order.cashback = cashback
             order.cashback_percentange = cashbackPercentage
+            order.transaction = nTransaction._id
             await order.save()
 
             let updateCustomer = await User.updateOne({_id: order.customer}, {
