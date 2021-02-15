@@ -86,27 +86,6 @@ exports.addOrder = async(root, args, context) => {
             
             nTransaction = await transaction.save()
 
-        }else{
-
-            cashbackPercentage = setting.customer_cashback_percentange / 2
-            cashback = (args.orderInput.sub_total * cashbackPercentage)/100
-            let cBalance = customer.balance === undefined ? 0 : customer.balance
-            current_balance = cBalance + cashback
-
-            let transaction = new Transaction({
-                current_balance: current_balance,
-                previous_balance: previous_balance === undefined ? 0 : previous_balance,
-                amount: amount,
-                cashback: cashback,
-                cashback_percentange: cashbackPercentage,
-                debit_or_credit: 'debit',
-                reason: 'Add Balance to wallet for cashback',
-                status: 'success',
-                user: context.user.user_id
-            })
-            
-            nTransaction = await transaction.save()
-
         }
         
         let order = {
@@ -649,6 +628,37 @@ exports.updateOrderStatus = async(root, args, context) => {
         let order = await Order.findById(args._id).populate('restaurant').populate('customer').populate('agent')
 
         if(args.status === 'paid'){
+
+            let customer = await User.findById(order.customer)
+            let cashbackPercentage = setting.customer_cashback_percentange / 2
+            let cashback = (order.sub_total * cashbackPercentage)/100
+            let cBalance = customer.balance === undefined ? 0 : customer.balance
+            let current_balance = cBalance + cashback
+            let amount = order.total
+
+            let transaction = new Transaction({
+                current_balance: current_balance,
+                previous_balance: cBalance,
+                amount: amount,
+                cashback: cashback,
+                cashback_percentange: cashbackPercentage,
+                debit_or_credit: 'debit',
+                reason: 'Add Balance to wallet for cashback',
+                status: 'success',
+                user: order.customer
+            })
+            
+            nTransaction = await transaction.save()
+
+            order.cashback = cashback
+            order.cashback_percentange = cashbackPercentage
+            await order.save()
+
+            let updateCustomer = await User.updateOne({_id: order.customer}, {
+                balance: current_balance,
+                cashback: cashback
+            })
+
             let restaurant = await Restaurant.findById(order.restaurant)
             if(restaurant.balance !== undefined){
                 let updateRestautanBalance = await Restaurant.updateOne({_id: restaurant._id},{balance: restaurant.balance + order.base_price_total})
