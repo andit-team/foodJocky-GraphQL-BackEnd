@@ -629,7 +629,7 @@ exports.updateOrderStatus = async(root, args, context) => {
 
         if(args.status === 'paid'){
 
-            if(args.orderInput.payment_type === 'cod'){
+            if(order.payment_type === 'cod'){
 
                 let customer = await User.findById(order.customer)
                 let cashbackPercentage = setting.customer_cashback_percentange / 2
