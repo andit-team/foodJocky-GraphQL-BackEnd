@@ -631,6 +631,7 @@ exports.updateOrderStatus = async(root, args, context) => {
 
             if(order.payment_type === 'cod'){
 
+                let setting = await Settings.findOne({})
                 let customer = await User.findById(order.customer)
                 let cashbackPercentage = setting.customer_cashback_percentange / 2
                 let cashback = (order.sub_total * cashbackPercentage)/100
@@ -692,6 +693,7 @@ exports.updateOrderStatus = async(root, args, context) => {
 
     }catch(error){
 
+        console.log(error)
         let returnData = {
             error: true,
             msg: "Order Status Update UnSuccessful",
