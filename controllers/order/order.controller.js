@@ -56,6 +56,7 @@ exports.addOrder = async(root, args, context) => {
         let current_balance
         let cashback 
         let nTransaction
+        let cashbackPercentage
         if(args.orderInput.payment_type === 'wallet'){
 
             if(amount > previous_balance){
@@ -67,7 +68,8 @@ exports.addOrder = async(root, args, context) => {
                 return returnData
             }
 
-            cashback = (args.orderInput.sub_total * setting.customer_cashback_percentange)/100
+            cashbackPercentage = setting.customer_cashback_percentange
+            cashback = (args.orderInput.sub_total * cashbackPercentage)/100
             current_balance = (customer.balance - amount) + cashback
 
             let transaction = new Transaction({
@@ -75,9 +77,30 @@ exports.addOrder = async(root, args, context) => {
                 previous_balance: previous_balance,
                 amount: amount,
                 cashback: cashback,
-                cashback_percentange: setting.customer_cashback_percentange,
+                cashback_percentange: cashbackPercentage,
                 debit_or_credit: 'credit',
                 reason: 'Cut Balance From Wallet for Placing Order',
+                status: 'success',
+                user: context.user.user_id
+            })
+            
+            nTransaction = await transaction.save()
+
+        }else{
+
+            cashbackPercentage = setting.customer_cashback_percentange / 2
+            cashback = (args.orderInput.sub_total * cashbackPercentage)/100
+            let cBalance = customer.balance === undefined ? 0 : customer.balance
+            current_balance = cBalance + cashback
+
+            let transaction = new Transaction({
+                current_balance: current_balance,
+                previous_balance: previous_balance === undefined ? 0 : previous_balance,
+                amount: amount,
+                cashback: cashback,
+                cashback_percentange: cashbackPercentage,
+                debit_or_credit: 'debit',
+                reason: 'Add Balance to wallet for cashback',
                 status: 'success',
                 user: context.user.user_id
             })
@@ -105,7 +128,7 @@ exports.addOrder = async(root, args, context) => {
             delivery_info: args.orderInput.delivery_info,
             residential_or_municipal: restaurant.residential_or_municipal,
             cashback: cashback,
-            cashback_percentange: setting.customer_cashback_percentange
+            cashback_percentange: cashbackPercentage
         }
 
         if(nTransaction){
