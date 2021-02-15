@@ -3,6 +3,7 @@ const typeDefs = gql`
 
 type Subscription {
   ownerAdded: ownerAddOutPut
+  withdrawOwnerBalanceSubscription: withdrawOwnerBalanceSubscriptionData
 }
 
 type Query {
@@ -10,6 +11,7 @@ type Query {
     getOneOwner(_id: ID): ownerAddOutPut
     ownerLogin(mobile: String , password: String): ownerAddOutPut
     verifyOwnerToken(token: String): ownerAddOutPut
+    getWalletPageDataByOwner: OwnerWalletPageOutput
   }
 
   type Mutation {
@@ -17,6 +19,25 @@ type Query {
     updateOwner(ownerInput: OwnerInput): OwnerEditDeleteOutPut
     deleteOwner(_id: ID): OwnerEditDeleteOutPut
     updateOwnerWithStatus(ownerInput: OwnerInput): OwnerEditDeleteOutPut
+    withdrawOwnerBalance(amount: Float): OwnerEditDeleteOutPut
+  }
+
+  type withdrawOwnerBalanceSubscriptionData {
+    error: Boolean
+    msg: String
+    data: GlobalTransactionDataForOwner
+  }
+
+  type OwnerWalletPageOutput {
+    error: Boolean
+    msg: String
+    data: OwnerWalletPageData
+  }
+
+  type OwnerWalletPageData {
+    balance: Float
+    restaurant_balace: Float
+    transactions: [GlobalTransactionDataForOwner]
   }
 
   type ownerAddOutPut {
@@ -62,6 +83,17 @@ input OwnerInput {
     national_id: String
     status: String
     rejection_msg: String
+    balance: Float
+  }
+
+  type GlobalTransactionDataForOwner {
+    current_balance: Float
+    previous_balance: Float
+    amount: Float
+    debit_or_credit: String
+    reason: String
+    status: String
+    user_or_restaurant: OwnerData
   }
 `
 module.exports = typeDefs

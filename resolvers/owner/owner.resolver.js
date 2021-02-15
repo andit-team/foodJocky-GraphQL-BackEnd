@@ -4,12 +4,16 @@ const pubsub = new PubSub()
 const OwnerController = require('../../controllers/owner/owner.controller')
 
 const OWNER_ADDED = "OWNER_ADDED"
+const WITHDRAW_OWNER_BALANCE = "WITHDRAW_OWNER_BALANCE"
 
 const resolvers = {
   Subscription: {
     ownerAdded: {
       subscribe: () => pubsub.asyncIterator(OWNER_ADDED),
-    }
+    },
+    withdrawOwnerBalanceSubscription: {
+      subscribe: () => pubsub.asyncIterator(WITHDRAW_OWNER_BALANCE),
+    },
   },
   Query: {
     async getAllOwners(root, args, context) {
@@ -30,7 +34,11 @@ const resolvers = {
   async verifyOwnerToken(root, args, context) {
     let result = await OwnerController.verifyOwnerToken(root, args, context)
     return result
-  }
+  },
+  async getWalletPageDataByOwner(root, args, context) {
+    let result = await OwnerController.getWalletPageDataByOwner(root, args, context)
+    return result
+  },
 
   },
   Mutation: {
@@ -52,6 +60,13 @@ const resolvers = {
 
       async updateOwnerWithStatus(root, args, context) {
         let result = await OwnerController.updateOwnerWithStatus(root, args, context)
+        return result
+      },
+      async withdrawOwnerBalance(root, args, context) {
+        let result = await OwnerController.withdrawOwnerBalance(root, args, context)
+        if(!result.error){
+          pubsub.publish(WITHDRAW_OWNER_BALANCE, { withdrawOwnerBalanceSubscription: result })
+        }
         return result
       },
   },

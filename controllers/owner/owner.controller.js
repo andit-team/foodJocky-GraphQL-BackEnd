@@ -1,6 +1,9 @@
 const User = require('../../models/user.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const GlobalTransaction = require('../../models/global.transaction.model')
+const Restaurant = require('../../models/restaurant.model')
+const mongoose = require('mongoose')
 
 exports.addOwner = async(root, args, context) => {
     
@@ -98,8 +101,7 @@ exports.ownerLogin = async(root, args, context) => {
             {
                 _id: owner._id,
                 type: owner.type
-            }
-            , process.env.SECRET, 
+            }, process.env.SECRET, 
             {
             expiresIn: "8h"
         })
@@ -410,4 +412,131 @@ exports.verifyOwnerToken = async(root, args, context) => {
     }
     
 
+}
+
+exports.withdrawOwnerBalance = async(root, args, context) => {
+
+    if(context.user.type !== 'owner'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Login Required",
+            data: {}
+        }
+        return returnData
+    }
+    
+    try{
+
+        let owner = await User.findById(context.user.user_id)
+
+        if(owner.balance < args.amount){
+            let returnData = {
+                error: true,
+                msg: "Insufficient Balance",
+                data: {}
+            }
+            return returnData
+        }
+
+        let ownerPreviousBalance = owner.balance
+        let ownerCurrentBalance = ownerPreviousBalance - args.amount
+        owner.balance = ownerCurrentBalance
+        await owner.save()
+
+        let ownerGlobalTransactionData = {
+            current_balance: ownerCurrentBalance,
+            previous_balance: ownerPreviousBalance,
+            amount: args.amount,
+            debit_or_credit: 'credit',
+            reason: 'Withdraw Request',
+            status: 'pending',
+            user_or_restaurant: owner._id,
+            onModel:'Users',
+        }
+        let newOwnerGlobalTransaction = new GlobalTransaction(ownerGlobalTransactionData)
+        let nOwnerGlobalTransaction = await newOwnerGlobalTransaction.save()
+        let returnTransactionData = await GlobalTransaction.findById(nOwnerGlobalTransaction).populate('user_or_restaurant')
+
+        if(!nOwnerGlobalTransaction){
+            let returnData = {
+                error: true,
+                msg: "Owner Balance Transfer failed",
+                data: {}
+            }
+            return returnData
+        }
+
+        let returnData = {
+            error: false,
+            msg: "Owner Balance Transfer Success",
+            data: returnTransactionData
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Balance Transfer failed",
+            data: {}
+        }
+        return returnData
+
+    }
+}
+
+exports.getWalletPageDataByOwner = async(root, args, context) => {
+
+    if(context.user.type !== 'owner'){
+
+        let returnData = {
+            error: true,
+            msg: "Owner Login Required",
+            data: {}
+        }
+        return returnData
+    }
+    
+    try{
+
+        let owner = await User.findById(context.user.user_id)
+        let restaurantTotalBalance = await Restaurant.aggregate([
+            {
+                $match: {
+                    owner: mongoose.Types.ObjectId(owner._id),
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalSum: {
+                        $sum: '$balance'
+                    }
+                }
+            }
+        ])
+
+        let returnTransactionData = await GlobalTransaction.find({user_or_restaurant: owner._id}).populate('user_or_restaurant')
+        let returnData = {
+            error: false,
+            msg: "Wallet Data Get Successfully",
+            data: {
+                balance: owner.balance,
+                restaurant_balace: restaurantTotalBalance[0].totalSum,
+                transactions: returnTransactionData
+            }
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Wallet Data Get Unsuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
 }
