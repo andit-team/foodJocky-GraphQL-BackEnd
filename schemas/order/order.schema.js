@@ -71,7 +71,7 @@ type ReportsOutput {
 type ReportData {
     restaurant: RestaurantData
     orders: [OrderData]
-    total: Int
+    total: Float
 }
 
 input OrderInput {
