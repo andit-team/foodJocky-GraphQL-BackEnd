@@ -318,7 +318,13 @@ exports.getAllOrdersByAdmin = async(root, args, context) => {
             query.status = args.status
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        
+        let orders = await Order.find(query).populate({
+            path : 'restaurant',
+            populate : {
+              path : 'plan'
+            }
+          }).populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -544,7 +550,15 @@ exports.getOneOrder = async(root, args, context) => {
 
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
-        getDistanceFromLatLng()
+        let date = new Date()
+        console.log(date.getTime().toLocaleString())
+        // console.log(date.getMinutes())
+
+        var str1 = "10:20:45",
+            str2 = "05:10:10"
+
+            console.log(str1 > str2)
+        
         let returnData = {
             error: false,
             msg: "Message........",
@@ -562,30 +576,6 @@ exports.checkOrderRelatedApi = async(root, args, context) => {
             data: {}
         }
         return returnData
-    }
-
-    async function getDistanceFromLatLng(){
-        let setting = await Settings.findOne({})
-
-        const restaurntLocation = {
-            lat: 22.8136822,
-            lng: 89.5635596
-        }
-        const customerLocation = {
-            lat: 22.8133678,
-            lng: 89.5650237
-        }
-        const apiKey = setting.google_map_api_key
-        
-        let result = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${restaurntLocation.lat},${restaurntLocation.lng}&destinations=${customerLocation.lat},${customerLocation.lng}&key=${apiKey}`)
-        
-        if(result.data.status === 'OK'){
-            if(result.data.rows[0].elements[0].status === 'OK'){
-                console.log(Math.ceil(result.data.rows[0].elements[0].distance.value / 1000))
-            }
-            
-        }
-        
     }
 }
 
