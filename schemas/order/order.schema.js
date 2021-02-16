@@ -121,6 +121,7 @@ type OrderData {
     delivery_info: CustomerAddressType
     delivery_time: String
     customer_discount_amount: Float
+    cashback: Float
     vat: Float
     payment_type: String
     createdAt: String
