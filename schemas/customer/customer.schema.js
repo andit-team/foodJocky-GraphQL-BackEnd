@@ -9,6 +9,8 @@ type Query {
     getAllCustomerLocations: AllCustomerLocationData
     getCustomerDashboardData: CustomerDashboardData
     getDistanceFromLatLng(customer_lat: Float, customer_lng: Float, restaurant_lat: Float, restaurant_lng: Float): DistanceOutputData
+
+    getHomePageData: SendHomePageData
   }
 
   type Mutation {
@@ -18,6 +20,23 @@ type Query {
     addCustomerLocation(customerAddress: CustomerAddress): CustomerAddLocationData
     deleteCustomerLocation(_id: ID): CustomerEditDeleteOutPut
     updateCustomerProfilePicture(profile_picture: String): CustomerEditDeleteOutPut
+  }
+
+  type SendHomePageData {
+    error: Boolean
+    msg: String
+    data: HomePageData
+  }
+
+  type HomePageData {
+    populat_category: [PopularCategoryData]
+  }
+
+  type PopularCategoryData {
+    _id: ID
+    image_url: String
+    name: String
+    restaurant_count: Int
   }
 
   input CustomerAddress {

@@ -31,6 +31,10 @@ const resolvers = {
       let result = await CustomerController.getDistanceFromLatLng(root, args, context)
       return result
     },
+    async getHomePageData(root, args, context) {
+      let result = await CustomerController.getHomePageData(root, args, context)
+      return result
+    },
   },
   Mutation: {
     async addCustomer(root, args, context) {

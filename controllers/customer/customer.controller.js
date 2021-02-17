@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID;
 const Order = require('../../models/order.model')
 const axios = require('axios')
+const Category = require('../../models/category.model')
 
 exports.addCustomer = async (root, args, context) => {
     try {
@@ -627,4 +628,62 @@ exports.getDistanceFromLatLng = async(root, args, context) => {
     }
     
 
+}
+
+exports.getHomePageData = async (root, args, context) => {
+    try {
+
+        let data = await Category.aggregate([
+            {
+                $match: {
+                    image_url: { "$exists": true }
+                }
+            },
+            {
+                $lookup: {
+                    from: 'restaurants',
+                    let: { "id": "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $in: [
+                                        "$$id", "$food_categories._id"
+                                    ]
+                                }
+                            }
+                        }
+                        
+                    ],
+                    as: "restaurants"
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    restaurant_count: {$size: '$restaurants'},
+                    image_url: 1,
+                    name: 1
+                }
+            }
+        ])
+
+        let returnData = {
+            error: false,
+            msg: 'Successfully Send HomePage Data',
+            data: {
+                populat_category: data
+            }
+        }
+        return returnData
+
+    } catch (error) {
+        console.log(error)
+        let returnData = {
+            error: true,
+            msg: 'Problem in Sending HomePage Data',
+            data: {}
+        }
+        return returnData
+    }
 }
