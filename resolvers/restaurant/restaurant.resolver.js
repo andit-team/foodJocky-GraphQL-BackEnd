@@ -64,7 +64,12 @@ const resolvers = {
    async verifyRestaurantToken(root, args, context) {
     let result = await RestaurantController.verifyRestaurantToken(root, args, context)
     return result
-  }
+  },
+
+   async getAllRestaurantsByCategory(root, args, context) {
+    let result = await RestaurantController.getAllRestaurantsByCategory(root, args, context)
+    return result
+  },
 
   },
   Mutation: {

@@ -678,7 +678,6 @@ exports.getHomePageData = async (root, args, context) => {
         return returnData
 
     } catch (error) {
-        console.log(error)
         let returnData = {
             error: true,
             msg: 'Problem in Sending HomePage Data',

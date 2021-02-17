@@ -16,6 +16,8 @@ type Query {
   SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
   verifyRestaurantToken(token: String): RestaurantAddOutPut
 
+  getAllRestaurantsByCategory(category_id: ID): RestaurantsOutPut
+
 }
 
 input AreaInput {

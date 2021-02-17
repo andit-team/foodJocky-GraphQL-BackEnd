@@ -710,11 +710,6 @@ exports.getAllRestaurantsByOwner = async(root, args, context) => {
     return returnData
 
   }
-    
-
-
-
-
 }
 
 exports.getOneRestaurant = async(root, args, context) => {
@@ -1234,3 +1229,29 @@ exports.transferBalanceFromRestaurant = async(root, args, context) => {
     }
     }
 }
+
+exports.getAllRestaurantsByCategory = async(root, args, context) => {
+  
+    try{
+        let query = {
+            'food_categories._id': args.category_id
+        }
+        let result = await Restaurant.find(query)
+    
+        let returnData = {
+            error: false,
+            msg: "Restaurant Get Successfully",
+            data: result
+        }
+        return returnData
+  
+    }catch(error){
+  
+      let returnData = {
+          error: true,
+          msg: "Restaurant Get Unsuccessful"
+      }
+      return returnData
+  
+    }
+  }
