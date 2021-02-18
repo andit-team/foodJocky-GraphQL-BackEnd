@@ -11,7 +11,7 @@ const auth = require('./auth/auth')
 
 const app = express()
 const PORT = process.env.PORT
-process.env.NODE_ENV = 'production'
+//process.env.NODE_ENV = 'production'
 let DB = process.env.DEVELOPMENT_DB_URL
 if(process.env.NODE_ENV === 'production'){
     DB = process.env.DATABASE_URL
