@@ -70,8 +70,7 @@ exports.adminLogin = async(root, args, context) => {
             {
                 _id: admin._id,
                 type: admin.type
-            }
-            , process.env.SECRET, 
+            }, process.env.SECRET, 
             {
             expiresIn: "8h"
         })

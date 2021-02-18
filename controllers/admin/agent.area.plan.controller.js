@@ -177,7 +177,7 @@ exports.getAllAgentAreaPlan = async(root, args, context) => {
 
     try{
 
-        let agentAreaPlans = await AgentAreaPlan.find({})
+        let agentAreaPlans = await AgentAreaPlan.find({}).sort({createdAt: -1})
 
         let returnData = {
             error: false,

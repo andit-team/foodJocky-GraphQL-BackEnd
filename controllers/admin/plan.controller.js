@@ -154,7 +154,7 @@ exports.getAllPlans = async(root, args, context) => {
 
     try{
 
-        let plans = Plan.find({})
+        let plans = Plan.find({}).sort({createdAt: -1})
 
         let returnData = {
             error: false,

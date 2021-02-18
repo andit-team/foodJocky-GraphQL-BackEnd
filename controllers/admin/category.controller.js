@@ -93,7 +93,7 @@ exports.getAllCategories = async(root, args, context) => {
 
     try{
 
-        let categoies = await Category.find({})
+        let categoies = await Category.find({}).sort({createdAt: -1})
 
         let returnData = {
             error: false,

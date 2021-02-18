@@ -252,7 +252,7 @@ exports.getAllOwners = async(root, args, context) => {
             query.status = args.status
         }
 
-        let owners = await User.find(query)
+        let owners = await User.find(query).sort({createdAt: -1})
 
         let returnData = {
             error: false,
