@@ -892,7 +892,7 @@ exports.SearchRestaurants = async(root, args, context) => {
             query = {
                 location: {
                  $near: {
-                  $maxDistance: 20000,
+                  $maxDistance: 4000,
                   $geometry: {
                    type: "Point",
                    coordinates: [args.longitude, args.latitude]
@@ -907,7 +907,7 @@ exports.SearchRestaurants = async(root, args, context) => {
             query = {
                 location: {
                  $near: {
-                  $maxDistance: 20000,
+                  $maxDistance: 4000,
                   $geometry: {
                    type: "Point",
                    coordinates: [args.longitude, args.latitude]
