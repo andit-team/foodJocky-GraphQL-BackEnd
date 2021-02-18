@@ -856,7 +856,7 @@ exports.getReportByAdmin = async(root, args, context) => {
         let endDate = new Date()
         endDate.setHours(23,59,59,999)
 
-        if(args.end_date !== ''){
+        if(args.start_date !== ''){
             startDate = new Date(args.start_date)
             startDate.setHours(0,0,0,0)
         }
