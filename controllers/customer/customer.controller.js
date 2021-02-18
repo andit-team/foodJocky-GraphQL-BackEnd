@@ -198,7 +198,7 @@ exports.getAllCustomers = async (root, args, context) => {
     try {
         let customers = await User.find({
             type: 'customer'
-        })
+        }).sort({createdAt: -1})
 
         if(customers){
 
@@ -435,7 +435,7 @@ exports.getCustomerDashboardData = async(root, args, context) => {
             customer: context.user.user_id
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
         let totalOrders = await Order.count(query)
         query = {
             ...query,

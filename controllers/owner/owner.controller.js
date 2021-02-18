@@ -517,7 +517,7 @@ exports.getWalletPageDataByOwner = async(root, args, context) => {
             }
         ])
 
-        let returnTransactionData = await GlobalTransaction.find({user_or_restaurant: owner._id}).populate('user_or_restaurant')
+        let returnTransactionData = await GlobalTransaction.find({user_or_restaurant: owner._id}).sort({createdAt: -1}).populate('user_or_restaurant')
         let returnData = {
             error: false,
             msg: "Wallet Data Get Successfully",

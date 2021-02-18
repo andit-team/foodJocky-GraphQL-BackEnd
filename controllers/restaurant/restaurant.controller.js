@@ -556,7 +556,7 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
         query.status = args.status
     }
 
-    let result = await Restaurant.find(query).populate('owner').populate('plan')
+    let result = await Restaurant.find(query).sort({createdAt: -1}).populate('owner').populate('plan')
 
     let returnData = {
         error: false,
@@ -648,7 +648,7 @@ exports.getAllRestaurantsByAgent = async(root, args, context) => {
         }
      }
   
-      let result = await Restaurant.find(query).populate('owner').populate('plan')
+      let result = await Restaurant.find(query).sort({createdAt: -1}).populate('owner').populate('plan')
   
       let returnData = {
           error: false,
@@ -692,7 +692,7 @@ exports.getAllRestaurantsByOwner = async(root, args, context) => {
         query.status = args.status
     }
 
-    let result = await Restaurant.find(query).populate('owner').populate('plan')
+    let result = await Restaurant.find(query).sort({createdAt: -1}).populate('owner').populate('plan')
 
     let returnData = {
         error: false,
@@ -1236,7 +1236,7 @@ exports.getAllRestaurantsByCategory = async(root, args, context) => {
         let query = {
             'food_categories._id': args.category_id
         }
-        let result = await Restaurant.find(query)
+        let result = await Restaurant.find(query).sort({createdAt: -1})
     
         let returnData = {
             error: false,

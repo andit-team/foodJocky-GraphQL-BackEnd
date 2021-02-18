@@ -198,7 +198,7 @@ exports.getWalletPageData = async (root, args, context) => {
                 }
             }
         ])
-        let transactions = await Transaction.find({user: context.user.user_id})
+        let transactions = await Transaction.find({user: context.user.user_id}).sort({createdAt: -1})
         let totalDebit = 0, totalCredit = 0
         for(let i=0; i<total.length; i++){
             if(total[i]._id === 'debit'){

@@ -256,7 +256,7 @@ exports.getAllRiders = async(root, args, context) => {
             agency: context.user.user_id
         }
 
-        let riders = await User.find(query)
+        let riders = await User.find(query).sort({createdAt: -1})
 
         let returnData = {
             error: false,

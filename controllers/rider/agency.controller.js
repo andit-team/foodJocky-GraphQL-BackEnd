@@ -204,7 +204,7 @@ exports.getAllAgencies = async(root, args, context) => {
             query.status = args.status
         }
 
-        let agencies = await User.find(query)
+        let agencies = await User.find(query).sort({createdAt: -1})
 
         let returnData = {
             error: false,

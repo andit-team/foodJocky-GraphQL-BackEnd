@@ -231,7 +231,7 @@ exports.getAllOrdersByRestaurant = async(root, args, context) => {
             query.status = args.status
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -275,7 +275,7 @@ exports.getAllOrdersByAgent = async(root, args, context) => {
             query.status = args.status
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -319,7 +319,7 @@ exports.getAllOrdersByAdmin = async(root, args, context) => {
         }
 
         
-        let orders = await Order.find(query).populate({
+        let orders = await Order.find(query).sort({createdAt: -1}).populate({
             path : 'restaurant',
             populate : {
               path : 'plan'
@@ -364,7 +364,7 @@ exports.getAllOrdersByAgency = async(root, args, context) => {
             'agencies._id': context.user.user_id
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -406,7 +406,7 @@ exports.getAllAcceptedOrdersByAgency = async(root, args, context) => {
             'agencies.status': true
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent').populate('rider')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent').populate('rider')
 
         let returnData = {
             error: false,
@@ -450,7 +450,7 @@ exports.getAllOrdersByCustomer = async(root, args, context) => {
             query.status = args.status
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -494,7 +494,7 @@ exports.getAllOrdersByRider = async(root, args, context) => {
             query.status = args.status
         }
 
-        let orders = await Order.find(query).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
 
         let returnData = {
             error: false,
@@ -874,7 +874,7 @@ exports.getReportByAdmin = async(root, args, context) => {
                 $gte:startDate,
                 $lte:endDate
             }
-        }).populate('customer')
+        }).sort({createdAt: -1}).populate('customer')
 
         let total = await Order.aggregate([
             {

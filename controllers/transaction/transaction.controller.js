@@ -18,7 +18,7 @@ exports.getAllTransactionsByAdmin = async(root, args, context) => {
             status: args.status,
             debit_or_credit: 'credit'
         }
-        let transaction = await GlobalTransaction.find(query).populate('user_or_restaurant')
+        let transaction = await GlobalTransaction.find(query).sort({createdAt: -1}).populate('user_or_restaurant')
         let returnData = {
             error: false,
             msg: "Transaction Data Get Successfully",
