@@ -71,6 +71,8 @@ type AgencyData {
     agency_areas: [String]
     status: String
     rejection_msg: String
+    createdAt: String
+    updatedAt: String
 }
 `
 module.exports = typeDefs

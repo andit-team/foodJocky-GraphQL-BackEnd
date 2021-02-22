@@ -81,6 +81,8 @@ input AgentInput {
     upazila: String
     union: String
     village: String
+    createdAt: String
+    updatedAt: String
   }
 `
 module.exports = typeDefs

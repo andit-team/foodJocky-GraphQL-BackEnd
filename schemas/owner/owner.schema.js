@@ -84,6 +84,8 @@ input OwnerInput {
     status: String
     rejection_msg: String
     balance: Float
+    createdAt: String
+    updatedAt: String
   }
 
   type GlobalTransactionDataForOwner {
@@ -95,6 +97,8 @@ input OwnerInput {
     reason: String
     status: String
     user_or_restaurant: OwnerData
+    createdAt: String
+    updatedAt: String
   }
 `
 module.exports = typeDefs

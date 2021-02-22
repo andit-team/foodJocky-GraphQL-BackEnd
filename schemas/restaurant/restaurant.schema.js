@@ -123,6 +123,8 @@ type RestaurantData {
   balance: Float
   vat: Boolean
   rider_cost: Boolean
+  createdAt: String
+  updatedAt: String
 }
 
 type FoodCategory {
