@@ -1302,7 +1302,8 @@ exports.getAllRestaurantsByCategory = async(root, args, context) => {
   
     try{
         let query = {
-            'food_categories._id': args.category_id
+            'food_categories._id': args.category_id,
+            status: 'approved'
         }
         let result = await Restaurant.find(query).sort({createdAt: -1})
     
