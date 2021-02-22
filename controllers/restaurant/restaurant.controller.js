@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Settings = require('../../models/settings.model')
 const GlobalTransaction = require('../../models/global.transaction.model')
+const Plan = require('../../models/plan.model')
 
 exports.addRestaurant = async(root, args, context) => {
    
@@ -884,12 +885,14 @@ exports.updateRestaurantStatus = async(root, args, context) => {
 exports.SearchRestaurants = async(root, args, context) => {
   
     try{
-  
-        let query = {}
+
+        let rData = {}
 
         if('' === args.name){
-    
-            query = {
+            let plans = await Plan.find({},{_id: 1}).sort({commision: -1}).limit(3)
+            let plan_ids = plans.map(element => element._id)
+
+            let query = {
                 location: {
                  $near: {
                   $maxDistance: 4000,
@@ -901,10 +904,73 @@ exports.SearchRestaurants = async(root, args, context) => {
                 },
                 restaurant_or_homemade: args.restaurant_or_homemade,
                 status: 'approved'
-               }
-    
+            }
+
+            let result = await Restaurant.find(query)
+            rData = {
+                ...rData,
+                allRestaurants: result,
+            }
+
+            let topRestaurants = result.filter(element => !plan_ids.includes(element.plan))
+
+            rData = {
+                ...rData,
+                topRestaurants
+            }
+
+            let nearestRestaurants = await Restaurant.find({
+                location: {
+                    $near: {
+                        $maxDistance: 1000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [args.longitude, args.latitude]
+                        }
+                    }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                status: 'approved'
+            })
+
+            rData = {
+                ...rData,
+                nearestRestaurants
+            }
+
+            // let startDate = new Date()
+            // startDate.setHours(0,0,0,0)
+            
+            // let endDate = new Date()
+            // endDate.setDate(endDate.getDate() + 10)
+            // endDate.setHours(23,59,59,999)
+
+            // let newRestaurants = await Restaurant.find({
+            //     location: {
+            //         $near: {
+            //             $maxDistance: 4000,
+            //             $geometry: {
+            //                 type: "Point",
+            //                 coordinates: [args.longitude, args.latitude]
+            //             }
+            //         }
+            //     },
+            //     restaurant_or_homemade: args.restaurant_or_homemade,
+            //     status: 'approved',
+            //     createdAt: {
+            //         $gte:startDate,
+            //         $lte:endDate
+            //     }
+            // })
+
+            let newRestaurants = result.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0))
+
+            rData = {
+                ...rData,
+                newRestaurants
+            }
         }else{
-            query = {
+            let query = {
                 location: {
                  $near: {
                   $maxDistance: 4000,
@@ -927,16 +993,18 @@ exports.SearchRestaurants = async(root, args, context) => {
                         'food_categories.foods.name': {$regex: args.name, $options: 'i'}
                     },
                 ]
-               }
+            }
+            let result = await Restaurant.find(query)
+            rData = {
+                ...rData,
+                allRestaurants: result,
+            }
         }
-  
-      let result = await Restaurant.find(query)
-      console.log(args)
-  
+
       let returnData = {
           error: false,
           msg: "Restaurant Get Successfully",
-          data: result
+          data: rData
       }
       return returnData
   

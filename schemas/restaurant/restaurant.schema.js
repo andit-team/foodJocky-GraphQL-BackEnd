@@ -13,7 +13,7 @@ type Query {
   getOneRestaurant(_id: ID): RestaurantAddOutPut
   restaurantLogin(user: String, password: String): RestaurantAddOutPut
 
-  SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): RestaurantsOutPut
+  SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String): SearchRestaurantsOutPut
   verifyRestaurantToken(token: String): RestaurantAddOutPut
 
   getAllRestaurantsByCategory(category_id: ID): RestaurantsOutPut
@@ -54,6 +54,19 @@ type RestaurantAddOutPut {
 type RestaurantEditDeleteOutPut {
   error: Boolean
   msg: String
+}
+
+type SearchRestaurantsOutPut {
+  error: Boolean
+  msg: String
+  data: SearchRestaurantsData
+}
+
+type SearchRestaurantsData {
+  newRestaurants: [RestaurantData],
+  nearestRestaurants: [RestaurantData],
+  topRestaurants: [RestaurantData],
+  allRestaurants: [RestaurantData]
 }
 
 type RestaurantsOutPut {
