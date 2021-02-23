@@ -913,7 +913,7 @@ exports.SearchRestaurants = async(root, args, context) => {
                 allRestaurants: result,
             }
 
-            let topRestaurants = result.filter(element => !plan_ids.includes(element.plan))
+            let topRestaurants = await Restaurant.find({plan: plan_ids}).limit(10)
 
             rData = {
                 ...rData,
@@ -932,39 +932,26 @@ exports.SearchRestaurants = async(root, args, context) => {
                 },
                 restaurant_or_homemade: args.restaurant_or_homemade,
                 status: 'approved'
-            })
+            }).limit(10)
 
             rData = {
                 ...rData,
                 nearestRestaurants
             }
 
-            // let startDate = new Date()
-            // startDate.setHours(0,0,0,0)
-            
-            // let endDate = new Date()
-            // endDate.setDate(endDate.getDate() + 10)
-            // endDate.setHours(23,59,59,999)
-
-            // let newRestaurants = await Restaurant.find({
-            //     location: {
-            //         $near: {
-            //             $maxDistance: 4000,
-            //             $geometry: {
-            //                 type: "Point",
-            //                 coordinates: [args.longitude, args.latitude]
-            //             }
-            //         }
-            //     },
-            //     restaurant_or_homemade: args.restaurant_or_homemade,
-            //     status: 'approved',
-            //     createdAt: {
-            //         $gte:startDate,
-            //         $lte:endDate
-            //     }
-            // })
-
-            let newRestaurants = result.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0))
+            let newRestaurants = await Restaurant.find({
+                location: {
+                    $near: {
+                        $maxDistance: 4000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [args.longitude, args.latitude]
+                        }
+                    }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                status: 'approved'
+            }).sort({createdAt: -1}).limit(10)
 
             rData = {
                 ...rData,
@@ -1021,7 +1008,7 @@ exports.SearchRestaurants = async(root, args, context) => {
                     ...query,
                     food_categories: {
                         $elemMatch: {
-                            _id: mongoose.Types.ObjectId(args.category)
+                            _id: args.category
                         }
                     }
                 }

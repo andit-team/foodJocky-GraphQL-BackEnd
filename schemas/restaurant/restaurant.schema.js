@@ -13,7 +13,7 @@ type Query {
   getOneRestaurant(_id: ID): RestaurantAddOutPut
   restaurantLogin(user: String, password: String): RestaurantAddOutPut
 
-  SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String, filter: Boolean, category: ID, price_type: String): SearchRestaurantsOutPut
+  SearchRestaurants(longitude: Float, latitude: Float, name: String, restaurant_or_homemade: String, filter: Boolean, category: [ID], price_type: String): SearchRestaurantsOutPut
   verifyRestaurantToken(token: String): RestaurantAddOutPut
 
   getAllRestaurantsByCategory(category_id: ID): RestaurantsOutPut
