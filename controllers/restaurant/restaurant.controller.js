@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const Settings = require('../../models/settings.model')
 const GlobalTransaction = require('../../models/global.transaction.model')
 const Plan = require('../../models/plan.model')
+const mongoose = require('mongoose')
 
 exports.addRestaurant = async(root, args, context) => {
    
@@ -888,7 +889,7 @@ exports.SearchRestaurants = async(root, args, context) => {
 
         let rData = {}
 
-        if('' === args.name){
+        if('' === args.name && !args.filter){
             let plans = await Plan.find({},{_id: 1}).sort({commision: -1}).limit(3)
             let plan_ids = plans.map(element => element._id)
 
@@ -969,7 +970,7 @@ exports.SearchRestaurants = async(root, args, context) => {
                 ...rData,
                 newRestaurants
             }
-        }else{
+        }else if('' !== args.name){
             let query = {
                 location: {
                  $near: {
@@ -993,6 +994,44 @@ exports.SearchRestaurants = async(root, args, context) => {
                         'food_categories.foods.name': {$regex: args.name, $options: 'i'}
                     },
                 ]
+            }
+            let result = await Restaurant.find(query)
+            rData = {
+                ...rData,
+                allRestaurants: result,
+            }
+        }else if(args.filter){
+
+            let query = {
+                location: {
+                 $near: {
+                  $maxDistance: 4000,
+                  $geometry: {
+                   type: "Point",
+                   coordinates: [args.longitude, args.latitude]
+                  }
+                 }
+                },
+                restaurant_or_homemade: args.restaurant_or_homemade,
+                status: 'approved'
+            }
+                        
+            if(args.category !== ''){
+                query = {
+                    ...query,
+                    food_categories: {
+                        $elemMatch: {
+                            _id: mongoose.Types.ObjectId(args.category)
+                        }
+                    }
+                }
+            }
+
+            if(args.price_type !== ''){
+                query = {
+                    ...query,
+                    price_type: args.price_type
+                }
             }
             let result = await Restaurant.find(query)
             rData = {
