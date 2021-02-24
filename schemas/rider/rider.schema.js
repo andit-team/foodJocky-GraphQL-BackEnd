@@ -44,6 +44,10 @@ input RiderInput {
     national_id: String
     status: String
     rejection_msg: String
+    vehicle_type: String
+    vehicle_type_img: String
+    present_address: String
+    permanent_address: String
 }
 
   type RiderData {
@@ -56,6 +60,10 @@ input RiderInput {
     national_id: String
     status: String
     rejection_msg: String
+    vehicle_type: String
+    vehicle_type_img: String
+    present_address: String
+    permanent_address: String
   }
 `
 module.exports = typeDefs

@@ -14,6 +14,10 @@ exports.addAgency = async(root, args, context) => {
             email: args.agencyInput.email,
             national_id: args.agencyInput.national_id,
             agency_level: args.agencyInput.agency_level,
+            business_name: args.agencyInput.business_name,
+            business_location: args.agencyInput.business_location,
+            trade_license_no: args.agencyInput.trade_license_no,
+            trade_license_img: args.agencyInput.trade_license_img,
             type: 'agency',
             password: hash,
             status: "pending",
@@ -287,7 +291,11 @@ exports.updateAgencyWithStatus = async(root, args, context) => {
             email: args.agencyInput.email,
             national_id: args.agencyInput.national_id,
             status: args.agencyInput.status,
-            rejection_msg: args.agencyInput.rejection_msg
+            rejection_msg: args.agencyInput.rejection_msg,
+            business_name: args.agencyInput.business_name,
+            business_location: args.agencyInput.business_location,
+            trade_license_no: args.agencyInput.trade_license_no,
+            trade_license_img: args.agencyInput.trade_license_img,
         }
 
         if(args.agencyInput.password !== ''){

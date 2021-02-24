@@ -27,7 +27,11 @@ exports.addRider = async(root, args, context) => {
             password: hash,
             status: "approved",
             agency: context.user.user_id,
-            rejection_msg: ""
+            rejection_msg: "",
+            vehicle_type: args.riderInput.vehicle_type,
+            vehicle_type_img: args.riderInput.vehicle_type_img,
+            present_address: args.riderInput.present_address,
+            permanent_address: args.riderInput.permanent_address
         }
 
         let newRider = new User(rider);
@@ -340,7 +344,11 @@ exports.updateRiderWithStatus = async(root, args, context) => {
             email: args.riderInput.email,
             national_id: args.riderInput.national_id,
             status: args.riderInput.status,
-            rejection_msg: args.riderInput.rejection_msg
+            rejection_msg: args.riderInput.rejection_msg,
+            vehicle_type: args.riderInput.vehicle_type,
+            vehicle_type_img: args.riderInput.vehicle_type_img,
+            present_address: args.riderInput.present_address,
+            permanent_address: args.riderInput.permanent_address
         }
 
         if(args.riderInput.password !== ''){

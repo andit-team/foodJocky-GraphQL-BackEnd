@@ -52,6 +52,10 @@ input AgencyInput {
     agency_areas: [String]
     status: String
     rejection_msg: String
+    business_name: String
+    business_location: String
+    trade_license_no: String
+    trade_license_img: String
 }
 
 type AgencyData {
@@ -73,6 +77,10 @@ type AgencyData {
     rejection_msg: String
     createdAt: String
     updatedAt: String
+    business_name: String
+    business_location: String
+    trade_license_no: String
+    trade_license_img: String
 }
 `
 module.exports = typeDefs
