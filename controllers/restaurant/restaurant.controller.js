@@ -1012,7 +1012,7 @@ exports.SearchRestaurants = async(root, args, context) => {
                 status: 'approved'
             }
                         
-            if(args.category !== ''){
+            if(args.category.length !== 0){
                 query = {
                     ...query,
                     food_categories: {

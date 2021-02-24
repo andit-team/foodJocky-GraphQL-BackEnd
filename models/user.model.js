@@ -165,6 +165,15 @@ const userSchema = new Schema({
   },
 
   // For Agency----------------------------
+  business_name: {
+    type: String
+  },
+  business_location: {
+    type: String
+  },
+  trade_license_img: {
+    type: String
+  },
   agency_level: {
     type: String
   },
@@ -173,6 +182,20 @@ const userSchema = new Schema({
       type: String
     }
   ],
+
+  // For Rider------------------------
+  vehicle_type: {
+    type: String
+  },
+  vehicle_type_img: {
+    type: String
+  },
+  present_address: {
+    type: String
+  },
+  permanent_address: {
+    type: String
+  },
 
   // For Wallet ------------------------------
   balance: {
