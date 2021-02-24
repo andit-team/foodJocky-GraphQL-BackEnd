@@ -100,9 +100,18 @@ exports.addAgent = async(root, args, context) => {
 
     }catch(error){
 
+        if (error.code === 11000 && error.keyPattern.mobile) {
+            let returnData = {
+                error: true,
+                msg: 'Mobile Number Already Exists',
+                data: {}
+            }
+            return returnData
+        }
+
         let returnData = {
             error: true,
-            msg: "Mobile Number Already Taken",
+            msg: "Server Failure",
             data: {}
         }
         return returnData

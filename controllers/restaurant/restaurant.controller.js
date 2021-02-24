@@ -228,9 +228,18 @@ exports.addRestaurant = async(root, args, context) => {
 
     }catch(error){
 
+        if (error.code === 11000 && error.keyPattern.user) {
+            let returnData = {
+                error: true,
+                msg: 'User Already Exists',
+                data: {}
+            }
+            return returnData
+        }
+
         let returnData = {
             error: true,
-            msg: "Restaurant Create Failed",
+            msg: "Server Failure",
             data: {}
         }
         return returnData

@@ -9,16 +9,6 @@ exports.addOwner = async(root, args, context) => {
     
     try{
 
-        let checkOwner = await User.findOne({mobile: args.ownerInput.mobile})
-        if(checkOwner){
-            let returnData = {
-                error: true,
-                msg: "Mobile Number Already Taken",
-                data: {}
-            }
-            return returnData
-        }
-
         const hash = bcrypt.hashSync(args.ownerInput.password, 8)
         let newOwner = new User({
             first_name: args.ownerInput.first_name,
@@ -44,9 +34,18 @@ exports.addOwner = async(root, args, context) => {
 
     }catch(error){
 
+        if (error.code === 11000 && error.keyPattern.mobile) {
+            let returnData = {
+                error: true,
+                msg: 'Mobile Number Already Exists',
+                data: {}
+            }
+            return returnData
+        }
+
         let returnData = {
             error: true,
-            msg: "Mobile Number Already Taken",
+            msg: "Server Failure",
             data: {}
         }
         return returnData
@@ -69,7 +68,7 @@ exports.ownerLogin = async(root, args, context) => {
             let returnData = {
                 token: '',
                 error: true,
-                msg: "owner Not Found",
+                msg: "Owner Not Found",
                 data: {}
             }
             return returnData
