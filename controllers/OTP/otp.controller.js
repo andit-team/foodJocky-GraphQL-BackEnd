@@ -13,6 +13,8 @@ exports.sendOtp = async(root, args, context) => {
 
         let nOtp = await newOtp.save()
 
+        // Will Implement sms api here-----------------------
+
         let returnData = {
             error: false,
             msg: "OTP Send Successfully"
