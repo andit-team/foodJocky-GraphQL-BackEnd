@@ -137,6 +137,7 @@ exports.trackTransaction = async (root, args, context) => {
                 }
         
             }else{
+                let transaction = await Transaction.findByIdAndUpdate({_id: args._id}, {status: 'failed', validate_response: sslData.data})
                 returnData = {
                     error: true,
                     msg: 'Not Validated',
