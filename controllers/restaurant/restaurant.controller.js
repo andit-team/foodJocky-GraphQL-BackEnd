@@ -922,7 +922,22 @@ exports.SearchRestaurants = async(root, args, context) => {
                 allRestaurants: result,
             }
 
-            let topRestaurants = await Restaurant.find({plan: plan_ids}).limit(10)
+            let topRestaurants = await Restaurant.find(
+                {
+                    location: {
+                        $near: {
+                         $maxDistance: 4000,
+                         $geometry: {
+                          type: "Point",
+                          coordinates: [args.longitude, args.latitude]
+                         }
+                        }
+                       },
+                    restaurant_or_homemade: args.restaurant_or_homemade,
+                    status: 'approved',
+                    plan: plan_ids
+                }
+                ).limit(10)
 
             rData = {
                 ...rData,
