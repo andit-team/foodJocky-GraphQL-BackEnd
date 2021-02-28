@@ -1,4 +1,5 @@
 const OTP = require('../../models/otp.model')
+const Settings = require('../../models/settings.model')
 const axios = require('axios')
 const FormData = require('form-data')
 
@@ -15,13 +16,15 @@ exports.sendOtp = async(root, args, context) => {
 
         let nOtp = await newOtp.save()
 
+        let setting = await Settings.findOne({})
+
         const formData = new FormData()
-        formData.append('username', 'dipanker')
-        formData.append('password', '9MAYETF2')
+        formData.append('username', setting.sms_api_username)
+        formData.append('password', setting.sms_api_password)
         formData.append('number', nOtp.mobile)
         formData.append('message', `আপনার ফুডজকি ভেরিফিকেশন কোডঃ ${nOtp.otp}`)
 
-        let smsData = await axios.post('http://66.45.237.70/api.php', formData, {headers: formData.getHeaders()})
+        let smsData = await axios.post(setting.sms_api_url, formData, {headers: formData.getHeaders()})
         
         if(!smsData.data.includes('1101')){
             let returnData = {
