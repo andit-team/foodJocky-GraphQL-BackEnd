@@ -1,4 +1,6 @@
 const OTP = require('../../models/otp.model')
+const axios = require('axios')
+const FormData = require('form-data')
 
 exports.sendOtp = async(root, args, context) => {
 
@@ -13,7 +15,21 @@ exports.sendOtp = async(root, args, context) => {
 
         let nOtp = await newOtp.save()
 
-        // Will Implement sms api here-----------------------
+        const formData = new FormData()
+        formData.append('username', 'dipanker')
+        formData.append('password', '9MAYETF2')
+        formData.append('number', nOtp.mobile)
+        formData.append('message', `Your FoodPanda OTP code is ${nOtp.otp}`)
+
+        let smsData = await axios.post('http://66.45.237.70/api.php', formData, {headers: formData.getHeaders()})
+        
+        if(!smsData.data.includes('1101')){
+            let returnData = {
+                error: true,
+                msg: "OTP Not Sent"
+            }
+            return returnData
+        }
 
         let returnData = {
             error: false,
