@@ -19,7 +19,7 @@ exports.sendOtp = async(root, args, context) => {
         formData.append('username', 'dipanker')
         formData.append('password', '9MAYETF2')
         formData.append('number', nOtp.mobile)
-        formData.append('message', `Your Foodjocky OTP code is ${nOtp.otp}`)
+        formData.append('message', `আপনার ফুডজকি ভেরিফিকেশন কোডঃ ${nOtp.otp}`)
 
         let smsData = await axios.post('http://66.45.237.70/api.php', formData, {headers: formData.getHeaders()})
         
