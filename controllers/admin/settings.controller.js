@@ -15,7 +15,9 @@ const Settings = require('../../models/settings.model')
  * SSL Commerez => cus_country
  * Customer Vat
  * Restaurant Vat
- * 
+ * SMS Api URL
+ * SMS Api username
+ * SMS Api password
  */
 
 exports.addDeliveryCharge = async(root, args, context) => {
@@ -462,6 +464,61 @@ exports.addRiderCost = async(root, args, context) => {
         let returnData = {
             error: true,
             msg: "Rider Cost Creation UnSuccessful",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+
+}
+
+exports.addSMSApiInformation = async(root, args, context) => {
+
+    if(context.user.type !== 'admin'){
+
+        let returnData = {
+            error: true,
+            msg: "Admin Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+    
+    try{
+
+        let updateSettings = await Settings.updateOne({},{
+            sms_api_url: args.sms_api_url,
+            sms_api_username: args.sms_api_username,
+            sms_api_password: args.sms_api_password
+        },{upsert: true})
+
+        if(updateSettings.n < 1){
+            let returnData = {
+                error: true,
+                msg: "SMS Api Update UnSuccessful",
+                data: {}
+            }
+            return returnData
+        }
+        
+        let returnData = {
+            error: false,
+            msg: 'SMS Api Update Successful',
+            data: {
+                sms_api_url: args.sms_api_url,
+                sms_api_username: args.sms_api_username,
+                sms_api_password: args.sms_api_password
+            }
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "SMS Api Update UnSuccessful",
             data: {}
         }
         return returnData

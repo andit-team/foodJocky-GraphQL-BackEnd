@@ -11,6 +11,7 @@ const typeDefs = gql`
     addSSLCommerezInformation(sslInput: SSLInput): settingsOutPut
     addVat(customer_vat: Int,restaurant_vat: Int): settingsOutPut
     addRiderCost(rider_cost: Int): settingsOutPut
+    addSMSApiInformation(sms_api_url: String, sms_api_username: String, sms_api_password: String): settingsOutPut
   }
 
   input SSLInput {
@@ -42,6 +43,9 @@ const typeDefs = gql`
     customer_vat: Int
     restaurant_vat: Int
     rider_cost: Int
+    sms_api_url: String
+    sms_api_username: String
+    sms_api_password: String
   }
 `
 module.exports = typeDefs

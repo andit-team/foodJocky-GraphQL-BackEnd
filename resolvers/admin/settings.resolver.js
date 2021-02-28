@@ -36,6 +36,11 @@ const resolvers = {
       let result = await SettingsController.addRiderCost(root, args, context)
       return result
     },
+
+    async addSMSApiInformation(root, args, context) {
+      let result = await SettingsController.addSMSApiInformation(root, args, context)
+      return result
+    },
   },
 }
 

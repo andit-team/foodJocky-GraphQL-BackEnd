@@ -39,7 +39,16 @@ const SettingSchema = new Schema({
     },
     rider_cost: {
         type: Number
-    }
+    },
+    sms_api_url: {
+        type: String
+    },
+    sms_api_username: {
+        type: String
+    },
+    sms_api_password: {
+        type: String
+    },
 },
 {
     timestamps: true
