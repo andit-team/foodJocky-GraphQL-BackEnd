@@ -101,6 +101,7 @@ exports.verifyOtp = async(root, args, context) => {
             await OTP.deleteOne({mobile: args.mobile})
             let returnData = {
                 error: true,
+                close_model: true,
                 msg: "You Have Putted Wrong OTP Many Times Please Send OTP Again"
             }
             return returnData
