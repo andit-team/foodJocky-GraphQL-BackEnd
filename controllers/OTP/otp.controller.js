@@ -7,7 +7,7 @@ const User = require('../../models/user.model')
 exports.sendOtp = async(root, args, context) => {
 
     try{
-        let user = User.findOne({mobile: args.mobile})
+        let user = await User.findOne({mobile: args.mobile})
         if(user){
             let returnData = {
                 error: true,
