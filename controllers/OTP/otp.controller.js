@@ -2,10 +2,19 @@ const OTP = require('../../models/otp.model')
 const Settings = require('../../models/settings.model')
 const axios = require('axios')
 const FormData = require('form-data')
+const User = require('../../models/user.model')
 
 exports.sendOtp = async(root, args, context) => {
 
     try{
+        let user = User.findOne({mobile: args.mobile})
+        if(user){
+            let returnData = {
+                error: true,
+                msg: "User Already Available"
+            }
+            return returnData
+        }
         let otpdata = {
             mobile: args.mobile,
             otp: Math.floor(1000 + Math.random() * 9000),
@@ -78,8 +87,6 @@ exports.verifyOtp = async(root, args, context) => {
 
         
         if(checkOTP.otp === args.otp){
-
-            await OTP.deleteOne({mobile: args.mobile})
             let returnData = {
                 error: false,
                 msg: "OTP Verification Successful"

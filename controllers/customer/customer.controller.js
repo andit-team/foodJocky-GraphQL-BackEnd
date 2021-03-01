@@ -6,9 +6,23 @@ const ObjectId = require('mongodb').ObjectID;
 const Order = require('../../models/order.model')
 const axios = require('axios')
 const Category = require('../../models/category.model')
+const OTP = require('../../models/otp.model')
 
 exports.addCustomer = async (root, args, context) => {
     try {
+
+        let verifiedPhoneNumber = await OTP.findOne({mobile: args.customerInput.mobile})
+        if(verifiedPhoneNumber){
+            await OTP.deleteOne({_id: verifiedPhoneNumber._id})
+        }else{
+            let returnData = {
+                error: true,
+                msg: 'Mobile Number Not Verified',
+                data: {}
+            }
+            return returnData
+        }
+
         const hash = bcrypt.hashSync(args.customerInput.password, 8)
         let user = new User({
             mobile: args.customerInput.mobile,
