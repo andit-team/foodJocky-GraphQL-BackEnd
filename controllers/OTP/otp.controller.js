@@ -87,6 +87,9 @@ exports.verifyOtp = async(root, args, context) => {
 
         
         if(checkOTP.otp === args.otp){
+            let date = new Date()
+            date.setMinutes(date.getMinutes() + 10)
+            await OTP.updateOne({_id: checkOTP._id},{ expireAt: date })
             let returnData = {
                 error: false,
                 msg: "OTP Verification Successful"
