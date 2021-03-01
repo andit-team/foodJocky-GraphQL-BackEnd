@@ -100,7 +100,7 @@ exports.verifyOtp = async(root, args, context) => {
         if(checkOTP.count >= 3){
             await OTP.deleteOne({mobile: args.mobile})
             let returnData = {
-                error: false,
+                error: true,
                 msg: "You Have Putted Wrong OTP Many Times Please Send OTP Again"
             }
             return returnData
