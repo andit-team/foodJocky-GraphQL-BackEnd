@@ -12,6 +12,7 @@ type Mutation {
 type VerifyOtpOutPut {
     error: Boolean
     msg: String
+    close_model: Boolean
 }
 
 type OtpOutPut {
