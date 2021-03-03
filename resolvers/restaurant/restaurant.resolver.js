@@ -71,6 +71,11 @@ const resolvers = {
     return result
   },
 
+   async getTopRestaurants(root, args, context) {
+    let result = await RestaurantController.getTopRestaurants(root, args, context)
+    return result
+  },
+
   },
   Mutation: {
     async addRestaurant(root, args, context) {

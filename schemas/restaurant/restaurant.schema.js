@@ -17,6 +17,7 @@ type Query {
   verifyRestaurantToken(token: String): RestaurantAddOutPut
 
   getAllRestaurantsByCategory(category_id: ID): RestaurantsOutPut
+  getTopRestaurants: RestaurantsOutPut
 
 }
 

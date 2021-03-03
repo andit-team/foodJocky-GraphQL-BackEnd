@@ -892,6 +892,42 @@ exports.updateRestaurantStatus = async(root, args, context) => {
 
 }
 
+exports.getTopRestaurants = async(root, args, context) => {
+
+    try{
+        let plans = await Plan.find({},{_id: 1}).sort({commision: -1}).limit(3)
+        let plan_ids = plans.map(element => element._id)
+
+        let topRestaurants = await Restaurant.find(
+            {
+                restaurant_or_homemade: 'restaurant',
+                status: 'approved',
+                plan: plan_ids
+            })
+
+        if(topRestaurants.length === 0){
+            let returnData = {
+                error: true,
+                msg: "No Restaurant Available"
+            }
+            return returnData
+        }
+    
+        let returnData = {
+            error: false,
+            msg: "Restaurant Get Successfully",
+            data: topRestaurants
+        }
+        return returnData
+    }catch(error){
+        let returnData = {
+            error: true,
+            msg: "Restaurant Get Unsuccessful"
+        }
+        return returnData
+    }
+}
+
 exports.SearchRestaurants = async(root, args, context) => {
   
     try{
