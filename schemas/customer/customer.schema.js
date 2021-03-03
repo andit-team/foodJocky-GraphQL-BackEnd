@@ -75,7 +75,6 @@ type Query {
   type CustomerDashboard {
     totalOrders: Int
     pendingOrders: Int
-    orders: [OrderData]
   }
 
   type AllCustomerLocationData {

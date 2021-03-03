@@ -457,7 +457,6 @@ exports.getCustomerDashboardData = async(root, args, context) => {
             customer: context.user.user_id
         }
 
-        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
         let totalOrders = await Order.count(query)
         query = {
             ...query,
@@ -467,8 +466,7 @@ exports.getCustomerDashboardData = async(root, args, context) => {
 
         let nData = {
             totalOrders: totalOrders,
-            pendingOrders: pendingOrders,
-            orders: orders
+            pendingOrders: pendingOrders
         }
 
         let returnData = {
