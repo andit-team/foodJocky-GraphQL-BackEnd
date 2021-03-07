@@ -92,25 +92,50 @@ exports.updateCategory = async(root, args, context) => {
 exports.getAllCategories = async(root, args, context) => {
 
     try{
+        const query = {}
+        let options = {
+            pagination: false,
+            sort: {createdAt: -1}
+        }
+        if(args.page !== 0){
+            options = {
+                page: +args.page,
+                limit: +args.pagesize,
+                sort: {createdAt: -1}
+            }
+        }
+        
 
-        let categoies = await Category.find({}).sort({createdAt: -1})
+        let categories = await Category.paginate(query,options)
+
+        if(categories.totalDocs === 0){
+            let returnData = {
+                error: true,
+                msg: "No data available",
+                data: {
+                    docs: categories.docs,
+                    totalDocs: categories.totalDocs
+                }
+            }
+            return returnData
+        }
 
         let returnData = {
             error: false,
             msg: "Category Get Successfully",
-            data: categoies
+            data: {
+                docs: categories.docs,
+                totalDocs: categories.totalDocs
+            }
         }
         return returnData
 
     }catch(error){
-
         let returnData = {
             error: true,
             msg: "Category Get UnSuccessful",
-            data: []
+            data: {}
         }
         return returnData
-
     }
-
 }

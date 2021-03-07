@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   type Query {
-    getAllCategories: CategoriesOutPut
+    getAllCategories(page: Int,pagesize: Int): CategoriesOutPut
   }
 
   type Mutation {
@@ -23,13 +23,18 @@ const typeDefs = gql`
 type CategoriesOutPut {
     error: Boolean
     msg: String
-    data: [CategoryData]
+    data: CategoryPaginateData
 }
 
-  type CategoryData {
-    _id: ID
-    name: String
-    image_url: String
-  }
+type CategoryPaginateData {
+  docs: [CategoryData]
+  totalDocs: Int
+}
+
+type CategoryData {
+  _id: ID
+  name: String
+  image_url: String
+}
 `
 module.exports = typeDefs
