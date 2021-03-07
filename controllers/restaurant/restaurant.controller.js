@@ -567,12 +567,41 @@ exports.getAllRestaurantsByAdmin = async(root, args, context) => {
         query.status = args.status
     }
 
-    let result = await Restaurant.find(query).sort({createdAt: -1}).populate('owner').populate('plan')
+    let options = {
+        pagination: false,
+        sort: {createdAt: -1},
+        populate: ['owner','plan']
+    }
+    if(args.page !== 0){
+        options = {
+            page: +args.page,
+            limit: +args.pagesize,
+            sort: {createdAt: -1},
+            populate: ['owner','plan']
+        }
+    }
+
+    let result = await Restaurant.paginate(query,options)
+
+    if(result.totalDocs === 0){
+        let returnData = {
+            error: true,
+            msg: "No data available",
+            data: {
+                docs: result.docs,
+                totalDocs: result.totalDocs
+            }
+        }
+        return returnData
+    }
 
     let returnData = {
         error: false,
         msg: "Restaurant Get Successfully",
-        data: result
+        data: {
+            docs: result.docs,
+            totalDocs: result.totalDocs
+        }
     }
     return returnData
 

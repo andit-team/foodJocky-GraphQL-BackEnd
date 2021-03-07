@@ -8,7 +8,7 @@ type Subscription {
 
 type Query {
   getAllRestaurantsByOwner(status: String): RestaurantsOutPut
-  getAllRestaurantsByAdmin(owner_id: ID, status: String): RestaurantsOutPut
+  getAllRestaurantsByAdmin(owner_id: ID, status: String, page: Int, pagesize: Int): PaginatedRestaurantsOutput
   getAllRestaurantsByAgent(areaInput: AreaInput): RestaurantsOutPut
   getOneRestaurant(_id: ID): RestaurantAddOutPut
   restaurantLogin(user: String, password: String): RestaurantAddOutPut
@@ -74,6 +74,17 @@ type RestaurantsOutPut {
   error: Boolean
   msg: String
   data: [RestaurantData]
+}
+
+type PaginatedRestaurantsOutput {
+  error: Boolean
+  msg: String
+  data: RestaurantPaginationData
+}
+
+type RestaurantPaginationData {
+  docs: [RestaurantData]
+  totalDocs: Int
 }
 
 input RestaurantInput {

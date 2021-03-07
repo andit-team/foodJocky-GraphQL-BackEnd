@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const Schema = mongoose.Schema
 const RestaurantsSchema = new Schema({
     user:{
@@ -165,8 +166,7 @@ const RestaurantsSchema = new Schema({
 {
     timestamps: true
 })
-
+RestaurantsSchema.plugin(mongoosePaginate)
 RestaurantsSchema.index({ location: "2dsphere"})
-
 const Restaurants = mongoose.model('Restaurants', RestaurantsSchema)
 module.exports = Restaurants
