@@ -217,12 +217,39 @@ exports.getAllAgencies = async(root, args, context) => {
             query.status = args.status
         }
 
-        let agencies = await User.find(query).sort({createdAt: -1})
+        let options = {
+            pagination: false,
+            sort: {createdAt: -1}
+        }
+        if(args.page !== 0){
+            options = {
+                page: +args.page,
+                limit: +args.pagesize,
+                sort: {createdAt: -1}
+            }
+        }
 
+        let agencies = await User.paginate(query,options)
+
+        if(agencies.totalDocs === 0){
+            let returnData = {
+                error: true,
+                msg: "No data available",
+                data: {
+                    docs: agencies.docs,
+                    totalDocs: agencies.totalDocs
+                }
+            }
+            return returnData
+        }
+    
         let returnData = {
             error: false,
             msg: "Agency Get Successfully",
-            data: agencies
+            data: {
+                docs: agencies.docs,
+                totalDocs: agencies.totalDocs
+            }
         }
         return returnData
 

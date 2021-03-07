@@ -8,7 +8,7 @@ type Subscription {
 type Query {
     agencyLogin(mobile: String , password: String): AgencyAddOutPut
     verifyAgencyToken(token: String): AgencyAddOutPut
-    getAllAgencies(status: String): AgenciesOutPut
+    getAllAgencies(status: String, page: Int, pagesize: Int): AgenciesOutPut
     getOneAgency(_id: String): AgencyAddOutPut
 }
 
@@ -27,7 +27,12 @@ type AgencyAddOutPut {
 type AgenciesOutPut {
     error: Boolean
     msg: String
-    data: [AgencyData]
+    data: AgencyPaginationData
+}
+
+type AgencyPaginationData {
+  docs: [AgencyData]
+  totalDocs: Int
 }
 
 type AgencyEditDeleteOutput {
