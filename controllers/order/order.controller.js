@@ -318,18 +318,51 @@ exports.getAllOrdersByAdmin = async(root, args, context) => {
             query.status = args.status
         }
 
-        
-        let orders = await Order.find(query).sort({createdAt: -1}).populate({
-            path : 'restaurant',
-            populate : {
-              path : 'plan'
+        let options = {
+            pagination: false,
+            sort: {createdAt: -1},
+            populate: [{
+                path : 'restaurant',
+                populate : {
+                  path : 'plan'
+                }
+              },'customer','agent']
+        }
+        if(args.page !== 0){
+            options = {
+                page: +args.page,
+                limit: +args.pagesize,
+                sort: {createdAt: -1},
+                populate: [{
+                    path : 'restaurant',
+                    populate : {
+                      path : 'plan'
+                    }
+                  },'customer','agent']
             }
-          }).populate('customer').populate('agent')
+        }
 
+        let orders = await Order.paginate(query,options)
+
+        if(orders.totalDocs === 0){
+            let returnData = {
+                error: true,
+                msg: "No data available",
+                data: {
+                    docs: orders.docs,
+                    totalDocs: orders.totalDocs
+                }
+            }
+            return returnData
+        }
+    
         let returnData = {
             error: false,
             msg: "Orders Get Successfully",
-            data: orders
+            data: {
+                docs: orders.docs,
+                totalDocs: orders.totalDocs
+            }
         }
         return returnData
 

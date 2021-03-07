@@ -14,7 +14,7 @@ type Subscription {
 type Query {
     getAllOrdersByRestaurant(status: String): OrdersOutput
     getAllOrdersByAgent(status: String): OrdersOutput
-    getAllOrdersByAdmin(status: String): OrdersOutput
+    getAllOrdersByAdmin(status: String, page: Int, pagesize: Int): PaginatedOrdersOutput
     getAllOrdersByCustomer(status: String): OrdersOutput
     getAllOrdersByAgency(status: String): OrdersOutput
     getAllAcceptedOrdersByAgency: OrdersOutput
@@ -60,6 +60,17 @@ type OrdersOutput {
     error: Boolean
     msg: String
     data: [OrderData]
+}
+
+type PaginatedOrdersOutput {
+    error: Boolean
+    msg: String
+    data: OrderPaginationData
+}
+
+type OrderPaginationData {
+  docs: [OrderData]
+  totalDocs: Int
 }
 
 type ReportsOutput {
