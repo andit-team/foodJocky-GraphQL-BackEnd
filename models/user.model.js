@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const Schema = mongoose.Schema
 const userSchema = new Schema({
   mobile:{
@@ -208,7 +209,7 @@ const userSchema = new Schema({
 {
     timestamps: true
 })
-
+userSchema.plugin(mongoosePaginate)
 userSchema.index({ location: "2dsphere"})
 const User = mongoose.model('Users', userSchema)
 module.exports = User

@@ -251,12 +251,39 @@ exports.getAllOwners = async(root, args, context) => {
             query.status = args.status
         }
 
-        let owners = await User.find(query).sort({createdAt: -1})
+        let options = {
+            pagination: false,
+            sort: {createdAt: -1}
+        }
+        if(args.page !== 0){
+            options = {
+                page: +args.page,
+                limit: +args.pagesize,
+                sort: {createdAt: -1}
+            }
+        }
+
+        let owners = await User.paginate(query,options)
+
+        if(owners.totalDocs === 0){
+            let returnData = {
+                error: true,
+                msg: "No data available",
+                data: {
+                    docs: owners.docs,
+                    totalDocs: owners.totalDocs
+                }
+            }
+            return returnData
+        }
 
         let returnData = {
             error: false,
             msg: "Owner Get Successfully",
-            data: owners
+            data: {
+                docs: owners.docs,
+                totalDocs: owners.totalDocs
+            }
         }
         return returnData
 
@@ -265,7 +292,7 @@ exports.getAllOwners = async(root, args, context) => {
         let returnData = {
             error: true,
             msg: "Owner Get UnSuccessful",
-            data: []
+            data: {}
         }
         return returnData
 

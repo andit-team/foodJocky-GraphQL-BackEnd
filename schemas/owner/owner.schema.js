@@ -7,7 +7,7 @@ type Subscription {
 }
 
 type Query {
-    getAllOwners(status: String): OwnersOutPut
+    getAllOwners(status: String, page: Int, pagesize: Int): OwnersOutPut
     getOneOwner(_id: ID): ownerAddOutPut
     ownerLogin(mobile: String , password: String): ownerAddOutPut
     verifyOwnerToken(token: String): ownerAddOutPut
@@ -55,7 +55,12 @@ type Query {
 type OwnersOutPut {
     error: Boolean
     msg: String
-    data: [OwnerData]
+    data: OwnerPaginateData
+}
+
+type OwnerPaginateData {
+  docs: [OwnerData]
+  totalDocs: Int
 }
 
 input OwnerInput {
