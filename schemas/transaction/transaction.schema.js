@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
   type Query {
-    getAllTransactionsByAdmin(status: String): GlobalTransactionOutput
+    getAllTransactionsByAdmin(status: String, page: Int, pagesize: Int): GlobalTransactionOutput
   }
 
   type Mutation {
@@ -17,7 +17,12 @@ const typeDefs = gql`
   type GlobalTransactionOutput {
     error: Boolean
     msg: String
-    data: [GlobalTransactionData]
+    data: GlobalTransactionPaginationData
+  }
+
+  type GlobalTransactionPaginationData {
+    docs: [RestaurantData]
+    totalDocs: Int
   }
 
   type GlobalTransactionData {

@@ -18,11 +18,39 @@ exports.getAllTransactionsByAdmin = async(root, args, context) => {
             status: args.status,
             debit_or_credit: 'credit'
         }
-        let transaction = await GlobalTransaction.find(query).sort({createdAt: -1}).populate('user_or_restaurant')
+        let options = {
+            pagination: false,
+            sort: {createdAt: -1},
+            populate: 'user_or_restaurant'
+        }
+        if(args.page !== 0){
+            options = {
+                page: +args.page,
+                limit: +args.pagesize,
+                sort: {createdAt: -1},
+                populate: 'user_or_restaurant'
+            }
+        }
+        let transaction = await GlobalTransaction.paginate(query,options)
+        if(transaction.totalDocs === 0){
+            let returnData = {
+                error: true,
+                msg: "No data available",
+                data: {
+                    docs: transaction.docs,
+                    totalDocs: transaction.totalDocs
+                }
+            }
+            return returnData
+        }
+    
         let returnData = {
             error: false,
-            msg: "Transaction Data Get Successfully",
-            data: transaction
+            msg: "Transaction data get successfully",
+            data: {
+                docs: transaction.docs,
+                totalDocs: transaction.totalDocs
+            }
         }
         return returnData
 

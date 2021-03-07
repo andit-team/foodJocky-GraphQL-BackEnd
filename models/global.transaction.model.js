@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const Schema = mongoose.Schema
 const GlobalTransactionsSchema = new Schema({
     current_balance: {
@@ -33,6 +34,6 @@ const GlobalTransactionsSchema = new Schema({
 {
     timestamps: true
 })
-
+GlobalTransactionsSchema.plugin(mongoosePaginate)
 const GlobalTransactions = mongoose.model('GlobalTransactions', GlobalTransactionsSchema)
 module.exports = GlobalTransactions
