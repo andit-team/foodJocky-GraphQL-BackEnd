@@ -616,6 +616,19 @@ exports.updateOrderStatus = async(root, args, context) => {
 
     try{
 
+        if(args.agency_status === 'delivered'){
+            let order = await Order.findOne({status: 'delivered', rider: context.user.user_id})
+            if(order){
+                let returnData = {
+                    error: true,
+                    msg: "You already have an accepted order",
+                    data: {}
+                }
+                return returnData
+            }
+        }
+
+
         let udata = {
             status: args.status 
         }
@@ -716,7 +729,6 @@ exports.updateOrderStatus = async(root, args, context) => {
 
     }catch(error){
 
-        console.log(error)
         let returnData = {
             error: true,
             msg: "Order Status Update UnSuccessful",
