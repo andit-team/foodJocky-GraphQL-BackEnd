@@ -977,6 +977,9 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
             return returnData
         }
 
+        let agencies = order.agencies
+        let agency = agencies.filter(element => element.status)[0]._id
+
         let location = {
             lat: args.lat,
             lng: args.lng
@@ -1001,7 +1004,7 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
         let returnData = {
             error: false,
             msg: "Location added successfully",
-            data: location
+            data: {...location, agency}
         }
         return returnData
 

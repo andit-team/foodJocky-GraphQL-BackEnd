@@ -10,6 +10,7 @@ const ORDER_ADDED_SEEN_BY_AGENT = "ORDER_ADDED_SEEN_BY_AGENT"
 const ORDER_UPDATED = "ORDER_UPDATED"
 const ORDER_GET_BY_AGENCY = "ORDER_GET_BY_AGENCY"
 const ORDER_GET_BY_RIDER = "ORDER_GET_BY_RIDER"
+const RIDER_LOCATION_PUSHED = "RIDER_LOCATION_PUSHED"
 
 const resolvers = {
   Subscription: {
@@ -89,6 +90,20 @@ const resolvers = {
               process.env.SECRET
           )
           return payload.rider_id == decodedToken._id
+        }
+      )
+    },
+
+    riderLocationPushed: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(RIDER_LOCATION_PUSHED),
+        (payload, variables) => {
+          const token = variables.token
+          const decodedToken = jwt.verify(
+              token,
+              process.env.SECRET
+          )
+          return payload.agency == decodedToken._id
         }
       )
     },
@@ -180,6 +195,10 @@ async getReportByAdmin(root, args, context) {
     },
     async pushOrderLocationByRider(root, args, context) {
       let result = await OrderController.pushOrderLocationByRider(root, args, context)
+      if(!result.error){
+        let agency = result.data.agency
+        pubsub.publish(RIDER_LOCATION_PUSHED, { riderLocationPushed: result, agency })
+      }
       return result
     },
   },

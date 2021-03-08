@@ -9,6 +9,9 @@ type Subscription {
     orderGetByRider(token: String!): OrderAddOutPut
 
     orderUpdated(token: String!): OrderAddOutPut
+
+    riderLocationPushed(token: String!): RiderLocationAddOutput
+
 }
 
 type Query {
