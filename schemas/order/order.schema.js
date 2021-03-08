@@ -153,6 +153,8 @@ type OrderData {
     payment_type: String
     createdAt: String
     updatedAt: String
+    locations: [LocationType]
+    last_location: LocationType
 }
 `
 module.exports = typeDefs
