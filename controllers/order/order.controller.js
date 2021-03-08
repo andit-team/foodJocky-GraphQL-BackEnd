@@ -1013,6 +1013,8 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
             last_location: location
         })
 
+        await User.updateOne({_id: order.rider},{last_location: location})
+
         if(updateOrder.n < 1){
             let returnData = {
                 error: true,

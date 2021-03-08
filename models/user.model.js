@@ -197,6 +197,14 @@ const userSchema = new Schema({
   permanent_address: {
     type: String
   },
+  last_location: {
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    }
+  },
 
   // For Wallet ------------------------------
   balance: {

@@ -64,6 +64,7 @@ input RiderInput {
     vehicle_type_img: String
     present_address: String
     permanent_address: String
+    last_location: LocationType
   }
 `
 module.exports = typeDefs
