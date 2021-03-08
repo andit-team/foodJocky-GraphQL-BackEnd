@@ -397,7 +397,7 @@ exports.getAllOrdersByAgency = async(root, args, context) => {
             'agencies._id': context.user.user_id
         }
 
-        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent')
+        let orders = await Order.find(query).sort({createdAt: -1}).populate('restaurant').populate('customer').populate('agent').populate('rider')
 
         let returnData = {
             error: false,
