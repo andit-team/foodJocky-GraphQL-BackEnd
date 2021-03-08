@@ -989,6 +989,15 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
             return returnData
         }
 
+        if(order.last_location.lat === args.lat && order.last_location.lng === args.lng){
+            let returnData = {
+                error: true,
+                msg: "Same latitude and longitude will not accepted",
+                data: {}
+            }
+            return returnData
+        }
+
         let agencies = order.agencies
         let agency = agencies.filter(element => element.status)[0]._id
 
