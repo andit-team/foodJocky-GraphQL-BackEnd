@@ -966,6 +966,16 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
     }
 
     try{
+        let order = await Order.findById(args.order_id)
+
+        if(order.status !== 'delivered'){
+            let returnData = {
+                error: true,
+                msg: "Order status not in delivery mode",
+                data: {}
+            }
+            return returnData
+        }
 
         let location = {
             lat: args.lat,
@@ -996,7 +1006,6 @@ exports.pushOrderLocationByRider = async(root, args, context) => {
         return returnData
 
     }catch(error){
-
         let returnData = {
             error: true,
             msg: "Location add failed",
