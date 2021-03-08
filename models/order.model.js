@@ -161,6 +161,22 @@ const OrdersSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Transactions',
   },
+  locations: [{
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    }
+  }],
+  last_location: {
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    }
+  }
 },
 {
     timestamps: true

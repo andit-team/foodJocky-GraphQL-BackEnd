@@ -177,7 +177,11 @@ async getReportByAdmin(root, args, context) {
     async checkOrderRelatedApi(root, args, context) {
       let result = await OrderController.checkOrderRelatedApi(root, args, context)
       return result
-    }
+    },
+    async pushOrderLocationByRider(root, args, context) {
+      let result = await OrderController.pushOrderLocationByRider(root, args, context)
+      return result
+    },
   },
 }
 

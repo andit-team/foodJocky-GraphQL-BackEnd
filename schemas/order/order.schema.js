@@ -32,7 +32,20 @@ type Mutation {
     updateOrderByAgency(agency_status: String, _id: ID, rider: ID): OrderAddOutPut
 
     checkOrderRelatedApi(user_id: ID, address_id: ID): OrderApiCheck
+
+    pushOrderLocationByRider(order_id: ID, lat: Float, lng: Float): RiderLocationAddOutput
     
+}
+
+type RiderLocationAddOutput {
+    error: Boolean
+    msg: String
+    data: RiderLocationAddData
+}
+
+type RiderLocationAddData {
+    lat: Float
+    lng: Float
 }
 
 type OrderApiCheck {

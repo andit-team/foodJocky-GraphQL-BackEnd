@@ -953,3 +953,55 @@ exports.getReportByAdmin = async(root, args, context) => {
     }
 
 }
+
+exports.pushOrderLocationByRider = async(root, args, context) => {
+
+    if(context.user.type !== 'rider'){
+        let returnData = {
+            error: true,
+            msg: "Rider Login Required",
+            data: {}
+        }
+        return returnData
+    }
+
+    try{
+
+        let location = {
+            lat: args.lat,
+            lng: args.lng
+        }
+
+        let updateOrder = await Order.updateOne({_id: args.order_id},{
+            $push: {
+                locations: location
+            },
+            last_location: location
+        })
+
+        if(updateOrder.n < 1){
+            let returnData = {
+                error: true,
+                msg: "Location add failed",
+                data: {}
+            }
+            return returnData
+        }
+
+        let returnData = {
+            error: false,
+            msg: "Location added successfully",
+            data: location
+        }
+        return returnData
+
+    }catch(error){
+
+        let returnData = {
+            error: true,
+            msg: "Location add failed",
+            data: {}
+        }
+        return returnData
+    }
+}
