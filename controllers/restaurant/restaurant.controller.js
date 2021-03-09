@@ -353,6 +353,10 @@ exports.updateRestaurant = async(root, args, context) => {
             cover_img: args.restaurantInput.cover_img,
             thumb_img: args.restaurantInput.thumb_img,
             address: args.restaurantInput.address,
+            location: {
+                type: "Point",
+                coordinates: [args.restaurantInput.address.location.lng,args.restaurantInput.address.location.lat]
+            },
             price_type: args.restaurantInput.price_type,
         }
 
