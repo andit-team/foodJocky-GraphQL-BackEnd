@@ -1443,3 +1443,83 @@ exports.getAllRestaurantsByCategory = async(root, args, context) => {
   
     }
   }
+
+  exports.rateRestaurant = async(root, args, context) => {
+
+    if(context.user.type !== 'customer'){
+
+        let returnData = {
+            error: true,
+            msg: "Customer Login Required",
+            data: {}
+        }
+        return returnData
+
+    }
+  
+    try{
+        let query = {
+            _id: args.rateInput.restaurant_id
+        }
+
+        let rateData = {
+            rate: args.rateInput.rate,
+            comment: args.rateInput.comment,
+            user: context.user.user_id,
+            date: Date.now()
+        }
+        await Restaurant.updateOne(query,{
+            $push: {
+                ratings: rateData
+            }
+        })
+
+        
+        let restaurantRatingAverage = await Restaurant.aggregate([
+            {
+                $match: {
+                    _id: mongoose.Types.ObjectId(args.rateInput.restaurant_id)
+                }
+            },
+            {
+                $project: {
+                    average_rating: {
+                        $avg: "$ratings.rate"
+                    },
+                    count: {
+                        $size: "$ratings"
+                    }
+                }
+            }
+        ])
+        
+        let result = await Restaurant.updateOne(query,{
+            rating: restaurantRatingAverage[0].average_rating,
+            rating_count: restaurantRatingAverage[0].count
+        })
+
+        if(result.n < 1){
+            let returnData = {
+                error: true,
+                msg: "Restaurant rating place failed"
+            }
+            return returnData
+        }
+    
+        let returnData = {
+            error: false,
+            msg: "Restaurant rating place successfully",
+        }
+        return returnData
+  
+    }catch(error){
+  
+        console.log(error)
+        let returnData = {
+            error: true,
+            msg: "Restaurant rating place failed"
+        }
+        return returnData
+  
+    }
+  }

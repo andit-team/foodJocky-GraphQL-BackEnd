@@ -121,6 +121,10 @@ const resolvers = {
         let result = await RestaurantController.transferBalanceFromAllRestaurant(root, args, context)
         return result
       },
+      async rateRestaurant(root, args, context) {
+        let result = await RestaurantController.rateRestaurant(root, args, context)
+        return result
+      },
   },
 }
 

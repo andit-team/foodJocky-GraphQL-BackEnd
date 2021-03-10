@@ -64,6 +64,12 @@ const RestaurantsSchema = new Schema({
             date: Date
         }
     ],
+    rating: {
+        type: Number
+    },
+    rating_count: {
+        type: Number
+    },
     food_categories:[
         {
             _id: mongoose.Schema.Types.ObjectId,

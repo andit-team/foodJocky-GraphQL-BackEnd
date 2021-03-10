@@ -43,6 +43,8 @@ type Mutation {
 
   transferBalanceFromRestaurant(restaurant_id: ID, amount: Float): RestaurantEditDeleteOutPut
   transferBalanceFromAllRestaurant: RestaurantEditDeleteOutPut
+
+  rateRestaurant(rateInput: RestaurantRatingInput): RestaurantEditDeleteOutPut
 }
 
 type RestaurantAddOutPut {
@@ -150,6 +152,9 @@ type RestaurantData {
   rider_cost: Boolean
   createdAt: String
   updatedAt: String
+  ratings: [RestaurantRatingData]
+  rating: Float
+  rating_count: Int
 }
 
 type FoodCategory {
@@ -192,6 +197,19 @@ type AddressType {
 type LocationType {
   lat: Float
   lng: Float
+}
+
+type RestaurantRatingData {
+  rate: Int
+  comment: String
+  user: CustomerData
+  date: String
+}
+
+input RestaurantRatingInput {
+  rate: Int
+  comment: String
+  restaurant_id: ID
 }
 
 `
