@@ -117,6 +117,12 @@ type Query {
     profile_picture: String
     balance: Float
     cashback: Float
+    place_rating: PlaceRatingData
+}
+
+type PlaceRatingData {
+  status: Boolean
+  restaurant: RestaurantData
 }
 
   type customerAddOutPut {

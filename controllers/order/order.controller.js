@@ -707,6 +707,13 @@ exports.updateOrderStatus = async(root, args, context) => {
             }else{
                 let updateRestautanBalance = await Restaurant.updateOne({_id: restaurant._id},{balance: 0 + order.base_price_total})
             }
+
+            let updateCustomerRatingData = await User.updateOne({_id: order.customer},{
+                place_rating: {
+                    status: true,
+                    restaurant: restaurant._id
+                }
+            })
         }
 
         if(uOrder.n > 0){
