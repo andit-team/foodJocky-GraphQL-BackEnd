@@ -21,7 +21,7 @@ const typeDefs = gql`
   }
 
   type GlobalTransactionPaginationData {
-    docs: [RestaurantData]
+    docs: [GlobalTransactionData]
     totalDocs: Int
   }
 
