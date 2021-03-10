@@ -212,6 +212,15 @@ const userSchema = new Schema({
   },
   cashback: {
     type: Number
+  },
+
+  // For Rating Review-------------------------
+  place_rating: {
+    status: Boolean,
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurants'
+    }
   }
 },
 {

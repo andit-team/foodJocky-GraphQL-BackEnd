@@ -1458,6 +1458,19 @@ exports.getAllRestaurantsByCategory = async(root, args, context) => {
     }
   
     try{
+
+        await User.updateOne({_id: context.user.user_id},{
+            'place_rating.status': false
+        })
+
+        if(args.rateInput.cancel){
+            let returnData = {
+                error: false,
+                msg: "Restaurant rating place cancelled"
+            }
+            return returnData
+        }
+
         let query = {
             _id: args.rateInput.restaurant_id
         }
@@ -1492,7 +1505,7 @@ exports.getAllRestaurantsByCategory = async(root, args, context) => {
                 }
             }
         ])
-        
+
         let result = await Restaurant.updateOne(query,{
             rating: restaurantRatingAverage[0].average_rating,
             rating_count: restaurantRatingAverage[0].count

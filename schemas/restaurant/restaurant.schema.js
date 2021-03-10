@@ -207,6 +207,7 @@ type RestaurantRatingData {
 }
 
 input RestaurantRatingInput {
+  cancel: Boolean
   rate: Int
   comment: String
   restaurant_id: ID
