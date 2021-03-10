@@ -34,6 +34,8 @@ const typeDefs = gql`
     reason: String
     status: String
     user_or_restaurant: OwnerData
+    createdAt: String
+    updatedAt: String
   }
 `
 module.exports = typeDefs
