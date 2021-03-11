@@ -583,14 +583,16 @@ exports.getOneOrder = async(root, args, context) => {
 
 exports.checkOrderRelatedApi = async(root, args, context) => {
     try{
-        let date = new Date()
-        console.log(date.getTime().toLocaleString())
-        // console.log(date.getMinutes())
-
-        var str1 = "10:20:45",
-            str2 = "05:10:10"
-
-            console.log(str1 > str2)
+        
+        let restaurants = await Restaurant.find()
+        
+        restaurants.map( async (element) => {
+            let foodCount = 0
+            for(let i=0; i<element.food_categories.length; i++){
+                foodCount += element.food_categories[i].foods.length
+            }
+            await Restaurant.updateOne({_id: element._id}, {foods_count: foodCount})
+        })
         
         let returnData = {
             error: false,
