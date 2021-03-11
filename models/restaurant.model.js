@@ -93,6 +93,9 @@ const RestaurantsSchema = new Schema({
             ]
         }
     ],
+    foods_count: {
+        type: Number
+    },
     price_type: {
         type: String            // $, $$, $$$, $$$$
     },

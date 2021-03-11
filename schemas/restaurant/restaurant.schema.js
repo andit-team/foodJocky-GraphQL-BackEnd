@@ -141,6 +141,7 @@ type RestaurantData {
   thumb_img: String
   address: AddressType
   food_categories:[FoodCategory]
+  foods_count: Int
   price_type: String
   status: String
   active: Boolean

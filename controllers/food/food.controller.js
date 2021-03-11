@@ -3,6 +3,9 @@ const Restaurant = require('../../models/restaurant.model')
 
 exports.addFood = async (root, args, context) => {
     try {
+        let restaurant = await Restaurant.findById(args.foodInput.restaurant_id)
+        let foodsCount = restaurant.foods_count === undefined ? 0 : restaurant.foods_count
+
         let foods = {
             _id: new ObjectId(),
             name: args.foodInput.name,
@@ -19,7 +22,8 @@ exports.addFood = async (root, args, context) => {
             {
                 $push: {
                     'food_categories.$.foods': foods
-                }
+                },
+                foods_count: foodsCount++
             }
         )
 
