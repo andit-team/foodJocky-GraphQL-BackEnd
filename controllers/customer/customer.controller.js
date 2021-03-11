@@ -529,11 +529,18 @@ exports.customerLogin = async(root, args, context) => {
             expiresIn: "8h"
         })
 
+        let returnCustomer = await User.findById(customer._id).populate({
+            path : 'place_rating',
+            populate : {
+              path : 'restaurant'
+            }
+          })
+
         let returnData = {
             token: token,
             error: false,
             msg: "Customer Login Successful",
-            data: customer
+            data: returnCustomer
         }
         return returnData
 
@@ -562,7 +569,12 @@ exports.verifyCustomerToken = async(root, args, context) => {
 
         if(decodedToken.type === 'customer'){
 
-            let customer = await User.findById(decodedToken._id).populate('last_order')
+            let customer = await User.findById(decodedToken._id).populate('last_order').populate({
+                path : 'place_rating',
+                populate : {
+                  path : 'restaurant'
+                }
+              })
             
             let returnData = {
                 error: false,
